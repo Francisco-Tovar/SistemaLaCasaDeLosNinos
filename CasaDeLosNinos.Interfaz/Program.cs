@@ -4,7 +4,9 @@ using System.Windows.Forms;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CasaDeLosNinos.Datos;
+using CasaDeLosNinos.Datos.Repositorios;
 using CasaDeLosNinos.Dominio.Interfaces;
+using CasaDeLosNinos.Aplicacion.Servicios;
 using CasaDeLosNinos.Interfaz.Formularios;
 
 namespace CasaDeLosNinos.Interfaz;
@@ -65,10 +67,16 @@ internal static class Program
         // Inicializador de base de datos (Singleton — se ejecuta una vez al inicio)
         servicios.AddSingleton<IInicializadorBaseDatos, InicializadorBaseDatos>();
 
-        // Formularios (Transient)
-        servicios.AddTransient<FormPrincipal>();
+        // Repositorios (Transient — se crean por solicitud)
+        servicios.AddTransient<IRepositorioUsuario, RepositorioUsuario>();
+        servicios.AddTransient<IRepositorioRol, RepositorioRol>();
 
-        // Repositorios y servicios se registrarán en etapas posteriores.
+        // Servicios (Transient)
+        servicios.AddTransient<IServicioAutenticacion, ServicioAutenticacion>();
+
+        // Formularios (Transient)
+        servicios.AddTransient<FrmLogin>();
+        servicios.AddTransient<FormPrincipal>();
 
         var proveedor = servicios.BuildServiceProvider();
 
@@ -82,13 +90,19 @@ internal static class Program
         {
             var inicializador = proveedor.GetRequiredService<IInicializadorBaseDatos>();
             inicializador.InicializarAsync().GetAwaiter().GetResult();
+
+            // ──────────────────────────────────────────────
+            // 5. SEMILLA DE SEGURIDAD (ADMIN POR DEFECTO)
+            // ──────────────────────────────────────────────
+            var authService = proveedor.GetRequiredService<IServicioAutenticacion>();
+            authService.AsegurarUsuarioAdminPorDefectoAsync().GetAwaiter().GetResult();
         }
         catch (Exception ex)
         {
             RegistrarErrorEnArchivo(ex);
             MessageBox.Show(
-                "No se pudo inicializar la base de datos.\n\n" +
-                "Verifique que la ruta de datos sea accesible y vuelva a intentarlo.",
+                "No se pudo inicializar la base de datos o la seguridad.\n\n" +
+                $"Detalle: {ex.Message}",
                 "Error de Inicialización",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
@@ -96,10 +110,19 @@ internal static class Program
         }
 
         // ──────────────────────────────────────────────
-        // 5. ARRANQUE DE LA APLICACIÓN
+        // 6. FLUJO DE ACCESO (LOGIN)
         // ──────────────────────────────────────────────
 
         ApplicationConfiguration.Initialize();
+
+        using var frmLogin = proveedor.GetRequiredService<FrmLogin>();
+        if (frmLogin.ShowDialog() != DialogResult.OK)
+        {
+            // El usuario canceló o cerró el login
+            return;
+        }
+
+        // Si llegó aquí, la autenticación fue exitosa
         Application.Run(proveedor.GetRequiredService<FormPrincipal>());
     }
 
