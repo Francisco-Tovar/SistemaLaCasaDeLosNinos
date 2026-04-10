@@ -12,5 +12,8 @@ public record ThemeColors(
     Color AccentColor,
     Color TextPrimary,
     Color TextSecondary,
-    Color SurfaceColor
+    Color SurfaceColor,
+    Color StatusSuccess,
+    Color StatusError,
+    Color DividerColor
 );

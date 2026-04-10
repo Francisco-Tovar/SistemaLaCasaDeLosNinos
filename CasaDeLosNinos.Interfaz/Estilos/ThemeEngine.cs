@@ -32,7 +32,12 @@ public static class ThemeEngine
             if (name.Contains("menu") || name.Contains("navegacion") || name.Contains("side") || name.Contains("logo"))
                 p.BackColor = theme.NavBackground;
             else if (name.Contains("titlebar") || name.Contains("cabecera") || name.Contains("superior") || name.Contains("header"))
+            {
                 p.BackColor = theme.HeaderBackground;
+                p.Tag = theme;
+                p.Paint -= PanelTitleBar_Paint;
+                p.Paint += PanelTitleBar_Paint;
+            }
             else if (name.Contains("desktop") || name.Contains("contenido") || name.Contains("main"))
                 p.BackColor = theme.ContentBackground;
             else if (name.Contains("herramientas") || name.Contains("inferior") || name.Contains("botones") || name.Contains("surface") || name.Contains("fecha") || name.Contains("filtro"))
@@ -89,12 +94,23 @@ public static class ThemeEngine
 
             string name = btn.Name.ToLower();
 
-            // Botones de Acción Principal (Accent / Ingresar / Guardar / Nuevo)
-            if (name.Contains("accent") || name.Contains("ingresar") || name.Contains("guardar") || name.Contains("nuevo") || name.Contains("enviar"))
+            // Botones de Estado y Acción
+            if (name.Contains("guardar") || name.Contains("aceptar"))
+            {
+                btn.BackColor = theme.StatusSuccess;
+                btn.ForeColor = Color.White;
+                btn.IconColor = btn.ForeColor;
+            }
+            else if (name.Contains("cancelar") || name.Contains("eliminar"))
+            {
+                btn.BackColor = theme.StatusError;
+                btn.ForeColor = Color.White;
+                btn.IconColor = btn.ForeColor;
+            }
+            else if (name.Contains("accent") || name.Contains("ingresar") || name.Contains("nuevo") || name.Contains("enviar"))
             {
                 btn.BackColor = theme.AccentColor;
-                // Calculamos contraste para el texto sobre el AccentColor
-                btn.ForeColor = (theme.AccentColor.GetBrightness() < 0.5f) ? Color.White : Color.Black;
+                btn.ForeColor = (theme.AccentColor.GetBrightness() > 0.6f) ? theme.TextPrimary : Color.White;
                 btn.IconColor = btn.ForeColor;
             }
             else
@@ -162,7 +178,7 @@ public static class ThemeEngine
         if (control is DataGridView grd)
         {
             grd.BackgroundColor = theme.ContentBackground;
-            grd.GridColor = theme.SurfaceColor;
+            grd.GridColor = theme.DividerColor;
             grd.BorderStyle = BorderStyle.None;
             
             grd.ColumnHeadersDefaultCellStyle.BackColor = theme.HeaderBackground;
@@ -214,7 +230,7 @@ public static class ThemeEngine
 
     public static ThemeColors LoadThemePreference()
     {
-        string themeName = "Oscuro Slate";
+        string themeName = "Oscuro";
         if (File.Exists(_themeFilePath))
         {
             try { themeName = File.ReadAllText(_themeFilePath); }
@@ -230,7 +246,7 @@ public static class ThemeEngine
             try { return File.ReadAllText(_themeFilePath); }
             catch { }
         }
-        return "Oscuro Slate";
+        return "Oscuro";
     }
 
     public static void SaveThemePreference(string themeName)
@@ -246,5 +262,14 @@ public static class ThemeEngine
             Math.Max(0, theme.HeaderBackground.G - 15),
             Math.Max(0, theme.HeaderBackground.B - 15)
         );
+    }
+
+    private static void PanelTitleBar_Paint(object sender, PaintEventArgs e)
+    {
+        if (sender is Panel p && p.Tag is ThemeColors theme)
+        {
+            using var pen = new Pen(theme.DividerColor, 1);
+            e.Graphics.DrawLine(pen, 0, p.Height - 1, p.Width, p.Height - 1);
+        }
     }
 }

@@ -90,7 +90,7 @@ protected override void WndProc(ref Message m)
 Para permitir una experiencia de usuario personalizada, el sistema soporta temas dinámicos (Oscuro/Claro).
 
 ### Estructura de Colores (ThemeColors)
-Se define una estructura centralizada que mapea las necesidades visuales a colores específicos:
+Se define una estructura centralizada que mapea las necesidades visuales a exactamente 10 colores:
 - **NavBackground:** Fondo del panel de navegación lateral.
 - **HeaderBackground:** Fondo de la barra de título superior.
 - **ContentBackground:** Fondo del área de trabajo principal.
@@ -98,6 +98,9 @@ Se define una estructura centralizada que mapea las necesidades visuales a color
 - **TextPrimary:** Color para texto principal y títulos.
 - **TextSecondary:** Color para texto descriptivo o de menor jerarquía.
 - **SurfaceColor:** Color para controles de entrada (TextBox, ComboBox) y filas de grillas.
+- **StatusSuccess:** Color para indicar acciones positivas (Guardar, Aceptar).
+- **StatusError:** Color para indicar acciones destructivas o alertas (Cancelar, Eliminar).
+- **DividerColor:** Color para separadores sutiles (Bordes inferiores, grid lines).
 
 ### Convenciones de Nomenclatura
 Para que el motor de temas actúe con precisión, los contenedores deben seguir estos nombres:
