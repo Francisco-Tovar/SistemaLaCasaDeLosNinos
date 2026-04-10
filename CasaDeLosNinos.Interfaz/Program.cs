@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CasaDeLosNinos.Datos;
 using CasaDeLosNinos.Datos.Repositorios;
+using CasaDeLosNinos.Dominio.Entidades;
 using CasaDeLosNinos.Dominio.Interfaces;
 using CasaDeLosNinos.Aplicacion.Servicios;
 using CasaDeLosNinos.Interfaz.Formularios;
@@ -70,13 +71,16 @@ internal static class Program
         // Repositorios (Transient — se crean por solicitud)
         servicios.AddTransient<IRepositorioUsuario, RepositorioUsuario>();
         servicios.AddTransient<IRepositorioRol, RepositorioRol>();
+        servicios.AddTransient<IRepositorioNino, RepositorioNino>();
+        servicios.AddTransient<IRepositorioAsistencia, RepositorioAsistencia>();
 
         // Servicios (Transient)
         servicios.AddTransient<IServicioAutenticacion, ServicioAutenticacion>();
+        servicios.AddTransient<IServicioNino, ServicioNino>();
+        servicios.AddTransient<IServicioAsistencia, ServicioAsistencia>();
 
         // Formularios (Transient)
         servicios.AddTransient<FrmLogin>();
-        servicios.AddTransient<FormPrincipal>();
 
         var proveedor = servicios.BuildServiceProvider();
 
@@ -122,8 +126,16 @@ internal static class Program
             return;
         }
 
-        // Si llegó aquí, la autenticación fue exitosa
-        Application.Run(proveedor.GetRequiredService<FormPrincipal>());
+        // El usuario autenticado se pasa explícitamente al formulario principal
+        var usuarioAutenticado = frmLogin.UsuarioAutenticado
+            ?? throw new InvalidOperationException("Usuario autenticado no disponible.");
+
+        var formPrincipal = new FormPrincipal(
+            proveedor.GetRequiredService<IConfiguration>(),
+            proveedor,
+            usuarioAutenticado);
+
+        Application.Run(formPrincipal);
     }
 
     // ══════════════════════════════════════════════════
