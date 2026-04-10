@@ -1,61 +1,59 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using CasaDeLosNinos.Dominio.Interfaces;
 using CasaDeLosNinos.Dominio.Entidades;
+using CasaDeLosNinos.Dominio.Interfaces;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
-    public partial class FrmLogin : Form
+    public partial class FrmLogin : FormBase
     {
         private readonly IServicioAutenticacion _servicioAutenticacion;
-
-        public Usuario? UsuarioAutenticado { get; private set; }
+        public Usuario? UsuarioAutenticado => this.Tag as Usuario;
 
         public FrmLogin(IServicioAutenticacion servicioAutenticacion)
         {
             InitializeComponent();
             _servicioAutenticacion = servicioAutenticacion;
+            
+            // Permitir arrastrar desde el fondo o el panel lateral
+            this.MouseDown += (s, e) => DragForm();
+            panelSide.MouseDown += (s, e) => DragForm();
         }
 
         private async void AlHacerClickEnIngresar(object sender, EventArgs e)
         {
-            btnIngresar.Enabled = false;
-            txtUsuario.Enabled = false;
-            txtContrasenera.Enabled = false;
             lblError.Visible = false;
+            btnIngresar.Enabled = false;
 
             try
             {
-                string usuario = txtUsuario.Text.Trim();
-                string clave = txtContrasenera.Text;
-
-                var resultado = await _servicioAutenticacion.ValidarCredencialesAsync(usuario, clave);
-
-                if (resultado != null)
+                var usuario = await _servicioAutenticacion.ValidarCredencialesAsync(txtUsuario.Text, txtContrasenera.Text);
+                if (usuario != null)
                 {
-                    UsuarioAutenticado = resultado;
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    this.Tag = usuario;
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
                 else
                 {
-                    lblError.Text = "Credenciales incorrectas. Intente de nuevo.";
                     lblError.Visible = true;
                     txtContrasenera.Clear();
-                    txtContrasenera.Focus();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error durante la autenticación: {ex.Message}", "ErrorCrítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error de conexión:\n{ex.Message}", "Error");
             }
             finally
             {
                 btnIngresar.Enabled = true;
-                txtUsuario.Enabled = true;
-                txtContrasenera.Enabled = true;
             }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

@@ -1,107 +1,77 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 using CasaDeLosNinos.Dominio.Entidades;
 using CasaDeLosNinos.Dominio.Interfaces;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
-    public partial class FrmEdicionNino : Form
+    public partial class FrmEdicionNino : FormBase
     {
+        private readonly Nino? _ninoExistente;
         private readonly IServicioNino _servicioNino;
-        private readonly Nino?         _ninoExistente;
 
-        public FrmEdicionNino(Nino? ninoExistente, IServicioNino servicioNino)
+        public FrmEdicionNino(Nino? nino, IServicioNino servicioNino)
         {
             InitializeComponent();
-            _ninoExistente = ninoExistente;
-            _servicioNino  = servicioNino;
-            
-            ConfigurarEstadoParaEdicion();
+            _ninoExistente = nino;
+            _servicioNino = servicioNino;
 
             if (_ninoExistente != null)
-                HidratarCampos(_ninoExistente);
-        }
-
-        private void ConfigurarEstadoParaEdicion()
-        {
-            bool esEdicion = _ninoExistente != null;
-            this.Text = esEdicion ? "Editar Niño — La Casa de los Niños" : "Nuevo Niño — La Casa de los Niños";
-            this.lblTitulo.Text = esEdicion ? "✏  Editar Beneficiario" : "＋  Nuevo Beneficiario";
-            
-            if (cboGenero.Items.Count > 0)
-                cboGenero.SelectedIndex = 2; // Default "No especificado"
-        }
-
-        private void AlCambiarCheckFecha(object sender, EventArgs e)
-            => dtpNacimiento.Enabled = chkTieneFechaNacimiento.Checked;
-
-        private void AlHacerClickEnCancelar(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
-
-        // ══════════════════════════════════════════════════════════════
-        // HIDRATACIÓN Y LECTURA
-        // ══════════════════════════════════════════════════════════════
-
-        private void HidratarCampos(Nino nino)
-        {
-            txtNombre.Text    = nino.NombreCompleto;
-            txtEncargado.Text = nino.NombreEncargado;
-            txtTelefono.Text  = nino.TelefonoEncargado;
-            txtDireccion.Text = nino.Direccion;
-
-            var idxGenero = cboGenero.FindStringExact(nino.Genero);
-            cboGenero.SelectedIndex = idxGenero >= 0 ? idxGenero : 2;
-
-            if (nino.FechaNacimiento.HasValue)
             {
-                chkTieneFechaNacimiento.Checked = true;
-                dtpNacimiento.Value             = nino.FechaNacimiento.Value;
+                lblTitulo.Text = "✏  Editar Beneficiario";
+                CargarDatos();
             }
         }
 
-        private Nino LeerCampos()
+        private void CargarDatos()
         {
-            var nino = _ninoExistente != null
-                ? new Nino
-                  {
-                      Id            = _ninoExistente.Id,
-                      Activo        = _ninoExistente.Activo,
-                      FechaCreacion = _ninoExistente.FechaCreacion,
-                      FechaIngreso  = _ninoExistente.FechaIngreso
-                  }
-                : new Nino();
+            if (_ninoExistente == null) return;
+            txtNombre.Text = _ninoExistente.NombreCompleto;
+            txtEncargado.Text = _ninoExistente.NombreEncargado;
+            txtTelefono.Text = _ninoExistente.TelefonoEncargado;
+            txtDireccion.Text = _ninoExistente.Direccion;
 
-            nino.NombreCompleto     = txtNombre.Text.Trim();
-            nino.NombreEncargado    = txtEncargado.Text.Trim();
-            nino.TelefonoEncargado  = txtTelefono.Text.Trim();
-            nino.Direccion          = txtDireccion.Text.Trim();
-            nino.Genero             = cboGenero.SelectedItem?.ToString() ?? "No especificado";
-            nino.FechaNacimiento    = chkTieneFechaNacimiento.Checked ? dtpNacimiento.Value.Date : null;
+            if (_ninoExistente.FechaNacimiento.HasValue)
+            {
+                chkTieneFechaNacimiento.Checked = true;
+                dtpNacimiento.Value = _ninoExistente.FechaNacimiento.Value;
+            }
 
-            return nino;
+            cboGenero.SelectedItem = _ninoExistente.Genero switch
+            {
+                "M" => "Masculino",
+                "F" => "Femenino",
+                _ => "No especificado"
+            };
         }
 
-        // ══════════════════════════════════════════════════════════════
-        // MANEJADORES DE EVENTOS
-        // ══════════════════════════════════════════════════════════════
+        private void AlCambiarCheckFecha(object sender, EventArgs e) => dtpNacimiento.Enabled = chkTieneFechaNacimiento.Checked;
 
         private async void AlHacerClickEnGuardar(object sender, EventArgs e)
         {
-            lblMensaje.Text = string.Empty;
-            btnGuardar.Enabled = false;
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                lblMensaje.Text = "El nombre es obligatorio.";
+                return;
+            }
 
             try
             {
-                var nino = LeerCampos();
-                var (exito, mensaje) = await _servicioNino.GuardarAsync(nino);
+                var nino = _ninoExistente ?? new Nino { Activo = true };
+                nino.NombreCompleto = txtNombre.Text.Trim();
+                nino.NombreEncargado = txtEncargado.Text.Trim();
+                nino.TelefonoEncargado = txtTelefono.Text.Trim();
+                nino.Direccion = txtDireccion.Text.Trim();
+                nino.FechaNacimiento = chkTieneFechaNacimiento.Checked ? dtpNacimiento.Value.Date : null;
+                nino.Genero = cboGenero.Text switch { "Masculino" => "M", "Femenino" => "F", _ => "X" };
 
+                var (exito, mensaje) = await _servicioNino.GuardarAsync(nino);
+                
                 if (exito)
                 {
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                 }
                 else
                 {
@@ -110,12 +80,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             }
             catch (Exception ex)
             {
-                lblMensaje.Text = $"Error inesperado: {ex.Message}";
-            }
-            finally
-            {
-                btnGuardar.Enabled = true;
+                MessageBox.Show($"Error: {ex.Message}", "Error");
             }
         }
+
+        private void AlHacerClickEnCancelar(object sender, EventArgs e) => this.Close();
+
+        private void panelCabecera_MouseDown(object sender, MouseEventArgs e) => DragForm();
     }
 }

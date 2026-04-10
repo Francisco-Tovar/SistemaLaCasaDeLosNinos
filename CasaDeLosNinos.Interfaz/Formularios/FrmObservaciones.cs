@@ -9,167 +9,100 @@ using CasaDeLosNinos.Dominio.Interfaces;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
-    /// <summary>
-    /// Muestra el historial de observaciones de un niño y permite añadir nuevas.
-    /// El IdUsuario del autor y la FechaHora son capturados automáticamente
-    /// — el usuario nunca los edita.
-    /// </summary>
-    public partial class FrmObservaciones : Form
+    public partial class FrmObservaciones : FormBase
     {
-        // ── Dependencias ─────────────────────────────────────────────
-        private readonly IServicioObservacion _servicio;
-        private readonly Nino                 _nino;
-        private readonly int                  _idUsuarioSesion;
-
-        private const int MaxCaracteres = 2000;
+        private readonly Nino _nino;
+        private readonly int _idUsuarioSesion;
+        private readonly IServicioObservacion _servicioObservacion;
 
         public FrmObservaciones(Nino nino, int idUsuarioSesion, IServicioObservacion servicio)
         {
             InitializeComponent();
-            _nino            = nino;
+            _nino = nino;
             _idUsuarioSesion = idUsuarioSesion;
-            _servicio        = servicio;
+            _servicioObservacion = servicio;
+
+            lblTitulo.Text = $"📋  Bitácora — {_nino.NombreCompleto}";
+            lblAutorInfo.Text = $"Escribiendo como usuario ID: {_idUsuarioSesion}";
         }
 
-        private async void FrmObservaciones_Load(object sender, EventArgs e)
-        {
-            // Configurar textos dinámicos
-            this.Text = $"Bitácora — {_nino.NombreCompleto}";
-            this.lblTitulo.Text = $"📋  Bitácora de Observaciones — {_nino.NombreCompleto}";
-
-            await CargarHistorialAsync();
-        }
-
-        // ══════════════════════════════════════════════════════════════
-        // LÓGICA DE DATOS
-        // ══════════════════════════════════════════════════════════════
+        private async void FrmObservaciones_Load(object sender, EventArgs e) => await CargarHistorialAsync();
 
         private async Task CargarHistorialAsync()
         {
             try
             {
-                var lista = (await _servicio.ObtenerHistorialAsync(_nino.Id)).ToList();
-
                 panelHistorial.Controls.Clear();
-                int posY = 6;
+                var observaciones = await _servicioObservacion.ObtenerHistorialAsync(_nino.Id);
 
-                if (!lista.Any())
+                foreach (var obs in observaciones)
                 {
-                    var lblVacio = new Label
-                    {
-                        Text      = "No hay observaciones registradas para este niño.",
-                        Font      = new Font("Segoe UI", 9.5f, FontStyle.Italic),
-                        ForeColor = Color.FromArgb(150, 150, 170),
-                        AutoSize  = true,
-                        Location  = new Point(12, posY)
-                    };
-                    panelHistorial.Controls.Add(lblVacio);
-                    return;
-                }
-
-                foreach (var obs in lista)
-                {
-                    var tarjeta = CrearTarjetaObservacion(obs, posY);
-                    panelHistorial.Controls.Add(tarjeta);
-                    posY += tarjeta.Height + 8;
+                    AgregarControlObservacion(obs);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar el historial:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar: {ex.Message}", "Error");
             }
         }
 
-        /// <summary>
-        /// Crea una tarjeta visual con los datos de una observación.
-        /// El encabezado muestra autor y fecha/hora — ambos inmutables.
-        /// </summary>
-        private Panel CrearTarjetaObservacion(ObservacionDetalleDto obs, int posicionY)
+        private void AgregarControlObservacion(ObservacionDetalleDto obs)
         {
-            int anchoDisponible = panelHistorial.ClientSize.Width - 20;
-
-            var tarjeta = new Panel
+            var pnl = new Panel
             {
-                Location    = new Point(6, posicionY),
-                Width       = anchoDisponible,
-                BackColor   = Color.FromArgb(240, 245, 255),
-                Padding     = new Padding(10, 8, 10, 8),
-                BorderStyle = BorderStyle.FixedSingle
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                BackColor = Color.FromArgb(45, 45, 81),
+                Padding = new Padding(10),
+                Margin = new Padding(0, 0, 0, 10)
             };
 
-            var lblEncabezado = new Label
+            var lblMeta = new Label
             {
-                Text      = $"✍  {obs.NombreAutor}   •   {obs.FechaHora:dd/MM/yyyy HH:mm}",
-                Font      = new Font("Segoe UI", 8.5f, FontStyle.Bold),
-                ForeColor = Color.FromArgb(30, 80, 160),
-                AutoSize  = true,
-                Location  = new Point(8, 6)
+                Text = $"{obs.FechaHora:dd/MM/yyyy HH:mm} — Por: {obs.NombreAutor}",
+                Dock = DockStyle.Top,
+                ForeColor = Color.FromArgb(172, 126, 241),
+                Font = new Font("Segoe UI", 8.5f, FontStyle.Bold),
+                Height = 20
             };
 
-            var lblContenido = new Label
+            var lblTexto = new Label
             {
-                Text      = obs.Contenido,
-                Font      = new Font("Segoe UI", 9.5f),
-                ForeColor = Color.FromArgb(40, 40, 60),
-                Location  = new Point(8, 26),
-                Width     = anchoDisponible - 20,
-                AutoSize  = false
+                Text = obs.Contenido,
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                ForeColor = Color.Gainsboro,
+                Font = new Font("Segoe UI", 9.5f),
+                Padding = new Padding(0, 5, 0, 5)
             };
 
-            // Calcular la altura dinámica según el contenido del texto
-            using var g     = lblContenido.CreateGraphics();
-            var       tamano = g.MeasureString(obs.Contenido, lblContenido.Font,
-                                               lblContenido.Width);
-            lblContenido.Height = (int)Math.Ceiling(tamano.Height) + 6;
-
-            tarjeta.Height = lblContenido.Location.Y + lblContenido.Height + 12;
-            tarjeta.Controls.AddRange(new Control[] { lblEncabezado, lblContenido });
-
-            return tarjeta;
-        }
-
-        // ══════════════════════════════════════════════════════════════
-        // MANEJADORES DE EVENTOS
-        // ══════════════════════════════════════════════════════════════
-
-        private void AlCambiarTexto(object sender, EventArgs e)
-        {
-            int usados = txtNuevaObservacion.TextLength;
-            lblContador.Text      = $"{usados} / {MaxCaracteres}";
-            lblContador.ForeColor = usados > MaxCaracteres - 100
-                ? Color.Firebrick
-                : Color.FromArgb(120, 120, 150);
+            pnl.Controls.Add(lblTexto);
+            pnl.Controls.Add(lblMeta);
+            panelHistorial.Controls.Add(pnl);
         }
 
         private async void AlGuardarObservacion(object sender, EventArgs e)
         {
-            btnGuardar.Enabled = false;
+            var texto = txtNuevaObservacion.Text.Trim();
+            if (string.IsNullOrEmpty(texto)) return;
+
             try
             {
-                // El idUsuarioSesion y DateTime.Now son asignados en el Servicio,
-                // no se le pregunta al usuario ni se toman de ningún control.
-                await _servicio.RegistrarAsync(_nino.Id, _idUsuarioSesion, txtNuevaObservacion.Text);
+                await _servicioObservacion.RegistrarAsync(_nino.Id, _idUsuarioSesion, texto);
 
                 txtNuevaObservacion.Clear();
                 await CargarHistorialAsync();
-
-                // Feedback visual de éxito
-                btnGuardar.Text      = "✔ Guardado";
-                btnGuardar.BackColor = Color.FromArgb(30, 130, 70);
-                await Task.Delay(1500);
-                btnGuardar.Text      = "💾  Guardar Observación";
-                btnGuardar.BackColor = Color.FromArgb(39, 174, 96);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "No se pudo guardar",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            finally
-            {
-                btnGuardar.Enabled = true;
+                MessageBox.Show($"Error al guardar: {ex.Message}", "Error");
             }
         }
+
+        private void AlCambiarTexto(object sender, EventArgs e) => lblContador.Text = $"{txtNuevaObservacion.Text.Length} / 2000";
+
+        private void AlHacerClickEnCerrar(object sender, EventArgs e) => this.Close();
+
+        private void panelEncabezado_MouseDown(object sender, MouseEventArgs e) => DragForm();
     }
 }

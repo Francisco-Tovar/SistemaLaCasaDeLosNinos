@@ -12,173 +12,110 @@ namespace CasaDeLosNinos.Interfaz.Formularios
     public partial class FrmTomaAsistencia : Form
     {
         private readonly IServicioAsistencia _servicioAsistencia;
-        private readonly int                 _idUsuarioActual;
+        private readonly int _idUsuarioSesion;
+        private List<NinoAsistenciaDto> _detalles = new();
 
-        // Datos en memoria
-        private List<NinoAsistenciaDto> _lista = new();
-
-        public FrmTomaAsistencia(IServicioAsistencia servicioAsistencia, int idUsuarioActual)
+        public FrmTomaAsistencia(IServicioAsistencia servicioAsistencia, int idUsuarioSesion)
         {
             InitializeComponent();
             _servicioAsistencia = servicioAsistencia;
-            _idUsuarioActual    = idUsuarioActual;
+            _idUsuarioSesion = idUsuarioSesion;
 
-            // Configuraciones visuales customizadas para la grilla
-            grdAsistencia.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(22, 120, 100);
-            grdAsistencia.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            grdAsistencia.ColumnHeadersDefaultCellStyle.Font      = new Font("Segoe UI", 9.5f, FontStyle.Bold);
-            grdAsistencia.EnableHeadersVisualStyles = false;
-            grdAsistencia.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(235, 248, 244);
-            
+            ConfigurarEstiloGrilla();
             ConfigurarColumnasGrilla();
+        }
+
+        private void ConfigurarEstiloGrilla()
+        {
+            grdAsistencia.BackgroundColor = Color.FromArgb(34, 33, 74);
+            grdAsistencia.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(26, 25, 62);
+            grdAsistencia.ColumnHeadersDefaultCellStyle.ForeColor = Color.Gainsboro;
+            grdAsistencia.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Bold);
+            grdAsistencia.ColumnHeadersHeight = 35;
+            grdAsistencia.DefaultCellStyle.BackColor = Color.FromArgb(34, 33, 74);
+            grdAsistencia.DefaultCellStyle.ForeColor = Color.Gainsboro;
+            grdAsistencia.DefaultCellStyle.SelectionBackColor = Color.FromArgb(172, 126, 241);
+            grdAsistencia.DefaultCellStyle.SelectionForeColor = Color.White;
+            grdAsistencia.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(37, 36, 81);
+            grdAsistencia.GridColor = Color.FromArgb(45, 45, 81);
         }
 
         private void ConfigurarColumnasGrilla()
         {
-            var colPresente = new DataGridViewCheckBoxColumn
-            {
-                Name             = "colPresente",
-                HeaderText       = "✔ Presente",
-                DataPropertyName = "Presente",
-                Width            = 80,
-                FillWeight       = 15
-            };
+            grdAsistencia.Columns.Clear();
+            grdAsistencia.AutoGenerateColumns = false;
 
-            var colNombre = new DataGridViewTextBoxColumn
-            {
-                Name             = "colNombre",
-                HeaderText       = "Nombre del Niño / Niña",
-                DataPropertyName = "NombreCompleto",
-                ReadOnly         = true,
-                FillWeight       = 85
-            };
+            grdAsistencia.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "NombreCompleto", HeaderText = "Niño", Width = 250, ReadOnly = true });
+            grdAsistencia.Columns.Add(new DataGridViewCheckBoxColumn { DataPropertyName = "Presente", HeaderText = "Presente", Width = 80 });
+            grdAsistencia.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Observacion", HeaderText = "Observación", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
 
-            grdAsistencia.Columns.AddRange(colPresente, colNombre);
+            grdAsistencia.CellValueChanged += AlCambiarCelda;
+            grdAsistencia.CurrentCellDirtyStateChanged += (_, _) => { if (grdAsistencia.IsCurrentCellDirty) grdAsistencia.CommitEdit(DataGridViewDataErrorContexts.Commit); };
         }
 
-        private async void FrmTomaAsistencia_Load(object sender, EventArgs e)
+        private async void FrmTomaAsistencia_Load(object sender, EventArgs e) => await CargarDatosAsync();
+
+        private async void AlHacerClickEnCargar(object sender, EventArgs e) => await CargarDatosAsync();
+
+        private async Task CargarDatosAsync()
         {
-            dtpFecha.MaxDate = DateTime.Today;
-            dtpFecha.Value   = DateTime.Today;
-            await CargarAsistenciaAsync();
-        }
-
-        // ══════════════════════════════════════════════════════════════
-        // LÓGICA DE DATOS
-        // ══════════════════════════════════════════════════════════════
-
-        private async Task CargarAsistenciaAsync()
-        {
-            btnGuardar.Enabled = false;
-            lblEstado.Text     = "Cargando...";
-            lblResumen.Text    = string.Empty;
-
             try
             {
                 var fecha = dtpFecha.Value.Date;
-                _lista = (await _servicioAsistencia.ObtenerNinosParaAsistenciaAsync(fecha)).ToList();
+                var lista = await _servicioAsistencia.ObtenerNinosParaAsistenciaAsync(fecha);
+                _detalles = lista.ToList();
 
                 grdAsistencia.DataSource = null;
-                grdAsistencia.DataSource = _lista;
+                grdAsistencia.DataSource = _detalles;
 
-                btnGuardar.Enabled = _lista.Count > 0;
+                btnGuardar.Enabled = true;
+                lblEstado.Text = "📝 Hoja de asistencia cargada.";
                 ActualizarResumen();
-                lblEstado.Text = _lista.Count > 0
-                    ? $"Cargados {_lista.Count} niños activos para el {fecha:dd/MM/yyyy}"
-                    : "No hay niños activos registrados en el sistema.";
             }
             catch (Exception ex)
             {
-                lblEstado.Text = $"Error al cargar: {ex.Message}";
-                MessageBox.Show($"Error al cargar la asistencia:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar:\n{ex.Message}", "Error");
             }
         }
 
         private void ActualizarResumen()
         {
-            int total    = _lista.Count;
-            int presentes = _lista.Count(d => d.Presente);
-            lblResumen.Text = $"Presentes: {presentes} / {total}   |   Ausentes: {total - presentes}";
+            var presentes = _detalles.Count(d => d.Presente);
+            lblResumen.Text = $"Presentes: {presentes} / Total: {_detalles.Count}";
         }
 
-        private void CambiarTodos(bool estado)
-        {
-            foreach (var dto in _lista)
-                dto.Presente = estado;
+        private void AlCambiarCelda(object? sender, DataGridViewCellEventArgs e) => ActualizarResumen();
 
-            // Refrescar grilla
-            grdAsistencia.DataSource = null;
-            grdAsistencia.DataSource = _lista;
+        private void AlHacerClickEnMarcarTodos(object sender, EventArgs e) => CambiarEstadoTodos(true);
+        private void AlHacerClickEnDesmarcarTodos(object sender, EventArgs e) => CambiarEstadoTodos(false);
+
+        private void CambiarEstadoTodos(bool estado)
+        {
+            foreach (var d in _detalles) d.Presente = estado;
+            grdAsistencia.Refresh();
             ActualizarResumen();
-        }
-
-        // ══════════════════════════════════════════════════════════════
-        // MANEJADORES DE EVENTOS
-        // ══════════════════════════════════════════════════════════════
-
-        private async void AlHacerClickEnCargar(object sender, EventArgs e)
-            => await CargarAsistenciaAsync();
-
-        private void AlHacerClickEnMarcarTodos(object sender, EventArgs e)
-            => CambiarTodos(true);
-
-        private void AlHacerClickEnDesmarcarTodos(object sender, EventArgs e)
-            => CambiarTodos(false);
-
-        private void grdAsistencia_CurrentCellDirtyStateChanged(object sender, EventArgs e)
-        {
-            if (grdAsistencia.IsCurrentCellDirty)
-                grdAsistencia.CommitEdit(DataGridViewDataErrorContexts.Commit);
-        }
-
-        private void AlCambiarCelda(object sender, DataGridViewCellEventArgs e)
-        {
-            // Sincronizar el cambio de checkbox con el DTO subyacente
-            if (e.ColumnIndex == grdAsistencia.Columns["colPresente"]?.Index && e.RowIndex >= 0)
-            {
-                var celda = grdAsistencia.Rows[e.RowIndex].Cells["colPresente"];
-                if (e.RowIndex < _lista.Count)
-                    _lista[e.RowIndex].Presente = (bool)(celda.Value ?? false);
-
-                ActualizarResumen();
-            }
         }
 
         private async void AlHacerClickEnGuardar(object sender, EventArgs e)
         {
-            btnGuardar.Enabled = false;
-            lblEstado.Text     = "Guardando asistencia...";
-
             try
             {
-                var fecha = dtpFecha.Value.Date;
-                var (exito, mensaje) = await _servicioAsistencia.GuardarAsistenciaAsync(
-                    fecha, _lista, _idUsuarioActual);
-
+                var f = dtpFecha.Value.Date;
+                var (exito, mensaje) = await _servicioAsistencia.GuardarAsistenciaAsync(f, _detalles, _idUsuarioSesion);
+                
                 if (exito)
                 {
-                    lblEstado.ForeColor = Color.FromArgb(22, 120, 60);
-                    lblEstado.Text      = $"✔  {mensaje}";
-                    MessageBox.Show(mensaje, "Asistencia Guardada",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(mensaje, "Éxito");
+                    await CargarDatosAsync();
                 }
                 else
                 {
-                    lblEstado.ForeColor = Color.Firebrick;
-                    lblEstado.Text      = $"✘  {mensaje}";
+                    MessageBox.Show(mensaje, "Validación");
                 }
             }
             catch (Exception ex)
             {
-                lblEstado.ForeColor = Color.Firebrick;
-                lblEstado.Text      = $"Error: {ex.Message}";
-                MessageBox.Show($"Error al guardar la asistencia:\n{ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                btnGuardar.Enabled = _lista.Count > 0;
+                MessageBox.Show($"Error al guardar:\n{ex.Message}", "Error");
             }
         }
     }

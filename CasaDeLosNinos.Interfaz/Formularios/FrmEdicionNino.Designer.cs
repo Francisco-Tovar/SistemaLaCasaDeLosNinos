@@ -16,6 +16,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private void InitializeComponent()
         {
             this.panelCabecera = new System.Windows.Forms.Panel();
+            this.btnClose = new FontAwesome.Sharp.IconButton();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.tabla = new System.Windows.Forms.TableLayoutPanel();
             this.lblNombreDesc = new System.Windows.Forms.Label();
@@ -33,10 +34,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.lblDireccionDesc = new System.Windows.Forms.Label();
             this.txtDireccion = new System.Windows.Forms.TextBox();
             this.lblMensaje = new System.Windows.Forms.Label();
-            this.lblSeparador = new System.Windows.Forms.Label();
             this.panelBotones = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnCancelar = new System.Windows.Forms.Button();
-            this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnCancelar = new FontAwesome.Sharp.IconButton();
+            this.btnGuardar = new FontAwesome.Sharp.IconButton();
             this.panelCabecera.SuspendLayout();
             this.tabla.SuspendLayout();
             this.panelFecha.SuspendLayout();
@@ -45,20 +45,38 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // panelCabecera
             // 
-            this.panelCabecera.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(80)))), ((int)(((byte)(160)))));
+            this.panelCabecera.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
+            this.panelCabecera.Controls.Add(this.btnClose);
             this.panelCabecera.Controls.Add(this.lblTitulo);
             this.panelCabecera.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelCabecera.Location = new System.Drawing.Point(0, 0);
             this.panelCabecera.Name = "panelCabecera";
-            this.panelCabecera.Size = new System.Drawing.Size(424, 48);
+            this.panelCabecera.Size = new System.Drawing.Size(450, 48);
             this.panelCabecera.TabIndex = 0;
+            this.panelCabecera.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelCabecera_MouseDown);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.FlatAppearance.BorderSize = 0;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.IconChar = FontAwesome.Sharp.IconChar.Xmark;
+            this.btnClose.IconColor = System.Drawing.Color.Gainsboro;
+            this.btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnClose.IconSize = 20;
+            this.btnClose.Location = new System.Drawing.Point(420, 0);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(30, 30);
+            this.btnClose.TabIndex = 1;
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.AlHacerClickEnCancelar);
             // 
             // lblTitulo
             // 
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTitulo.ForeColor = System.Drawing.Color.White;
-            this.lblTitulo.Location = new System.Drawing.Point(14, 12);
+            this.lblTitulo.ForeColor = System.Drawing.Color.Gainsboro;
+            this.lblTitulo.Location = new System.Drawing.Point(14, 13);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(188, 21);
             this.lblTitulo.TabIndex = 0;
@@ -67,8 +85,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // tabla
             // 
             this.tabla.ColumnCount = 2;
-            this.tabla.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 38F));
-            this.tabla.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 62F));
+            this.tabla.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tabla.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tabla.Controls.Add(this.lblNombreDesc, 0, 0);
             this.tabla.Controls.Add(this.txtNombre, 1, 0);
             this.tabla.Controls.Add(this.lblFechaDesc, 0, 1);
@@ -82,83 +100,85 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.tabla.Controls.Add(this.lblDireccionDesc, 0, 5);
             this.tabla.Controls.Add(this.txtDireccion, 1, 5);
             this.tabla.Controls.Add(this.lblMensaje, 0, 6);
-            this.tabla.Controls.Add(this.lblSeparador, 0, 7);
-            this.tabla.Controls.Add(this.panelBotones, 0, 8);
+            this.tabla.Controls.Add(this.panelBotones, 0, 7);
             this.tabla.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabla.Location = new System.Drawing.Point(0, 48);
             this.tabla.Name = "tabla";
-            this.tabla.Padding = new System.Windows.Forms.Padding(16, 10, 16, 6);
-            this.tabla.RowCount = 9;
-            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
-            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tabla.Padding = new System.Windows.Forms.Padding(20, 15, 20, 10);
+            this.tabla.RowCount = 8;
+            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 10F));
             this.tabla.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tabla.Size = new System.Drawing.Size(424, 373);
+            this.tabla.Size = new System.Drawing.Size(450, 402);
             this.tabla.TabIndex = 1;
             // 
             // lblNombreDesc
             // 
             this.lblNombreDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblNombreDesc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblNombreDesc.Location = new System.Drawing.Point(19, 10);
+            this.lblNombreDesc.ForeColor = System.Drawing.Color.Silver;
+            this.lblNombreDesc.Location = new System.Drawing.Point(23, 15);
             this.lblNombreDesc.Name = "lblNombreDesc";
-            this.lblNombreDesc.Padding = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            this.lblNombreDesc.Size = new System.Drawing.Size(142, 35);
+            this.lblNombreDesc.Size = new System.Drawing.Size(158, 40);
             this.lblNombreDesc.TabIndex = 0;
-            this.lblNombreDesc.Text = "Nombre completo *:";
-            this.lblNombreDesc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblNombreDesc.Text = "Nombre completo:";
+            this.lblNombreDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtNombre
             // 
+            this.txtNombre.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
+            this.txtNombre.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNombre.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtNombre.Location = new System.Drawing.Point(167, 13);
-            this.txtNombre.MaxLength = 150;
+            this.txtNombre.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtNombre.ForeColor = System.Drawing.Color.Gainsboro;
+            this.txtNombre.Location = new System.Drawing.Point(187, 23);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(238, 24);
+            this.txtNombre.Size = new System.Drawing.Size(240, 20);
             this.txtNombre.TabIndex = 1;
             // 
             // lblFechaDesc
             // 
             this.lblFechaDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblFechaDesc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblFechaDesc.Location = new System.Drawing.Point(19, 45);
+            this.lblFechaDesc.ForeColor = System.Drawing.Color.Silver;
+            this.lblFechaDesc.Location = new System.Drawing.Point(23, 55);
             this.lblFechaDesc.Name = "lblFechaDesc";
-            this.lblFechaDesc.Padding = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            this.lblFechaDesc.Size = new System.Drawing.Size(142, 35);
+            this.lblFechaDesc.Size = new System.Drawing.Size(158, 40);
             this.lblFechaDesc.TabIndex = 2;
-            this.lblFechaDesc.Text = "Fecha de nacimiento:";
-            this.lblFechaDesc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblFechaDesc.Text = "Nacimiento:";
+            this.lblFechaDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panelFecha
             // 
             this.panelFecha.Controls.Add(this.dtpNacimiento);
             this.panelFecha.Controls.Add(this.chkTieneFechaNacimiento);
             this.panelFecha.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelFecha.Location = new System.Drawing.Point(164, 45);
+            this.panelFecha.Location = new System.Drawing.Point(184, 55);
             this.panelFecha.Margin = new System.Windows.Forms.Padding(0);
             this.panelFecha.Name = "panelFecha";
-            this.panelFecha.Size = new System.Drawing.Size(244, 35);
+            this.panelFecha.Size = new System.Drawing.Size(246, 40);
             this.panelFecha.TabIndex = 3;
             // 
             // dtpNacimiento
             // 
             this.dtpNacimiento.Enabled = false;
             this.dtpNacimiento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpNacimiento.Location = new System.Drawing.Point(3, 3);
+            this.dtpNacimiento.Location = new System.Drawing.Point(3, 8);
+            this.dtpNacimiento.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.dtpNacimiento.Name = "dtpNacimiento";
-            this.dtpNacimiento.Size = new System.Drawing.Size(120, 24);
+            this.dtpNacimiento.Size = new System.Drawing.Size(100, 24);
             this.dtpNacimiento.TabIndex = 0;
             // 
             // chkTieneFechaNacimiento
             // 
             this.chkTieneFechaNacimiento.AutoSize = true;
-            this.chkTieneFechaNacimiento.Location = new System.Drawing.Point(132, 6);
-            this.chkTieneFechaNacimiento.Margin = new System.Windows.Forms.Padding(6, 6, 0, 0);
+            this.chkTieneFechaNacimiento.ForeColor = System.Drawing.Color.Gainsboro;
+            this.chkTieneFechaNacimiento.Location = new System.Drawing.Point(109, 11);
+            this.chkTieneFechaNacimiento.Margin = new System.Windows.Forms.Padding(3, 11, 3, 3);
             this.chkTieneFechaNacimiento.Name = "chkTieneFechaNacimiento";
             this.chkTieneFechaNacimiento.Size = new System.Drawing.Size(81, 21);
             this.chkTieneFechaNacimiento.TabIndex = 1;
@@ -169,110 +189,115 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // lblGeneroDesc
             // 
             this.lblGeneroDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblGeneroDesc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblGeneroDesc.Location = new System.Drawing.Point(19, 80);
+            this.lblGeneroDesc.ForeColor = System.Drawing.Color.Silver;
+            this.lblGeneroDesc.Location = new System.Drawing.Point(23, 95);
             this.lblGeneroDesc.Name = "lblGeneroDesc";
-            this.lblGeneroDesc.Padding = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            this.lblGeneroDesc.Size = new System.Drawing.Size(142, 35);
+            this.lblGeneroDesc.Size = new System.Drawing.Size(158, 40);
             this.lblGeneroDesc.TabIndex = 4;
             this.lblGeneroDesc.Text = "Género:";
-            this.lblGeneroDesc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblGeneroDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // cboGenero
             // 
-            this.cboGenero.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cboGenero.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
             this.cboGenero.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboGenero.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cboGenero.ForeColor = System.Drawing.Color.Gainsboro;
             this.cboGenero.FormattingEnabled = true;
             this.cboGenero.Items.AddRange(new object[] {
             "Masculino",
             "Femenino",
             "No especificado"});
-            this.cboGenero.Location = new System.Drawing.Point(167, 83);
+            this.cboGenero.Location = new System.Drawing.Point(187, 103);
+            this.cboGenero.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.cboGenero.Name = "cboGenero";
-            this.cboGenero.Size = new System.Drawing.Size(238, 25);
+            this.cboGenero.Size = new System.Drawing.Size(240, 25);
             this.cboGenero.TabIndex = 5;
             // 
             // lblEncargadoDesc
             // 
             this.lblEncargadoDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblEncargadoDesc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblEncargadoDesc.Location = new System.Drawing.Point(19, 115);
+            this.lblEncargadoDesc.ForeColor = System.Drawing.Color.Silver;
+            this.lblEncargadoDesc.Location = new System.Drawing.Point(23, 135);
             this.lblEncargadoDesc.Name = "lblEncargadoDesc";
-            this.lblEncargadoDesc.Padding = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            this.lblEncargadoDesc.Size = new System.Drawing.Size(142, 35);
+            this.lblEncargadoDesc.Size = new System.Drawing.Size(158, 40);
             this.lblEncargadoDesc.TabIndex = 6;
-            this.lblEncargadoDesc.Text = "Nombre encargado:";
-            this.lblEncargadoDesc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblEncargadoDesc.Text = "Encargado:";
+            this.lblEncargadoDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtEncargado
             // 
+            this.txtEncargado.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
+            this.txtEncargado.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtEncargado.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtEncargado.Location = new System.Drawing.Point(167, 118);
-            this.txtEncargado.MaxLength = 150;
+            this.txtEncargado.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtEncargado.ForeColor = System.Drawing.Color.Gainsboro;
+            this.txtEncargado.Location = new System.Drawing.Point(187, 143);
+            this.txtEncargado.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.txtEncargado.Name = "txtEncargado";
-            this.txtEncargado.Size = new System.Drawing.Size(238, 24);
+            this.txtEncargado.Size = new System.Drawing.Size(240, 20);
             this.txtEncargado.TabIndex = 7;
             // 
             // lblTelefonoDesc
             // 
             this.lblTelefonoDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblTelefonoDesc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblTelefonoDesc.Location = new System.Drawing.Point(19, 150);
+            this.lblTelefonoDesc.ForeColor = System.Drawing.Color.Silver;
+            this.lblTelefonoDesc.Location = new System.Drawing.Point(23, 175);
             this.lblTelefonoDesc.Name = "lblTelefonoDesc";
-            this.lblTelefonoDesc.Padding = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            this.lblTelefonoDesc.Size = new System.Drawing.Size(142, 35);
+            this.lblTelefonoDesc.Size = new System.Drawing.Size(158, 40);
             this.lblTelefonoDesc.TabIndex = 8;
-            this.lblTelefonoDesc.Text = "Teléfono encargado:";
-            this.lblTelefonoDesc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblTelefonoDesc.Text = "Teléfono:";
+            this.lblTelefonoDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtTelefono
             // 
+            this.txtTelefono.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
+            this.txtTelefono.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtTelefono.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtTelefono.Location = new System.Drawing.Point(167, 153);
-            this.txtTelefono.MaxLength = 20;
+            this.txtTelefono.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtTelefono.ForeColor = System.Drawing.Color.Gainsboro;
+            this.txtTelefono.Location = new System.Drawing.Point(187, 183);
+            this.txtTelefono.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(238, 24);
+            this.txtTelefono.Size = new System.Drawing.Size(240, 20);
             this.txtTelefono.TabIndex = 9;
             // 
             // lblDireccionDesc
             // 
             this.lblDireccionDesc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblDireccionDesc.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblDireccionDesc.Location = new System.Drawing.Point(19, 185);
+            this.lblDireccionDesc.ForeColor = System.Drawing.Color.Silver;
+            this.lblDireccionDesc.Location = new System.Drawing.Point(23, 215);
             this.lblDireccionDesc.Name = "lblDireccionDesc";
-            this.lblDireccionDesc.Padding = new System.Windows.Forms.Padding(0, 0, 8, 0);
-            this.lblDireccionDesc.Size = new System.Drawing.Size(142, 35);
+            this.lblDireccionDesc.Size = new System.Drawing.Size(158, 60);
             this.lblDireccionDesc.TabIndex = 10;
             this.lblDireccionDesc.Text = "Dirección:";
-            this.lblDireccionDesc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblDireccionDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtDireccion
             // 
+            this.txtDireccion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
+            this.txtDireccion.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDireccion.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtDireccion.Location = new System.Drawing.Point(167, 188);
-            this.txtDireccion.MaxLength = 250;
+            this.txtDireccion.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.txtDireccion.ForeColor = System.Drawing.Color.Gainsboro;
+            this.txtDireccion.Location = new System.Drawing.Point(187, 223);
+            this.txtDireccion.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
+            this.txtDireccion.Multiline = true;
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(238, 24);
+            this.txtDireccion.Size = new System.Drawing.Size(240, 49);
             this.txtDireccion.TabIndex = 11;
             // 
             // lblMensaje
             // 
             this.tabla.SetColumnSpan(this.lblMensaje, 2);
             this.lblMensaje.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblMensaje.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.lblMensaje.ForeColor = System.Drawing.Color.Firebrick;
-            this.lblMensaje.Location = new System.Drawing.Point(19, 220);
+            this.lblMensaje.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic);
+            this.lblMensaje.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
+            this.lblMensaje.Location = new System.Drawing.Point(23, 275);
             this.lblMensaje.Name = "lblMensaje";
-            this.lblMensaje.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-            this.lblMensaje.Size = new System.Drawing.Size(386, 30);
+            this.lblMensaje.Size = new System.Drawing.Size(404, 30);
             this.lblMensaje.TabIndex = 12;
-            // 
-            // lblSeparador
-            // 
-            this.lblSeparador.Location = new System.Drawing.Point(19, 250);
-            this.lblSeparador.Name = "lblSeparador";
-            this.lblSeparador.Size = new System.Drawing.Size(142, 6);
-            this.lblSeparador.TabIndex = 13;
+            this.lblMensaje.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panelBotones
             // 
@@ -281,40 +306,46 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.panelBotones.Controls.Add(this.btnGuardar);
             this.panelBotones.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelBotones.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.panelBotones.Location = new System.Drawing.Point(16, 260);
+            this.panelBotones.Location = new System.Drawing.Point(20, 305);
             this.panelBotones.Margin = new System.Windows.Forms.Padding(0);
             this.panelBotones.Name = "panelBotones";
-            this.panelBotones.Padding = new System.Windows.Forms.Padding(0, 4, 0, 0);
-            this.panelBotones.Size = new System.Drawing.Size(392, 107);
+            this.panelBotones.Size = new System.Drawing.Size(410, 87);
             this.panelBotones.TabIndex = 14;
             // 
             // btnCancelar
             // 
-            this.btnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.btnCancelar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelar.FlatAppearance.BorderSize = 0;
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancelar.Location = new System.Drawing.Point(302, 7);
+            this.btnCancelar.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnCancelar.IconChar = FontAwesome.Sharp.IconChar.Cancel;
+            this.btnCancelar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
+            this.btnCancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnCancelar.IconSize = 24;
+            this.btnCancelar.Location = new System.Drawing.Point(300, 3);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(90, 32);
+            this.btnCancelar.Size = new System.Drawing.Size(107, 40);
             this.btnCancelar.TabIndex = 1;
             this.btnCancelar.Text = "Cancelar";
-            this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnCancelar.UseVisualStyleBackColor = true;
             this.btnCancelar.Click += new System.EventHandler(this.AlHacerClickEnCancelar);
             // 
             // btnGuardar
             // 
-            this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(80)))), ((int)(((byte)(160)))));
-            this.btnGuardar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGuardar.FlatAppearance.BorderSize = 0;
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGuardar.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(184, 7);
-            this.btnGuardar.Margin = new System.Windows.Forms.Padding(0, 0, 8, 0);
+            this.btnGuardar.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnGuardar.IconChar = FontAwesome.Sharp.IconChar.Save;
+            this.btnGuardar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
+            this.btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnGuardar.IconSize = 24;
+            this.btnGuardar.Location = new System.Drawing.Point(184, 3);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(110, 32);
+            this.btnGuardar.Size = new System.Drawing.Size(110, 40);
             this.btnGuardar.TabIndex = 0;
-            this.btnGuardar.Text = "💾  Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = false;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.AlHacerClickEnGuardar);
             // 
             // FrmEdicionNino
@@ -322,18 +353,15 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.AcceptButton = this.btnGuardar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.CancelButton = this.btnCancelar;
-            this.ClientSize = new System.Drawing.Size(424, 421);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
+            this.ClientSize = new System.Drawing.Size(450, 450);
             this.Controls.Add(this.tabla);
             this.Controls.Add(this.panelCabecera);
             this.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FrmEdicionNino";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Nuevo Niño — La Casa de los Niños";
+            this.Text = "Edición — La Casa de los Niños";
             this.panelCabecera.ResumeLayout(false);
             this.panelCabecera.PerformLayout();
             this.tabla.ResumeLayout(false);
@@ -363,9 +391,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private System.Windows.Forms.Label lblDireccionDesc;
         private System.Windows.Forms.TextBox txtDireccion;
         private System.Windows.Forms.Label lblMensaje;
-        private System.Windows.Forms.Label lblSeparador;
         private System.Windows.Forms.FlowLayoutPanel panelBotones;
-        private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Button btnCancelar;
+        private FontAwesome.Sharp.IconButton btnGuardar;
+        private FontAwesome.Sharp.IconButton btnCancelar;
+        private FontAwesome.Sharp.IconButton btnClose;
     }
 }
