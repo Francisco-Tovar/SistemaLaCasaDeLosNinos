@@ -69,15 +69,17 @@ internal static class Program
         servicios.AddSingleton<IInicializadorBaseDatos, InicializadorBaseDatos>();
 
         // Repositorios (Transient — se crean por solicitud)
-        servicios.AddTransient<IRepositorioUsuario, RepositorioUsuario>();
-        servicios.AddTransient<IRepositorioRol, RepositorioRol>();
-        servicios.AddTransient<IRepositorioNino, RepositorioNino>();
-        servicios.AddTransient<IRepositorioAsistencia, RepositorioAsistencia>();
+        servicios.AddTransient<IRepositorioUsuario,     RepositorioUsuario>();
+        servicios.AddTransient<IRepositorioRol,         RepositorioRol>();
+        servicios.AddTransient<IRepositorioNino,        RepositorioNino>();
+        servicios.AddTransient<IRepositorioAsistencia,  RepositorioAsistencia>();
+        servicios.AddTransient<IRepositorioObservacion, RepositorioObservacion>();
 
         // Servicios (Transient)
         servicios.AddTransient<IServicioAutenticacion, ServicioAutenticacion>();
-        servicios.AddTransient<IServicioNino, ServicioNino>();
-        servicios.AddTransient<IServicioAsistencia, ServicioAsistencia>();
+        servicios.AddTransient<IServicioNino,          ServicioNino>();
+        servicios.AddTransient<IServicioAsistencia,    ServicioAsistencia>();
+        servicios.AddTransient<IServicioObservacion,   ServicioObservacion>();
 
         // Formularios (Transient)
         servicios.AddTransient<FrmLogin>();

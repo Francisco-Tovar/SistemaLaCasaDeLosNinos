@@ -15,7 +15,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios;
 /// </summary>
 public class FrmGestionNinos : Form
 {
-    private readonly IServicioNino _servicioNino;
+    private readonly IServicioNino         _servicioNino;
+    private readonly IServicioObservacion  _servicioObservacion;
+    private readonly int                   _idUsuarioSesion;
 
     // Controles principales
     private DataGridView    grdNinos      = null!;
@@ -23,6 +25,7 @@ public class FrmGestionNinos : Form
     private Button          btnNuevo      = null!;
     private Button          btnEditar     = null!;
     private Button          btnEstado     = null!;
+    private Button          btnBitacora   = null!;
     private Button          btnActualizar = null!;
     private Label           lblConteo     = null!;
     private CheckBox        chkMostrarInactivos = null!;
@@ -30,9 +33,14 @@ public class FrmGestionNinos : Form
     // Cache en memoria para filtrado local
     private List<Nino> _todosLosNinos = new();
 
-    public FrmGestionNinos(IServicioNino servicioNino)
+    public FrmGestionNinos(
+        IServicioNino        servicioNino,
+        IServicioObservacion servicioObservacion,
+        int                  idUsuarioSesion)
     {
-        _servicioNino = servicioNino;
+        _servicioNino        = servicioNino;
+        _servicioObservacion = servicioObservacion;
+        _idUsuarioSesion     = idUsuarioSesion;
         ConfigurarUI();
     }
 
@@ -94,18 +102,21 @@ public class FrmGestionNinos : Form
         };
         chkMostrarInactivos.CheckedChanged += (_, _) => AplicarFiltro();
 
-        btnNuevo = CrearBoton("＋ Nuevo",     Color.FromArgb(39, 174, 96),  440);
-        btnEditar = CrearBoton("✏  Editar",   Color.FromArgb(41, 128, 185), 535);
-        btnEstado = CrearBoton("⊘  Desactivar", Color.FromArgb(192, 57, 43), 630);
-        btnActualizar = CrearBoton("↺  Actualizar", Color.FromArgb(100, 100, 100), 740);
+        btnNuevo      = CrearBoton("＋ Nuevo",       Color.FromArgb(39, 174, 96),   440);
+        btnEditar     = CrearBoton("✏  Editar",      Color.FromArgb(41, 128, 185),  535);
+        btnBitacora   = CrearBoton("📝  Bitácora",   Color.FromArgb(142, 68, 173),  630);
+        btnEstado     = CrearBoton("⊘  Desactivar",  Color.FromArgb(192, 57, 43),   730);
+        btnActualizar = CrearBoton("↺  Actualizar",  Color.FromArgb(100, 100, 100), 830);
 
         btnNuevo.Click      += AlHacerClickEnNuevo;
         btnEditar.Click     += AlHacerClickEnEditar;
+        btnBitacora.Click   += AlHacerClickEnBitacora;
         btnEstado.Click     += AlHacerClickEnCambiarEstado;
         btnActualizar.Click += async (_, _) => await CargarNinosAsync();
 
         panelHerramientas.Controls.AddRange(new Control[]
-            { txtBuscar, chkMostrarInactivos, btnNuevo, btnEditar, btnEstado, btnActualizar });
+            { txtBuscar, chkMostrarInactivos, btnNuevo, btnEditar, btnBitacora, btnEstado, btnActualizar });
+
 
         // ── DataGridView ─────────────────────────────────────────
         grdNinos = new DataGridView
@@ -311,6 +322,28 @@ public class FrmGestionNinos : Form
         catch (Exception ex)
         {
             MessageBox.Show($"Error al cambiar el estado:\n{ex.Message}", "Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private void AlHacerClickEnBitacora(object? sender, EventArgs e)
+    {
+        var nino = ObtenerNinoSeleccionado();
+        if (nino == null)
+        {
+            MessageBox.Show("Seleccione un niño para ver su bitácora de observaciones.",
+                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
+        try
+        {
+            using var frm = new FrmObservaciones(nino, _idUsuarioSesion, _servicioObservacion);
+            frm.ShowDialog(this);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error al abrir la bitácora:\n{ex.Message}", "Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }

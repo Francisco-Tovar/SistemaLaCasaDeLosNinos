@@ -134,8 +134,9 @@ public class FormPrincipal : Form
     {
         try
         {
-            var servicioNino = _proveedor.GetRequiredService<IServicioNino>();
-            using var frm = new FrmGestionNinos(servicioNino);
+            var servicioNino        = _proveedor.GetRequiredService<IServicioNino>();
+            var servicioObservacion = _proveedor.GetRequiredService<IServicioObservacion>();
+            using var frm = new FrmGestionNinos(servicioNino, servicioObservacion, _usuarioActual.Id);
             frm.ShowDialog(this);
         }
         catch (Exception ex)

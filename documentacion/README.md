@@ -12,7 +12,7 @@ Este directorio contiene la documentación técnica de cada etapa de desarrollo 
 | 1 | Persistencia y Versionamiento | ✅ Completada | [etapa1_persistencia_versionamiento.md](etapa1_persistencia_versionamiento.md) |
 | 2 | Seguridad y Autenticación | ✅ Completada | [etapa2_seguridad_autenticacion.md](etapa2_seguridad_autenticacion.md) |
 | 3 | Beneficiarios y Asistencia | ✅ Completada | [etapa3_gestion_beneficiarios_asistencia.md](etapa3_gestion_beneficiarios_asistencia.md) |
-| 4 | Seguimiento Cualitativo | ⏳ Pendiente | — |
+| 4 | Seguimiento Cualitativo | ✅ Completada | [etapa4_seguimiento_cualitativo.md](etapa4_seguimiento_cualitativo.md) |
 | 5 | Gestión de Voluntarios | ⏳ Pendiente | — |
 | 6 | Control Financiero (Caja Chica) | ⏳ Pendiente | — |
 
