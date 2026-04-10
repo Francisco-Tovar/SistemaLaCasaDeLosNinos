@@ -1,27 +1,21 @@
-# Dependencies
-node_modules/
-.npm
-package-lock.json (if using yarn)
+# .NET build outputs
+bin/
+obj/
 
-# Build
-dist/
-build/
-.next/
-out/
-
-# IDEs
+# IDE
+.vs/
 .vscode/
-.idea/
-*.swp
-*.swo
+*.user
+*.suo
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
-# Env files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Logs (generados en runtime)
+logs/
+
+# Base de datos local (generada en runtime)
+*.db
+*.db-shm
+*.db-wal

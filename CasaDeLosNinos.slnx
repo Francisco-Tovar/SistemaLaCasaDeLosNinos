@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="CasaDeLosNinos.Aplicacion/CasaDeLosNinos.Aplicacion.csproj" />
+  <Project Path="CasaDeLosNinos.Datos/CasaDeLosNinos.Datos.csproj" />
+  <Project Path="CasaDeLosNinos.Dominio/CasaDeLosNinos.Dominio.csproj" />
+  <Project Path="CasaDeLosNinos.Interfaz/CasaDeLosNinos.Interfaz.csproj" />
+</Solution>
