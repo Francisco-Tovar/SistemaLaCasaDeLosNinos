@@ -82,7 +82,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.btnNuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnNuevo.IconSize = 24;
             this.btnNuevo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnNuevo.Location = new System.Drawing.Point(350, 6);
+            this.btnNuevo.Location = new System.Drawing.Point(310, 6);
             this.btnNuevo.Name = "btnNuevo";
             this.btnNuevo.Size = new System.Drawing.Size(100, 36);
             this.btnNuevo.TabIndex = 2;
@@ -101,7 +101,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.btnEditar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEditar.IconSize = 24;
             this.btnEditar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditar.Location = new System.Drawing.Point(450, 6);
+            this.btnEditar.Location = new System.Drawing.Point(415, 6);
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(100, 36);
             this.btnEditar.TabIndex = 3;
@@ -120,7 +120,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.btnBitacora.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnBitacora.IconSize = 24;
             this.btnBitacora.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBitacora.Location = new System.Drawing.Point(550, 6);
+            this.btnBitacora.Location = new System.Drawing.Point(520, 6);
             this.btnBitacora.Name = "btnBitacora";
             this.btnBitacora.Size = new System.Drawing.Size(110, 36);
             this.btnBitacora.TabIndex = 4;
@@ -139,7 +139,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.btnEstado.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEstado.IconSize = 24;
             this.btnEstado.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEstado.Location = new System.Drawing.Point(660, 6);
+            this.btnEstado.Location = new System.Drawing.Point(635, 6);
             this.btnEstado.Name = "btnEstado";
             this.btnEstado.Size = new System.Drawing.Size(120, 36);
             this.btnEstado.TabIndex = 5;
@@ -158,9 +158,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.btnActualizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnActualizar.IconSize = 24;
             this.btnActualizar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnActualizar.Location = new System.Drawing.Point(780, 6);
+            this.btnActualizar.Location = new System.Drawing.Point(760, 6);
             this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(100, 36);
+            this.btnActualizar.Size = new System.Drawing.Size(115, 36);
             this.btnActualizar.TabIndex = 6;
             this.btnActualizar.Text = "Refrescar";
             this.btnActualizar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;

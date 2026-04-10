@@ -54,7 +54,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 var fecha = dtpFecha.Value.Date;
                 var lista = await _servicioAsistencia.ObtenerNinosParaAsistenciaAsync(fecha);
-                _detalles = lista.ToList();
+                _detalles = lista.OrderBy(n => n.NombreCompleto).ToList();
 
                 grdAsistencia.DataSource = null;
                 grdAsistencia.DataSource = _detalles;

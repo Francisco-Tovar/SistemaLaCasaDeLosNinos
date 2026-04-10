@@ -79,10 +79,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.panelCaptura.Controls.Add(this.lblAutorInfo);
             this.panelCaptura.Controls.Add(this.lblNueva);
             this.panelCaptura.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelCaptura.Location = new System.Drawing.Point(0, 401);
+            this.panelCaptura.Location = new System.Drawing.Point(0, 391);
             this.panelCaptura.Name = "panelCaptura";
             this.panelCaptura.Padding = new System.Windows.Forms.Padding(12, 8, 12, 10);
-            this.panelCaptura.Size = new System.Drawing.Size(704, 180);
+            this.panelCaptura.Size = new System.Drawing.Size(704, 190);
             this.panelCaptura.TabIndex = 1;
             // 
             // btnGuardar
@@ -96,7 +96,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.btnGuardar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
             this.btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnGuardar.IconSize = 24;
-            this.btnGuardar.Location = new System.Drawing.Point(520, 130);
+            this.btnGuardar.Location = new System.Drawing.Point(520, 140);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(170, 40);
             this.btnGuardar.TabIndex = 4;
@@ -110,7 +110,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.lblContador.AutoSize = true;
             this.lblContador.Font = new System.Drawing.Font("Segoe UI", 8.5F);
             this.lblContador.ForeColor = System.Drawing.Color.Silver;
-            this.lblContador.Location = new System.Drawing.Point(12, 130);
+            this.lblContador.Location = new System.Drawing.Point(12, 140);
             this.lblContador.Name = "lblContador";
             this.lblContador.Size = new System.Drawing.Size(53, 15);
             this.lblContador.TabIndex = 3;
@@ -124,12 +124,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.txtNuevaObservacion.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNuevaObservacion.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.txtNuevaObservacion.ForeColor = System.Drawing.Color.Gainsboro;
-            this.txtNuevaObservacion.Location = new System.Drawing.Point(12, 55);
+            this.txtNuevaObservacion.Location = new System.Drawing.Point(12, 65);
             this.txtNuevaObservacion.MaxLength = 2000;
             this.txtNuevaObservacion.Multiline = true;
             this.txtNuevaObservacion.Name = "txtNuevaObservacion";
             this.txtNuevaObservacion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNuevaObservacion.Size = new System.Drawing.Size(680, 70);
+            this.txtNuevaObservacion.Size = new System.Drawing.Size(680, 60);
             this.txtNuevaObservacion.TabIndex = 2;
             this.txtNuevaObservacion.TextChanged += new System.EventHandler(this.AlCambiarTexto);
             // 
@@ -138,7 +138,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.lblAutorInfo.AutoSize = true;
             this.lblAutorInfo.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic);
             this.lblAutorInfo.ForeColor = System.Drawing.Color.Silver;
-            this.lblAutorInfo.Location = new System.Drawing.Point(12, 32);
+            this.lblAutorInfo.Location = new System.Drawing.Point(12, 40);
             this.lblAutorInfo.Name = "lblAutorInfo";
             this.lblAutorInfo.Size = new System.Drawing.Size(0, 15);
             this.lblAutorInfo.TabIndex = 1;
@@ -163,7 +163,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.lblHistorial.Location = new System.Drawing.Point(0, 54);
             this.lblHistorial.Name = "lblHistorial";
             this.lblHistorial.Padding = new System.Windows.Forms.Padding(12, 10, 0, 0);
-            this.lblHistorial.Size = new System.Drawing.Size(704, 30);
+            this.lblHistorial.Size = new System.Drawing.Size(704, 40);
             this.lblHistorial.TabIndex = 2;
             this.lblHistorial.Text = "Historial:";
             // 
@@ -175,7 +175,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.panelHistorial.Location = new System.Drawing.Point(0, 84);
             this.panelHistorial.Name = "panelHistorial";
             this.panelHistorial.Padding = new System.Windows.Forms.Padding(15, 10, 15, 10);
-            this.panelHistorial.Size = new System.Drawing.Size(704, 317);
+            this.panelHistorial.Size = new System.Drawing.Size(704, 297);
             this.panelHistorial.TabIndex = 3;
             // 
             // FrmObservaciones

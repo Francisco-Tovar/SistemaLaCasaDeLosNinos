@@ -34,13 +34,13 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             lblDireccionDesc = new Label();
             txtDireccion = new TextBox();
             lblMensaje = new Label();
-            panelBotones = new FlowLayoutPanel();
+            pnlAcciones = new FlowLayoutPanel();
             btnCancelar = new FontAwesome.Sharp.IconButton();
             btnGuardar = new FontAwesome.Sharp.IconButton();
             panelCabecera.SuspendLayout();
             tabla.SuspendLayout();
             panelFecha.SuspendLayout();
-            panelBotones.SuspendLayout();
+            pnlAcciones.SuspendLayout();
             SuspendLayout();
             // 
             // panelCabecera
@@ -51,7 +51,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelCabecera.Dock = DockStyle.Top;
             panelCabecera.Location = new Point(1, 1);
             panelCabecera.Name = "panelCabecera";
-            panelCabecera.Size = new Size(448, 60);
+            panelCabecera.Size = new Size(448, 75);
             panelCabecera.TabIndex = 0;
             panelCabecera.MouseDown += panelCabecera_MouseDown;
             // 
@@ -100,7 +100,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             tabla.Controls.Add(lblDireccionDesc, 0, 5);
             tabla.Controls.Add(txtDireccion, 1, 5);
             tabla.Controls.Add(lblMensaje, 0, 6);
-            tabla.Controls.Add(panelBotones, 0, 7);
+            tabla.Controls.Add(pnlAcciones, 0, 7);
             tabla.Dock = DockStyle.Fill;
             tabla.Location = new Point(1, 61);
             tabla.Name = "tabla";
@@ -296,18 +296,18 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             lblMensaje.TabIndex = 12;
             lblMensaje.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // panelBotones
+            // pnlAcciones
             // 
-            tabla.SetColumnSpan(panelBotones, 2);
-            panelBotones.Controls.Add(btnCancelar);
-            panelBotones.Controls.Add(btnGuardar);
-            panelBotones.Dock = DockStyle.Fill;
-            panelBotones.FlowDirection = FlowDirection.RightToLeft;
-            panelBotones.Location = new Point(20, 305);
-            panelBotones.Margin = new Padding(0);
-            panelBotones.Name = "panelBotones";
-            panelBotones.Size = new Size(408, 43);
-            panelBotones.TabIndex = 14;
+            tabla.SetColumnSpan(pnlAcciones, 2);
+            pnlAcciones.Controls.Add(btnCancelar);
+            pnlAcciones.Controls.Add(btnGuardar);
+            pnlAcciones.Dock = DockStyle.Fill;
+            pnlAcciones.FlowDirection = FlowDirection.RightToLeft;
+            pnlAcciones.Location = new Point(20, 305);
+            pnlAcciones.Margin = new Padding(0);
+            pnlAcciones.Name = "pnlAcciones";
+            pnlAcciones.Size = new Size(408, 43);
+            pnlAcciones.TabIndex = 14;
             // 
             // btnCancelar
             // 
@@ -351,7 +351,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(34, 33, 74);
-            ClientSize = new Size(450, 420);
+            ClientSize = new Size(450, 440);
             Controls.Add(tabla);
             Controls.Add(panelCabecera);
             Font = new Font("Segoe UI", 9.5F);
@@ -364,7 +364,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             tabla.PerformLayout();
             panelFecha.ResumeLayout(false);
             panelFecha.PerformLayout();
-            panelBotones.ResumeLayout(false);
+            pnlAcciones.ResumeLayout(false);
             ResumeLayout(false);
 
         }
@@ -387,7 +387,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private System.Windows.Forms.Label lblDireccionDesc;
         private System.Windows.Forms.TextBox txtDireccion;
         private System.Windows.Forms.Label lblMensaje;
-        private System.Windows.Forms.FlowLayoutPanel panelBotones;
+        private System.Windows.Forms.FlowLayoutPanel pnlAcciones;
         private FontAwesome.Sharp.IconButton btnGuardar;
         private FontAwesome.Sharp.IconButton btnCancelar;
         private FontAwesome.Sharp.IconButton btnClose;

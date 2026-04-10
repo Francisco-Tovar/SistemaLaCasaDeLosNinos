@@ -145,6 +145,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnTheme.Name = "btnTheme";
             btnTheme.Size = new Size(30, 30);
             btnTheme.TabIndex = 5;
+            btnTheme.TabStop = false;
             btnTheme.UseVisualStyleBackColor = true;
             btnTheme.Click += btnTheme_Click;
             // 
@@ -161,6 +162,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnMinimize.Name = "btnMinimize";
             btnMinimize.Size = new Size(30, 30);
             btnMinimize.TabIndex = 4;
+            btnMinimize.TabStop = false;
             btnMinimize.UseVisualStyleBackColor = true;
             btnMinimize.Click += btnMinimize_Click;
             // 
@@ -177,6 +179,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnMaximize.Name = "btnMaximize";
             btnMaximize.Size = new Size(30, 30);
             btnMaximize.TabIndex = 3;
+            btnMaximize.TabStop = false;
             btnMaximize.UseVisualStyleBackColor = true;
             btnMaximize.Click += btnMaximize_Click;
             // 
@@ -193,6 +196,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(30, 30);
             btnClose.TabIndex = 2;
+            btnClose.TabStop = false;
             btnClose.UseVisualStyleBackColor = true;
             btnClose.Click += btnClose_Click;
             // 
@@ -200,7 +204,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             lblTitleChildForm.AutoSize = true;
             lblTitleChildForm.ForeColor = Color.Gainsboro;
-            lblTitleChildForm.Location = new Point(59, 23);
+            lblTitleChildForm.Location = new Point(75, 12);
             lblTitleChildForm.Name = "lblTitleChildForm";
             lblTitleChildForm.Size = new Size(38, 17);
             lblTitleChildForm.TabIndex = 1;
@@ -213,7 +217,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             iconCurrentChildForm.IconChar = FontAwesome.Sharp.IconChar.House;
             iconCurrentChildForm.IconColor = Color.MediumPurple;
             iconCurrentChildForm.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconCurrentChildForm.Location = new Point(21, 16);
+            iconCurrentChildForm.Location = new Point(21, 12);
             iconCurrentChildForm.Name = "iconCurrentChildForm";
             iconCurrentChildForm.Size = new Size(32, 32);
             iconCurrentChildForm.TabIndex = 0;
@@ -277,7 +281,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             Controls.Add(panelMenu);
             DoubleBuffered = true;
             Font = new Font("Segoe UI", 9.75F);
-            MinimumSize = new Size(800, 500);
+            MinimumSize = new Size(1150, 600);
             Name = "FormPrincipal";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "La Casa de los Niños";

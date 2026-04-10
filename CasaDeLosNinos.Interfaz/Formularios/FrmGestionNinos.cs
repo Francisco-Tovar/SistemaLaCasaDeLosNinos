@@ -147,6 +147,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 .Where(n => (mostrarInactivos || n.Activo)
                          && (string.IsNullOrEmpty(filtro)
                              || n.NombreCompleto.ToLowerInvariant().Contains(filtro)))
+                .OrderBy(n => n.NombreCompleto)
                 .ToList();
 
             grdNinos.DataSource = null;
