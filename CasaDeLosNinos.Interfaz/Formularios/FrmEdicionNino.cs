@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using CasaDeLosNinos.Dominio.Entidades;
 using CasaDeLosNinos.Dominio.Interfaces;
+using CasaDeLosNinos.Interfaz.Estilos;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
@@ -22,6 +23,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 lblTitulo.Text = "✏  Editar Beneficiario";
                 CargarDatos();
             }
+
+            // Aplicar tema
+            ThemeEngine.ApplyTheme(this, ThemeEngine.LoadThemePreference());
         }
 
         private void CargarDatos()

@@ -37,17 +37,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void ConfigurarEstiloGrilla()
         {
-            grdNinos.BackgroundColor = Color.FromArgb(34, 33, 74);
-            grdNinos.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(26, 25, 62);
-            grdNinos.ColumnHeadersDefaultCellStyle.ForeColor = Color.Gainsboro;
-            grdNinos.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Bold);
+            // El estilo base es manejado por ThemeEngine.
+            // Aquí solo definimos comportamiento funcional.
             grdNinos.ColumnHeadersHeight = 35;
-            grdNinos.DefaultCellStyle.BackColor = Color.FromArgb(34, 33, 74);
-            grdNinos.DefaultCellStyle.ForeColor = Color.Gainsboro;
-            grdNinos.DefaultCellStyle.SelectionBackColor = Color.FromArgb(172, 126, 241);
-            grdNinos.DefaultCellStyle.SelectionForeColor = Color.White;
-            grdNinos.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(37, 36, 81);
-            grdNinos.GridColor = Color.FromArgb(45, 45, 81);
         }
 
         private void ConfigurarColumnasGrilla()

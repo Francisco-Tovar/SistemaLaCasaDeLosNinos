@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using CasaDeLosNinos.Dominio.Dtos;
 using CasaDeLosNinos.Dominio.Entidades;
 using CasaDeLosNinos.Dominio.Interfaces;
+using CasaDeLosNinos.Interfaz.Estilos;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
@@ -24,6 +25,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
             lblTitulo.Text = $"📋  Bitácora — {_nino.NombreCompleto}";
             lblAutorInfo.Text = $"Escribiendo como usuario ID: {_idUsuarioSesion}";
+
+            // Aplicar tema
+            ThemeEngine.ApplyTheme(this, ThemeEngine.LoadThemePreference());
         }
 
         private async void FrmObservaciones_Load(object sender, EventArgs e) => await CargarHistorialAsync();
@@ -48,11 +52,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void AgregarControlObservacion(ObservacionDetalleDto obs)
         {
+            var theme = ThemeEngine.LoadThemePreference();
             var pnl = new Panel
             {
                 Dock = DockStyle.Top,
                 AutoSize = true,
-                BackColor = Color.FromArgb(45, 45, 81),
+                BackColor = theme.SurfaceColor,
                 Padding = new Padding(10),
                 Margin = new Padding(0, 0, 0, 10)
             };
@@ -61,7 +66,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 Text = $"{obs.FechaHora:dd/MM/yyyy HH:mm} — Por: {obs.NombreAutor}",
                 Dock = DockStyle.Top,
-                ForeColor = Color.FromArgb(172, 126, 241),
+                ForeColor = theme.AccentColor,
                 Font = new Font("Segoe UI", 8.5f, FontStyle.Bold),
                 Height = 20
             };
@@ -71,7 +76,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 Text = obs.Contenido,
                 Dock = DockStyle.Top,
                 AutoSize = true,
-                ForeColor = Color.Gainsboro,
+                ForeColor = theme.TextPrimary,
                 Font = new Font("Segoe UI", 9.5f),
                 Padding = new Padding(0, 5, 0, 5)
             };

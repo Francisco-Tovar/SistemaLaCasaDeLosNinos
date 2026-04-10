@@ -27,17 +27,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void ConfigurarEstiloGrilla()
         {
-            grdAsistencia.BackgroundColor = Color.FromArgb(34, 33, 74);
-            grdAsistencia.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(26, 25, 62);
-            grdAsistencia.ColumnHeadersDefaultCellStyle.ForeColor = Color.Gainsboro;
-            grdAsistencia.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10f, FontStyle.Bold);
+            // El estilo base es manejado por ThemeEngine.
             grdAsistencia.ColumnHeadersHeight = 35;
-            grdAsistencia.DefaultCellStyle.BackColor = Color.FromArgb(34, 33, 74);
-            grdAsistencia.DefaultCellStyle.ForeColor = Color.Gainsboro;
-            grdAsistencia.DefaultCellStyle.SelectionBackColor = Color.FromArgb(172, 126, 241);
-            grdAsistencia.DefaultCellStyle.SelectionForeColor = Color.White;
-            grdAsistencia.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(37, 36, 81);
-            grdAsistencia.GridColor = Color.FromArgb(45, 45, 81);
         }
 
         private void ConfigurarColumnasGrilla()

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using CasaDeLosNinos.Dominio.Entidades;
 using CasaDeLosNinos.Dominio.Interfaces;
+using CasaDeLosNinos.Interfaz.Estilos;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
@@ -19,6 +20,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // Permitir arrastrar desde el fondo o el panel lateral
             this.MouseDown += (s, e) => DragForm();
             panelSide.MouseDown += (s, e) => DragForm();
+
+            // Aplicar tema persistente
+            ThemeEngine.ApplyTheme(this, ThemeEngine.LoadThemePreference());
         }
 
         private async void AlHacerClickEnIngresar(object sender, EventArgs e)

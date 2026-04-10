@@ -85,3 +85,31 @@ protected override void WndProc(ref Message m)
 *   **Anchoring:** Use `Anchor` properties for controls inside the `ContentPanel` to handle stretching.
 *   **Docking:** Always dock the main containers (Left, Top, Fill).
 *   **Form Loading:** Clear `ContentPanel.Controls` before adding a new form and set `childForm.TopLevel = false`, `childForm.FormBorderStyle = None`, and `childForm.Dock = Fill`.
+
+## 7. Gestión de Temas
+Para permitir una experiencia de usuario personalizada, el sistema soporta temas dinámicos (Oscuro/Claro).
+
+### Estructura de Colores (ThemeColors)
+Se define una estructura centralizada que mapea las necesidades visuales a colores específicos:
+- **NavBackground:** Fondo del panel de navegación lateral.
+- **HeaderBackground:** Fondo de la barra de título superior.
+- **ContentBackground:** Fondo del área de trabajo principal.
+- **AccentColor:** Color para resaltar elementos activos y bordes decorativos.
+- **TextPrimary:** Color para texto principal y títulos.
+- **TextSecondary:** Color para texto descriptivo o de menor jerarquía.
+- **SurfaceColor:** Color para controles de entrada (TextBox, ComboBox) y filas de grillas.
+
+### Convenciones de Nomenclatura
+Para que el motor de temas actúe con precisión, los contenedores deben seguir estos nombres:
+- `panelMenu` o `panelNavegacion`: Aplica `NavBackground`.
+- `panelTitleBar` o `panelCabecera`: Aplica `HeaderBackground`.
+- `panelDesktop` o `panelContenido`: Aplica `ContentBackground`.
+
+### Reglas de Implementación
+1.  **Recursividad:** El motor de temas debe recorrer todos los controles hijos.
+2.  **Iconos:** Los `IconButton` de FontAwesome.Sharp deben actualizar su `IconColor` sincronizadamente con el `ForeColor`.
+3.  **Estados de Botón:** Configurar `FlatAppearance.MouseOverBackColor` y `MouseDownBackColor` proporcionalmente al tono del tema.
+4.  **Parpadeo (Anti-Flicker):** 
+    - Activar `DoubleBuffered = true` en el formulario principal.
+    - Usar `this.SuspendLayout()` y `this.ResumeLayout()` durante el cambio de tema masivo.
+5.  **Persistencia:** La elección del usuario debe guardarse localmente y aplicarse durante el inicio de la aplicación en `Program.cs` o en el constructor del formulario principal.

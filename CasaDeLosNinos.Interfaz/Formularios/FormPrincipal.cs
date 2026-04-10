@@ -7,6 +7,8 @@ using CasaDeLosNinos.Dominio.Interfaces;
 using FontAwesome.Sharp;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CasaDeLosNinos.Interfaz.Estilos;
+using System.IO;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
@@ -19,6 +21,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private IconButton currentBtn;
         private Panel leftBorderBtn;
         private Form currentChildForm;
+        private ThemeColors _currentTheme;
+        private ContextMenuStrip _themeMenu;
 
         public FormPrincipal(
             IConfiguration configuracion,
@@ -39,18 +43,37 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.ControlBox = false;
             this.DoubleBuffered = true;
             this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
+
+            // Cargar y Aplicar Tema Inicial
+            _currentTheme = ThemeEngine.LoadThemePreference();
+            ConfigurarMenuTemas();
+            ApplyTheme();
         }
 
-        // Estructuras de Colores
-        private struct RGBColors
+        private void ConfigurarMenuTemas()
         {
-            public static Color color1 = Color.FromArgb(172, 126, 241);
-            public static Color color2 = Color.FromArgb(249, 118, 176);
-            public static Color color3 = Color.FromArgb(253, 138, 114);
-            public static Color color4 = Color.FromArgb(95, 77, 221);
-            public static Color color5 = Color.FromArgb(249, 88, 155);
-            public static Color color6 = Color.FromArgb(24, 161, 251);
+            _themeMenu = new ContextMenuStrip();
+            ActualizarMenuTemas();
         }
+
+        private void ActualizarMenuTemas()
+        {
+            _themeMenu.Items.Clear();
+            foreach (var themeName in ThemeConfiguration.GetThemeNames())
+            {
+                var item = new ToolStripMenuItem(themeName);
+                item.Click += (s, e) => SeleccionarTema(themeName);
+                _themeMenu.Items.Add(item);
+            }
+        }
+
+        private void SeleccionarTema(string themeName)
+        {
+            _currentTheme = ThemeConfiguration.GetTheme(themeName);
+            ThemeEngine.SaveThemePreference(themeName);
+            ApplyTheme();
+        }
+
 
         // Métodos
         private void ActivateButton(object senderBtn, Color color)
@@ -60,22 +83,22 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 DisableButton();
                 // Botón
                 currentBtn = (IconButton)senderBtn;
-                currentBtn.BackColor = Color.FromArgb(37, 36, 81);
-                currentBtn.ForeColor = color;
+                currentBtn.BackColor = _currentTheme.SurfaceColor;
+                currentBtn.ForeColor = _currentTheme.AccentColor;
                 currentBtn.TextAlign = ContentAlignment.MiddleCenter;
-                currentBtn.IconColor = color;
+                currentBtn.IconColor = _currentTheme.AccentColor;
                 currentBtn.TextImageRelation = TextImageRelation.TextBeforeImage;
                 currentBtn.ImageAlign = ContentAlignment.MiddleRight;
 
                 // Borde izquierdo del botón
-                leftBorderBtn.BackColor = color;
+                leftBorderBtn.BackColor = _currentTheme.AccentColor;
                 leftBorderBtn.Location = new Point(0, currentBtn.Location.Y);
                 leftBorderBtn.Visible = true;
                 leftBorderBtn.BringToFront();
 
                 // Icono del formulario hijo actual
                 iconCurrentChildForm.IconChar = currentBtn.IconChar;
-                iconCurrentChildForm.IconColor = color;
+                iconCurrentChildForm.IconColor = _currentTheme.AccentColor;
             }
         }
 
@@ -83,10 +106,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             if (currentBtn != null)
             {
-                currentBtn.BackColor = Color.FromArgb(31, 30, 68);
-                currentBtn.ForeColor = Color.Gainsboro;
+                currentBtn.BackColor = Color.Transparent;
+                currentBtn.ForeColor = _currentTheme.TextPrimary;
                 currentBtn.TextAlign = ContentAlignment.MiddleLeft;
-                currentBtn.IconColor = Color.Gainsboro;
+                currentBtn.IconColor = _currentTheme.TextPrimary;
                 currentBtn.TextImageRelation = TextImageRelation.ImageBeforeText;
                 currentBtn.ImageAlign = ContentAlignment.MiddleLeft;
             }
@@ -107,6 +130,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             childForm.BringToFront();
             childForm.Show();
             lblTitleChildForm.Text = childForm.Text;
+            
+            // Aplicar tema al formulario hijo
+            ThemeEngine.ApplyTheme(childForm, _currentTheme);
         }
 
         private void Reset()
@@ -114,14 +140,29 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             DisableButton();
             leftBorderBtn.Visible = false;
             iconCurrentChildForm.IconChar = IconChar.House;
-            iconCurrentChildForm.IconColor = Color.MediumPurple;
+            iconCurrentChildForm.IconColor = _currentTheme.AccentColor;
             lblTitleChildForm.Text = "Inicio";
         }
+
+        private void ApplyTheme()
+        {
+            this.SuspendLayout();
+            ThemeEngine.ApplyTheme(this, _currentTheme);
+            if (currentChildForm != null)
+                ThemeEngine.ApplyTheme(currentChildForm, _currentTheme);
+            
+            // Actualizar icono de toggle a icono de paleta ya que es selección
+            btnTheme.IconChar = IconChar.Palette;
+            
+            this.ResumeLayout();
+        }
+
+        // Métodos de Persistencia ahora en ThemeEngine
 
         // Eventos
         private void btnNinos_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender, RGBColors.color1);
+            ActivateButton(sender, _currentTheme.AccentColor);
             try
             {
                 var servicioNino = _proveedor.GetRequiredService<IServicioNino>();
@@ -136,7 +177,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void btnAsistencia_Click(object sender, EventArgs e)
         {
-            ActivateButton(sender, RGBColors.color2);
+            ActivateButton(sender, _currentTheme.AccentColor);
             try
             {
                 var servicioAsistencia = _proveedor.GetRequiredService<IServicioAsistencia>();
@@ -182,6 +223,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 WindowState = FormWindowState.Maximized;
             else
                 WindowState = FormWindowState.Normal;
+        }
+
+        private void btnTheme_Click(object sender, EventArgs e)
+        {
+            _themeMenu.Show(btnTheme, new Point(0, btnTheme.Height));
         }
 
         private void btnMinimize_Click(object sender, EventArgs e)

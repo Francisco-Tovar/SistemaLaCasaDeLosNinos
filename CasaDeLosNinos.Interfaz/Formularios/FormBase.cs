@@ -63,6 +63,15 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 }
                 return;
             }
+
+            // Evitar que Windows dibuje la barra de título/borde gris al perder el foco
+            const int WM_NCACTIVATE = 0x0086;
+            if (m.Msg == WM_NCACTIVATE)
+            {
+                m.Result = (IntPtr)1; // Indicar que hemos manejado la activación
+                return;
+            }
+
             base.WndProc(ref m);
         }
     }
