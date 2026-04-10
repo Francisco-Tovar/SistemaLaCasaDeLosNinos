@@ -46,9 +46,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelMenu.Controls.Add(btnNinos);
             panelMenu.Controls.Add(panelLogo);
             panelMenu.Dock = DockStyle.Left;
-            panelMenu.Location = new Point(2, 2);
+            panelMenu.Location = new Point(1, 1);
             panelMenu.Name = "panelMenu";
-            panelMenu.Size = new Size(220, 617);
+            panelMenu.Size = new Size(220, 619);
             panelMenu.TabIndex = 0;
             // 
             // btnAsistencia
@@ -56,6 +56,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnAsistencia.Dock = DockStyle.Top;
             btnAsistencia.FlatAppearance.BorderSize = 0;
             btnAsistencia.FlatStyle = FlatStyle.Flat;
+            btnAsistencia.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAsistencia.ForeColor = Color.Gainsboro;
             btnAsistencia.IconChar = FontAwesome.Sharp.IconChar.ClipboardList;
             btnAsistencia.IconColor = Color.Gainsboro;
@@ -78,6 +79,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnNinos.Dock = DockStyle.Top;
             btnNinos.FlatAppearance.BorderSize = 0;
             btnNinos.FlatStyle = FlatStyle.Flat;
+            btnNinos.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnNinos.ForeColor = Color.Gainsboro;
             btnNinos.IconChar = FontAwesome.Sharp.IconChar.Baby;
             btnNinos.IconColor = Color.Gainsboro;
@@ -124,9 +126,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelTitleBar.Controls.Add(lblTitleChildForm);
             panelTitleBar.Controls.Add(iconCurrentChildForm);
             panelTitleBar.Dock = DockStyle.Top;
-            panelTitleBar.Location = new Point(222, 2);
+            panelTitleBar.Location = new Point(221, 1);
             panelTitleBar.Name = "panelTitleBar";
-            panelTitleBar.Size = new Size(760, 75);
+            panelTitleBar.Size = new Size(762, 75);
             panelTitleBar.TabIndex = 1;
             panelTitleBar.MouseDown += panelTitleBar_MouseDown;
             // 
@@ -139,7 +141,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnTheme.IconColor = Color.White;
             btnTheme.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnTheme.IconSize = 25;
-            btnTheme.Location = new Point(633, 0);
+            btnTheme.Location = new Point(635, 0);
             btnTheme.Name = "btnTheme";
             btnTheme.Size = new Size(30, 30);
             btnTheme.TabIndex = 5;
@@ -155,7 +157,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnMinimize.IconColor = Color.White;
             btnMinimize.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnMinimize.IconSize = 20;
-            btnMinimize.Location = new Point(669, 0);
+            btnMinimize.Location = new Point(671, 0);
             btnMinimize.Name = "btnMinimize";
             btnMinimize.Size = new Size(30, 30);
             btnMinimize.TabIndex = 4;
@@ -171,7 +173,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnMaximize.IconColor = Color.White;
             btnMaximize.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnMaximize.IconSize = 20;
-            btnMaximize.Location = new Point(700, 0);
+            btnMaximize.Location = new Point(702, 0);
             btnMaximize.Name = "btnMaximize";
             btnMaximize.Size = new Size(30, 30);
             btnMaximize.TabIndex = 3;
@@ -187,7 +189,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnClose.IconColor = Color.White;
             btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnClose.IconSize = 20;
-            btnClose.Location = new Point(730, 0);
+            btnClose.Location = new Point(732, 0);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(30, 30);
             btnClose.TabIndex = 2;
@@ -221,9 +223,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             panelShadow.BackColor = Color.FromArgb(26, 24, 58);
             panelShadow.Dock = DockStyle.Top;
-            panelShadow.Location = new Point(222, 77);
+            panelShadow.Location = new Point(221, 76);
             panelShadow.Name = "panelShadow";
-            panelShadow.Size = new Size(760, 9);
+            panelShadow.Size = new Size(762, 9);
             panelShadow.TabIndex = 2;
             // 
             // panelDesktop
@@ -232,9 +234,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelDesktop.Controls.Add(lblBienvenida);
             panelDesktop.Controls.Add(lblOrg);
             panelDesktop.Dock = DockStyle.Fill;
-            panelDesktop.Location = new Point(222, 86);
+            panelDesktop.Location = new Point(221, 85);
             panelDesktop.Name = "panelDesktop";
-            panelDesktop.Size = new Size(760, 533);
+            panelDesktop.Size = new Size(762, 535);
             panelDesktop.TabIndex = 3;
             // 
             // lblBienvenida
@@ -243,7 +245,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             lblBienvenida.AutoSize = true;
             lblBienvenida.Font = new Font("Segoe UI", 17F, FontStyle.Bold);
             lblBienvenida.ForeColor = Color.Gainsboro;
-            lblBienvenida.Location = new Point(313, 228);
+            lblBienvenida.Location = new Point(314, 229);
             lblBienvenida.Name = "lblBienvenida";
             lblBienvenida.Size = new Size(135, 31);
             lblBienvenida.TabIndex = 0;
@@ -256,7 +258,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             lblOrg.AutoSize = true;
             lblOrg.Font = new Font("Segoe UI", 11F);
             lblOrg.ForeColor = Color.LightGray;
-            lblOrg.Location = new Point(322, 269);
+            lblOrg.Location = new Point(323, 270);
             lblOrg.Name = "lblOrg";
             lblOrg.Size = new Size(145, 20);
             lblOrg.TabIndex = 1;

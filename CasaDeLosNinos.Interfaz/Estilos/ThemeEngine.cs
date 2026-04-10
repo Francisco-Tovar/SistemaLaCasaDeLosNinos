@@ -50,24 +50,27 @@ public static class ThemeEngine
         {
             string name = lbl.Name.ToLower();
             // Títulos y etiquetas principales
-            if (name.Contains("title") || name.Contains("titulo") || name.Contains("bienvenida") || name.Contains("header") || name.Contains("org"))
+            if (name.Contains("title") || name.Contains("titulo") || name.Contains("bienvenida") || name.Contains("header") || name.Contains("org") || name.Contains("historial") || name.Contains("nueva"))
             {
                 lbl.ForeColor = theme.TextPrimary;
                 // Aumento de prominencia solicitado (250%) para títulos principales
                 if (name.Contains("child") || name.Contains("titulo")) 
-                    lbl.Font = new Font(lbl.Font.FontFamily, 22, FontStyle.Bold); // Aprox 250% de 9pt
+                    lbl.Font = new Font(lbl.Font.FontFamily, 22, FontStyle.Bold);
+                
+                // Si es un header de sección interno, darle un toque de acento o prominencia
+                if (name.Contains("historial") || name.Contains("nueva"))
+                    lbl.ForeColor = theme.AccentColor;
             }
             else
             {
                 lbl.ForeColor = theme.TextSecondary;
             }
-            
-            // Forzar contraste en zonas específicas
-            if (lbl.Parent != null)
+
+            // Asegurar que el fondo del label coincida con su contenedor si no es transparente
+            if (lbl.BackColor != Color.Transparent)
             {
-                string pName = lbl.Parent.Name.ToLower();
-                if (pName.Contains("titlebar") || pName.Contains("cabecera") || pName.Contains("superior"))
-                    lbl.ForeColor = theme.TextPrimary;
+                if (lbl.Parent != null) lbl.BackColor = lbl.Parent.BackColor;
+                else lbl.BackColor = theme.ContentBackground;
             }
         }
 
@@ -80,7 +83,7 @@ public static class ThemeEngine
             // Hover Dinámico
             btn.FlatAppearance.MouseOverBackColor = theme.NavBackground == Color.FromArgb(241, 245, 249)
                 ? Color.FromArgb(226, 232, 240) 
-                : theme.SurfaceColor;
+                : theme.AccentColor ;
             
             btn.ForeColor = theme.TextPrimary;
 
@@ -89,7 +92,7 @@ public static class ThemeEngine
             // Botones de Acción Principal (Accent / Ingresar / Guardar / Nuevo)
             if (name.Contains("accent") || name.Contains("ingresar") || name.Contains("guardar") || name.Contains("nuevo") || name.Contains("enviar"))
             {
-                btn.BackColor = theme.AccentColor;
+                btn.BackColor = theme.TextSecondary;
                 // Calculamos contraste para el texto sobre el AccentColor
                 btn.ForeColor = (theme.AccentColor.GetBrightness() < 0.5f) ? Color.White : Color.Black;
                 btn.IconColor = btn.ForeColor;

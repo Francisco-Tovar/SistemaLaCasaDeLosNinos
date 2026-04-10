@@ -13,10 +13,29 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         [DllImport("user32.DLL", EntryPoint = "SendMessage")]
         protected extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
 
+        public bool EsRedimensionable { get; set; } = true;
+        
+        public bool TieneBordeAcento { get; set; } = false;
+        
         public FormBase()
         {
             this.FormBorderStyle = FormBorderStyle.None;
-            this.Padding = new Padding(2); // Un pequeño borde para mostrar el color de acento si se desea
+            this.Padding = new Padding(1); // Espacio para el borde de 1px
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            
+            if (TieneBordeAcento)
+            {
+                var theme = Estilos.ThemeEngine.LoadThemePreference();
+                using (var pen = new Pen(theme.AccentColor, 1))
+                {
+                    // Dibujar el borde justo en el límite interior
+                    e.Graphics.DrawRectangle(pen, 0, 0, this.Width - 1, this.Height - 1);
+                }
+            }
         }
 
         protected void DragForm()
@@ -40,6 +59,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // Redimensionamiento personalizado
             if (m.Msg == WM_NCHITTEST)
             {
+                if (!EsRedimensionable)
+                {
+                    base.WndProc(ref m);
+                    return;
+                }
+
                 base.WndProc(ref m);
                 if ((int)m.Result == 1) // HTCLIENT
                 {

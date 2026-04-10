@@ -16,14 +16,18 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             InitializeComponent();
             _servicioAutenticacion = servicioAutenticacion;
-            ConfigurarLogotipo();
-            
+            this.EsRedimensionable = false;
+            this.TieneBordeAcento = true;
+
             // Permitir arrastrar desde el fondo o el panel lateral
             this.MouseDown += (s, e) => DragForm();
             panelSide.MouseDown += (s, e) => DragForm();
 
-            // Aplicar tema persistente
+            // Aplicar tema persistente ANTES del logotipo para evitar que lo sobreescriba
             ThemeEngine.ApplyTheme(this, ThemeEngine.LoadThemePreference());
+
+            // Configurar logotipo al final para que no sea sobreescrito por el tema
+            ConfigurarLogotipo();
         }
 
         private async void AlHacerClickEnIngresar(object sender, EventArgs e)
@@ -68,9 +72,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "logo.png");
                 if (System.IO.File.Exists(path))
                 {
-                    iconLogo.IconChar = FontAwesome.Sharp.IconChar.None;
-                    iconLogo.Image = Image.FromFile(path);
-                    iconLogo.SizeMode = PictureBoxSizeMode.Zoom;
+                    var bytes = System.IO.File.ReadAllBytes(path);
+                    using var ms = new System.IO.MemoryStream(bytes);
+                    iconLogo.Image = new Bitmap(ms);
                 }
             }
             catch { }

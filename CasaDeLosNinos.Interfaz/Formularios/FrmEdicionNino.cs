@@ -17,6 +17,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             InitializeComponent();
             _ninoExistente = nino;
             _servicioNino = servicioNino;
+            this.EsRedimensionable = false;
+            this.TieneBordeAcento = true;
 
             if (_ninoExistente != null)
             {

@@ -16,7 +16,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private void InitializeComponent()
         {
             panelSide = new System.Windows.Forms.Panel();
-            iconLogo = new FontAwesome.Sharp.IconPictureBox();
+            iconLogo = new System.Windows.Forms.PictureBox();
             btnClose = new FontAwesome.Sharp.IconButton();
             lblTitulo = new System.Windows.Forms.Label();
             lblUsuario = new System.Windows.Forms.Label();
@@ -41,15 +41,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // iconLogo
             // 
-            iconLogo.BackColor = System.Drawing.Color.FromArgb(26, 25, 62);
-            iconLogo.ForeColor = System.Drawing.Color.MediumPurple;
-            iconLogo.IconChar = FontAwesome.Sharp.IconChar.HomeUser;
-            iconLogo.IconColor = System.Drawing.Color.MediumPurple;
-            iconLogo.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconLogo.IconSize = 200;
+            iconLogo.BackColor = System.Drawing.Color.Transparent;
             iconLogo.Location = new System.Drawing.Point(25, 100);
             iconLogo.Name = "iconLogo";
             iconLogo.Size = new System.Drawing.Size(200, 200);
+            iconLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             iconLogo.TabIndex = 0;
             iconLogo.TabStop = false;
             // 
@@ -185,7 +181,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         }
 
         private System.Windows.Forms.Panel panelSide;
-        private FontAwesome.Sharp.IconPictureBox iconLogo;
+        private System.Windows.Forms.PictureBox iconLogo;
         private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.TextBox txtUsuario;

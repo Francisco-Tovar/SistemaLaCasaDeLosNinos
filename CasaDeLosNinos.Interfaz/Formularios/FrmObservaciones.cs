@@ -22,6 +22,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             _nino = nino;
             _idUsuarioSesion = idUsuarioSesion;
             _servicioObservacion = servicio;
+            this.EsRedimensionable = false;
+            this.TieneBordeAcento = true;
 
             lblTitulo.Text = $"📋  Bitácora — {_nino.NombreCompleto}";
             lblAutorInfo.Text = $"Escribiendo como usuario ID: {_idUsuarioSesion}";
