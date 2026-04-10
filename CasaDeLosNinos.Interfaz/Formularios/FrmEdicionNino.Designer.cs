@@ -74,11 +74,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // lblTitulo
             // 
             lblTitulo.AutoSize = true;
-            lblTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblTitulo.Font = new Font("Comic Sans MS", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitulo.ForeColor = Color.Gainsboro;
             lblTitulo.Location = new Point(14, 18);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(182, 21);
+            lblTitulo.Size = new Size(185, 23);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "＋  Nuevo Beneficiario";
             // 

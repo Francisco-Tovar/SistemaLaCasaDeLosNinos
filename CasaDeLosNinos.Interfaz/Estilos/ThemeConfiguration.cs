@@ -69,8 +69,8 @@ public static class ThemeConfiguration
             TextPrimary: Color.FromArgb(30, 40, 50),
             TextSecondary: Color.FromArgb(100, 115, 130),
             SurfaceColor: Color.FromArgb(255, 255, 255),
-            StatusError: Color.FromArgb(141, 198, 63),     // Verde Manzana Logo
-            StatusSuccess: Color.FromArgb(120, 28, 81),       // VIOLETA-ROJIZO "DONAR" (image_624d53.png)
+            StatusSuccess: Color.FromArgb(141, 198, 63),     // Verde Manzana Logo
+            StatusError: Color.FromArgb(120, 28, 81),       // VIOLETA-ROJIZO "DONAR" (image_624d53.png)
             DividerColor: Color.FromArgb(224, 224, 224)
         )}
     };

@@ -91,15 +91,15 @@ Para permitir una experiencia de usuario personalizada, el sistema soporta temas
 
 ### Estructura de Colores (ThemeColors)
 Se define una estructura centralizada que mapea las necesidades visuales a exactamente 10 colores:
-- **NavBackground:** Fondo del panel de navegación lateral.
+- **NavBackground:** Color de navegación principal (Fondo del panel lateral).
 - **HeaderBackground:** Fondo de la barra de título superior.
 - **ContentBackground:** Fondo del área de trabajo principal.
 - **AccentColor:** Color para resaltar elementos activos y bordes decorativos.
 - **TextPrimary:** Color para texto principal y títulos.
 - **TextSecondary:** Color para texto descriptivo o de menor jerarquía.
 - **SurfaceColor:** Color para controles de entrada (TextBox, ComboBox) y filas de grillas.
-- **StatusSuccess:** Color para indicar acciones positivas (Guardar, Aceptar).
-- **StatusError:** Color para indicar acciones destructivas o alertas (Cancelar, Eliminar).
+- **StatusSuccess:** Color para indicar acciones positivas (Guardar, Aceptar, Nuevo).
+- **StatusError:** Color para indicar acciones destructivas, alertas o cierres (Cancelar, Eliminar, Desactivar, Donar).
 - **DividerColor:** Color para separadores sutiles (Bordes inferiores, grid lines).
 
 ### Convenciones de Nomenclatura

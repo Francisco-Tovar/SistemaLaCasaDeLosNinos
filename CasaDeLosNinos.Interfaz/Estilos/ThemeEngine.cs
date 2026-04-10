@@ -54,24 +54,35 @@ public static class ThemeEngine
         if (control is Label lbl)
         {
             string name = lbl.Name.ToLower();
-            // Títulos y etiquetas principales
-            if (name.Contains("title") || name.Contains("titulo") || name.Contains("bienvenida") || name.Contains("header") || name.Contains("org") || name.Contains("historial") || name.Contains("nueva"))
+            string parentName = lbl.Parent?.Name.ToLower() ?? "";
+
+            // REGLA ESTRICTA: Detección de Títulos y Headers
+            bool isMainTitle = name.Contains("titulo") || name.Contains("title") || name.Contains("bienvenida");
+            bool isHeaderArea = parentName.Contains("titlebar") || parentName.Contains("header") || 
+                                parentName.Contains("superior") || parentName.Contains("cabecera") ||
+                                parentName.Contains("herramientas") || parentName.Contains("botones");
+            
+            bool isTechnicalHeader = name.Contains("org") || name.Contains("historial") || name.Contains("nueva");
+
+            if (isMainTitle || isHeaderArea || isTechnicalHeader)
             {
                 lbl.ForeColor = theme.TextPrimary;
-                // Aumento de prominencia solicitado (250%) para títulos principales
-                if (name.Contains("child") || name.Contains("titulo")) 
-                    lbl.Font = new Font(lbl.Font.FontFamily, 22, FontStyle.Bold);
+                // Determinamos el tamaño estableciendo valores fijos para evitar que crezca en cada cambio de tema
+                float fontSize = 12f;
+                if (isMainTitle) fontSize = 24f;
+                else if (isTechnicalHeader) fontSize = 14f;
+
+                lbl.Font = FontManager.GetFont("Grandstander", fontSize, FontStyle.Bold);
                 
-                // Si es un header de sección interno, darle un toque de acento o prominencia
                 if (name.Contains("historial") || name.Contains("nueva"))
                     lbl.ForeColor = theme.AccentColor;
             }
             else
             {
                 lbl.ForeColor = theme.TextSecondary;
+                lbl.Font = FontManager.GetFont("Nunito Sans", lbl.Font.Size, FontStyle.Regular);
             }
 
-            // Asegurar que el fondo del label coincida con su contenedor si no es transparente
             if (lbl.BackColor != Color.Transparent)
             {
                 if (lbl.Parent != null) lbl.BackColor = lbl.Parent.BackColor;
@@ -93,48 +104,60 @@ public static class ThemeEngine
             btn.ForeColor = theme.TextPrimary;
 
             string name = btn.Name.ToLower();
+            string parentName = btn.Parent?.Name.ToLower() ?? "";
+            
+            // Detección de botones en cabecera o barras de herramientas superiores
+            bool isHeaderBtn = name.Contains("header") || name.Contains("titulo") || 
+                              parentName.Contains("titlebar") || parentName.Contains("header") || 
+                              parentName.Contains("superior") || parentName.Contains("cabecera") ||
+                              parentName.Contains("herramientas") || parentName.Contains("botones");
+
+            if (isHeaderBtn)
+                btn.Font = FontManager.GetFont("Grandstander", btn.Font.Size, FontStyle.Bold);
+            else
+                btn.Font = FontManager.GetFont("Nunito Sans", btn.Font.Size, FontStyle.Regular);
 
             // Botones de Estado y Acción
-            if (name.Contains("guardar") || name.Contains("aceptar"))
+            if (name.Contains("guardar") || name.Contains("aceptar") || name.Contains("nuevo"))
             {
                 btn.BackColor = theme.StatusSuccess;
                 btn.ForeColor = Color.White;
                 btn.IconColor = btn.ForeColor;
             }
-            else if (name.Contains("cancelar") || name.Contains("eliminar"))
+            else if (name.Contains("cancelar") || name.Contains("eliminar") || name.Contains("desactivar"))
             {
                 btn.BackColor = theme.StatusError;
                 btn.ForeColor = Color.White;
                 btn.IconColor = btn.ForeColor;
             }
-            else if (name.Contains("accent") || name.Contains("ingresar") || name.Contains("nuevo") || name.Contains("enviar"))
+            else if (name.Contains("accent") || name.Contains("ingresar") || name.Contains("enviar"))
             {
                 btn.BackColor = theme.AccentColor;
                 btn.ForeColor = (theme.AccentColor.GetBrightness() > 0.6f) ? theme.TextPrimary : Color.White;
                 btn.IconColor = btn.ForeColor;
             }
+            else if (name.Contains("close") || name.Contains("maximize") || name.Contains("minimize") || name.Contains("theme"))
+            {
+                // Botones de la caja de control superior
+                btn.BackColor = Color.Transparent;
+                btn.ForeColor = theme.AccentColor;
+                btn.IconColor = theme.AccentColor;
+                
+                // Efecto hover destructivo solo para cerrar, el resto Accent oscuro/claro
+                if (name.Contains("close"))
+                    btn.FlatAppearance.MouseOverBackColor = theme.StatusError;
+                else
+                    btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(50, theme.AccentColor);
+            }
             else
             {
-                // Sidebar Typography: Aplicar negrita y tamaño 12px solicitado
-                // Se detecta por nombre del botón o por el nombre del panel contenedor (sidebar/menu)
+                // Sidebar Typography
                 bool isSidebarButton = name.Contains("menu") || name.Contains("side") || 
                                      (btn.Parent != null && (btn.Parent.Name.ToLower().Contains("menu") || btn.Parent.Name.ToLower().Contains("side")));
 
                 if (isSidebarButton)
                 {
-                    btn.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-                }
-
-                // Sidebar Highlight Persistence: Si el botón tiene el fondo activo (usualmente Accent o transparente con borde)
-
-                // Forzar IconColor al texto primario en cabeceras
-                if (btn.Parent != null && (btn.Parent.Name.ToLower().Contains("titlebar") || btn.Parent.Name.ToLower().Contains("header") || btn.Parent.Name.ToLower().Contains("menu") || btn.Parent.Name.ToLower().Contains("side")))
-                {
-                    btn.IconColor = theme.TextPrimary;
-                }
-                else if (IsNeutralColor(btn.IconColor))
-                {
-                    btn.IconColor = theme.TextPrimary;
+                    btn.Font = FontManager.GetFont("Grandstander", 12, FontStyle.Bold);
                 }
 
                 if (btn.Parent != null)
@@ -151,6 +174,7 @@ public static class ThemeEngine
         {
             txt.BackColor = theme.SurfaceColor;
             txt.ForeColor = theme.TextPrimary;
+            txt.Font = FontManager.GetFont("Nunito Sans", txt.Font.Size, FontStyle.Regular);
             txt.BorderStyle = BorderStyle.FixedSingle;
             if (theme == ThemeConfiguration.DarkTheme) txt.BorderStyle = BorderStyle.None;
         }
@@ -159,12 +183,14 @@ public static class ThemeEngine
         {
             cbo.BackColor = theme.SurfaceColor;
             cbo.ForeColor = theme.TextPrimary;
+            cbo.Font = FontManager.GetFont("Nunito Sans", cbo.Font.Size, FontStyle.Regular);
             cbo.FlatStyle = FlatStyle.Flat;
         }
 
         if (control is CheckBox chk)
         {
             chk.ForeColor = theme.TextSecondary;
+            chk.Font = FontManager.GetFont("Nunito Sans", chk.Font.Size, FontStyle.Regular);
         }
 
         if (control is DateTimePicker dtp)
@@ -184,12 +210,14 @@ public static class ThemeEngine
             grd.ColumnHeadersDefaultCellStyle.BackColor = theme.HeaderBackground;
             grd.ColumnHeadersDefaultCellStyle.ForeColor = theme.TextPrimary;
             grd.ColumnHeadersDefaultCellStyle.SelectionBackColor = theme.HeaderBackground;
+            grd.ColumnHeadersDefaultCellStyle.Font = FontManager.GetFont("Grandstander", 10, FontStyle.Bold);
             grd.EnableHeadersVisualStyles = false;
             
             grd.DefaultCellStyle.BackColor = theme.ContentBackground;
             grd.DefaultCellStyle.ForeColor = theme.TextPrimary;
             grd.DefaultCellStyle.SelectionBackColor = theme.AccentColor;
             grd.DefaultCellStyle.SelectionForeColor = (theme == ThemeConfiguration.DarkTheme) ? Color.Black : Color.White;
+            grd.DefaultCellStyle.Font = FontManager.GetFont("Nunito Sans", 9, FontStyle.Regular);
             
             grd.AlternatingRowsDefaultCellStyle.BackColor = theme.SurfaceColor;
             grd.AlternatingRowsDefaultCellStyle.ForeColor = theme.TextPrimary;
