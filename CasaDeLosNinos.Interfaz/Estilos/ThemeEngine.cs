@@ -92,20 +92,24 @@ public static class ThemeEngine
             // Botones de Acción Principal (Accent / Ingresar / Guardar / Nuevo)
             if (name.Contains("accent") || name.Contains("ingresar") || name.Contains("guardar") || name.Contains("nuevo") || name.Contains("enviar"))
             {
-                btn.BackColor = theme.TextSecondary;
+                btn.BackColor = theme.AccentColor;
                 // Calculamos contraste para el texto sobre el AccentColor
                 btn.ForeColor = (theme.AccentColor.GetBrightness() < 0.5f) ? Color.White : Color.Black;
                 btn.IconColor = btn.ForeColor;
             }
             else
             {
-                // Sidebar Highlight Persistence: Si el botón tiene el fondo activo (usualmente Accent o transparente con borde)
-                // En el sidebar mantenemos el color de acento si ya estaba activo
-                if (name.Contains("menu") || name.Contains("side"))
+                // Sidebar Typography: Aplicar negrita y tamaño 12px solicitado
+                // Se detecta por nombre del botón o por el nombre del panel contenedor (sidebar/menu)
+                bool isSidebarButton = name.Contains("menu") || name.Contains("side") || 
+                                     (btn.Parent != null && (btn.Parent.Name.ToLower().Contains("menu") || btn.Parent.Name.ToLower().Contains("side")));
+
+                if (isSidebarButton)
                 {
-                    // Si el botón está "seleccionado" (lo detectamos por el color de su icono si ya fue activado)
-                    // o simplemente dejamos que FormPrincipal lo maneje tras el ApplyTheme
+                    btn.Font = new Font("Segoe UI", 12, FontStyle.Bold);
                 }
+
+                // Sidebar Highlight Persistence: Si el botón tiene el fondo activo (usualmente Accent o transparente con borde)
 
                 // Forzar IconColor al texto primario en cabeceras
                 if (btn.Parent != null && (btn.Parent.Name.ToLower().Contains("titlebar") || btn.Parent.Name.ToLower().Contains("header") || btn.Parent.Name.ToLower().Contains("menu") || btn.Parent.Name.ToLower().Contains("side")))

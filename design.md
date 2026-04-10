@@ -109,7 +109,8 @@ Para que el motor de temas actúe con precisión, los contenedores deben seguir 
 1.  **Recursividad:** El motor de temas debe recorrer todos los controles hijos.
 2.  **Iconos:** Los `IconButton` de FontAwesome.Sharp deben actualizar su `IconColor` sincronizadamente con el `ForeColor`.
 3.  **Estados de Botón:** Configurar `FlatAppearance.MouseOverBackColor` y `MouseDownBackColor` proporcionalmente al tono del tema.
-4.  **Parpadeo (Anti-Flicker):** 
+4.  **Tipografía del Sidebar:** Los botones de navegación lateral (`IconButton`) deben utilizar fuente en **negrita (Bold)** y un tamaño de **12px** para asegurar una jerarquía visual clara.
+5.  **Parpadeo (Anti-Flicker):** 
     - Activar `DoubleBuffered = true` en el formulario principal.
     - Usar `this.SuspendLayout()` y `this.ResumeLayout()` durante el cambio de tema masivo.
-5.  **Persistencia:** La elección del usuario debe guardarse localmente y aplicarse durante el inicio de la aplicación en `Program.cs` o en el constructor del formulario principal.
+6.  **Persistencia:** La elección del usuario debe guardarse localmente y aplicarse durante el inicio de la aplicación en `Program.cs` o en el constructor del formulario principal.
