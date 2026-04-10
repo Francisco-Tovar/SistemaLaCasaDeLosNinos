@@ -59,11 +59,32 @@ ORDER BY o.FechaHora DESC;
 
 ### Capa Interfaz (UI)
 
-**`FrmObservaciones.cs`** — Diseño por código (sin `.Designer.cs`):
-- **Historial**: Panel con scroll automático, tarjetas visuales (color azul claro) con altura dinámica calculada según el contenido del texto.
+**`FrmObservaciones.cs`** — Implementación basada en el **Diseñador de WinForms** (`.Designer.cs`):
+- **Estructura**: Separación clara entre código lógico (`.cs`) y código de diseño (`.Designer.cs`). Permite el uso del *Visual Studio Toolbox*.
+- **InitializeComponent()**: Obligatorio en el constructor para la instanciación de controles.
+- **Historial**: Panel con scroll automático, tarjetas visuales dinámicas gestionadas por el código lógico mientras que el contenedor base se definió visualmente.
 - **Encabezado de tarjeta**: Muestra `NombreAutor • FechaHora` — campos inmutables y visibles.
-- **Captura**: `TextBox` multilinea con contador de caracteres en tiempo real (alerta roja > 1,900 chars).
+- **Captura**: `TextBox` multilinea con contador de caracteres en tiempo real.
 - **Feedback**: El botón cambia a "✔ Guardado" con color verde durante 1.5 segundos tras un guardado exitoso.
+
+---
+
+## Refactorización UI: Transición a WinForms Designer
+
+Tras completar la funcionalidad base de la Etapa 4, se realizó una refactorización transversal de la interfaz de usuario para permitir el mantenimiento visual desde Visual Studio.
+
+### Cambios Realizados:
+1.  **Migración Completa**: Todos los formularios del sistema (`FrmLogin`, `FormPrincipal`, `FrmGestionNinos`, `FrmEdicionNino`, `FrmTomaAsistencia` y `FrmObservaciones`) fueron convertidos al patrón de archivos parciales (`.Designer.cs`).
+2.  **Estandarización**: Se eliminó la construcción manual de interfaces en los constructores, delegando la responsabilidad de instanciación y posicionamiento a `InitializeComponent()`.
+3.  **Regla de Arquitectura (tcuskill)**: Se añadió la **Regla 8** al skill del proyecto, prohibiendo estrictamente el diseño programático de formularios de ahora en adelante para garantizar que el usuario pueda utilizar el *Toolbox* de Visual Studio.
+
+### Estado Actual de los Forms:
+- ✅ **FrmObservaciones.cs** + `FrmObservaciones.Designer.cs`
+- ✅ **FrmLogin.cs** + `FrmLogin.Designer.cs`
+- ✅ **FormPrincipal.cs** + `FormPrincipal.Designer.cs`
+- ✅ **FrmGestionNinos.cs** + `FrmGestionNinos.Designer.cs`
+- ✅ **FrmEdicionNino.cs** + `FrmEdicionNino.Designer.cs`
+- ✅ **FrmTomaAsistencia.cs** + `FrmTomaAsistencia.Designer.cs`
 
 ---
 

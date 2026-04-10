@@ -44,3 +44,4 @@ Este directorio contiene la documentación técnica de cada etapa de desarrollo 
 2. **Idioma:** Todos los identificadores en español.
 3. **Asincronía total:** Toda E/S usa `async/await`. Prohibido `.Result`, `.Wait()`.
 4. **Configuración externa:** Sin cadenas de conexión hardcodeadas. Todo en `appsettings.json`.
+5. **WinForms Designer:** Todo formulario debe usar archivos `.Designer.cs`. Prohibido el diseño programático.
