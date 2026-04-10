@@ -33,6 +33,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             _configuracion = configuracion;
             _proveedor = proveedor;
             _usuarioActual = usuarioActual;
+            ConfigurarLogotipo();
 
             leftBorderBtn = new Panel();
             leftBorderBtn.Size = new Size(7, 60);
@@ -151,6 +152,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             if (currentChildForm != null)
                 ThemeEngine.ApplyTheme(currentChildForm, _currentTheme);
             
+            // Re-activar botón destacado si existe uno para mantener el resaltado tras el cambio de tema
+            if (currentBtn != null)
+            {
+                ActivateButton(currentBtn, _currentTheme.AccentColor);
+            }
+
             // Actualizar icono de toggle a icono de paleta ya que es selección
             btnTheme.IconChar = IconChar.Palette;
             
@@ -209,6 +216,22 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             var nombreOrg = _configuracion["Configuracion:NombreOrganizacion"] ?? "La Casa de los Niños";
             this.lblBienvenida.Text = $"Bienvenido, {_usuarioActual.NombreCompleto}";
             this.lblOrg.Text = nombreOrg;
+
+            // Abrir Gestión de Niños al iniciar
+            btnNinos_Click(btnNinos, EventArgs.Empty);
+        }
+
+        private void ConfigurarLogotipo()
+        {
+            try
+            {
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "logomin.png");
+                if (File.Exists(path))
+                {
+                    btnHome.Image = Image.FromFile(path);
+                }
+            }
+            catch { }
         }
 
         // Botones de Control Box

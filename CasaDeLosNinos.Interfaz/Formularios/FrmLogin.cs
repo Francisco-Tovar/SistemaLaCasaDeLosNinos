@@ -16,6 +16,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             InitializeComponent();
             _servicioAutenticacion = servicioAutenticacion;
+            ConfigurarLogotipo();
             
             // Permitir arrastrar desde el fondo o el panel lateral
             this.MouseDown += (s, e) => DragForm();
@@ -58,6 +59,21 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private void btnClose_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void ConfigurarLogotipo()
+        {
+            try
+            {
+                string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "logo.png");
+                if (System.IO.File.Exists(path))
+                {
+                    iconLogo.IconChar = FontAwesome.Sharp.IconChar.None;
+                    iconLogo.Image = Image.FromFile(path);
+                    iconLogo.SizeMode = PictureBoxSizeMode.Zoom;
+                }
+            }
+            catch { }
         }
     }
 }

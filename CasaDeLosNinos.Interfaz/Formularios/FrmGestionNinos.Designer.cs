@@ -15,8 +15,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void InitializeComponent()
         {
-            this.panelSuperior = new System.Windows.Forms.Panel();
-            this.lblTitulo = new System.Windows.Forms.Label();
             this.panelHerramientas = new System.Windows.Forms.Panel();
             this.txtBuscar = new System.Windows.Forms.TextBox();
             this.chkMostrarInactivos = new System.Windows.Forms.CheckBox();
@@ -28,33 +26,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.panelInferior = new System.Windows.Forms.Panel();
             this.lblConteo = new System.Windows.Forms.Label();
             this.grdNinos = new System.Windows.Forms.DataGridView();
-            this.panelSuperior.SuspendLayout();
             this.panelHerramientas.SuspendLayout();
             this.panelInferior.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdNinos)).BeginInit();
             this.SuspendLayout();
-            // 
-            // panelSuperior
-            // 
-            this.panelSuperior.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
-            this.panelSuperior.Controls.Add(this.lblTitulo);
-            this.panelSuperior.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelSuperior.Location = new System.Drawing.Point(0, 0);
-            this.panelSuperior.Name = "panelSuperior";
-            this.panelSuperior.Padding = new System.Windows.Forms.Padding(10, 8, 10, 8);
-            this.panelSuperior.Size = new System.Drawing.Size(884, 54);
-            this.panelSuperior.TabIndex = 0;
-            // 
-            // lblTitulo
-            // 
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTitulo.ForeColor = System.Drawing.Color.White;
-            this.lblTitulo.Location = new System.Drawing.Point(10, 12);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(209, 25);
-            this.lblTitulo.TabIndex = 0;
-            this.lblTitulo.Text = "👶  Niños Beneficiarios";
             // 
             // panelHerramientas
             // 
@@ -67,7 +42,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.panelHerramientas.Controls.Add(this.btnEstado);
             this.panelHerramientas.Controls.Add(this.btnActualizar);
             this.panelHerramientas.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelHerramientas.Location = new System.Drawing.Point(0, 54);
+            this.panelHerramientas.Location = new System.Drawing.Point(0, 0);
             this.panelHerramientas.Name = "panelHerramientas";
             this.panelHerramientas.Padding = new System.Windows.Forms.Padding(10, 8, 10, 4);
             this.panelHerramientas.Size = new System.Drawing.Size(884, 50);
@@ -225,14 +200,14 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.grdNinos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdNinos.EnableHeadersVisualStyles = false;
             this.grdNinos.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
-            this.grdNinos.Location = new System.Drawing.Point(0, 104);
+            this.grdNinos.Location = new System.Drawing.Point(0, 50);
             this.grdNinos.MultiSelect = false;
             this.grdNinos.Name = "grdNinos";
             this.grdNinos.ReadOnly = true;
             this.grdNinos.RowHeadersVisible = false;
             this.grdNinos.RowTemplate.Height = 35;
             this.grdNinos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdNinos.Size = new System.Drawing.Size(884, 407);
+            this.grdNinos.Size = new System.Drawing.Size(884, 461);
             this.grdNinos.TabIndex = 3;
             this.grdNinos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AlDobleClickEnFila);
             // 
@@ -245,13 +220,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.Controls.Add(this.grdNinos);
             this.Controls.Add(this.panelInferior);
             this.Controls.Add(this.panelHerramientas);
-            this.Controls.Add(this.panelSuperior);
             this.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "FrmGestionNinos";
             this.Text = "Gestión de Niños";
             this.Load += new System.EventHandler(this.FrmGestionNinos_Load);
-            this.panelSuperior.ResumeLayout(false);
-            this.panelSuperior.PerformLayout();
             this.panelHerramientas.ResumeLayout(false);
             this.panelHerramientas.PerformLayout();
             this.panelInferior.ResumeLayout(false);
@@ -261,8 +233,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         }
 
-        private System.Windows.Forms.Panel panelSuperior;
-        private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Panel panelHerramientas;
         private System.Windows.Forms.TextBox txtBuscar;
         private System.Windows.Forms.CheckBox chkMostrarInactivos;

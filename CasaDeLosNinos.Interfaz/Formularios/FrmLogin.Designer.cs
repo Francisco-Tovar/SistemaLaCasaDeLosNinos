@@ -15,172 +15,172 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void InitializeComponent()
         {
-            this.panelSide = new System.Windows.Forms.Panel();
-            this.btnClose = new FontAwesome.Sharp.IconButton();
-            this.iconLogo = new FontAwesome.Sharp.IconPictureBox();
-            this.lblTitulo = new System.Windows.Forms.Label();
-            this.lblUsuario = new System.Windows.Forms.Label();
-            this.txtUsuario = new System.Windows.Forms.TextBox();
-            this.lblClave = new System.Windows.Forms.Label();
-            this.txtContrasenera = new System.Windows.Forms.TextBox();
-            this.lblError = new System.Windows.Forms.Label();
-            this.btnIngresar = new FontAwesome.Sharp.IconButton();
-            this.panelSide.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iconLogo)).BeginInit();
-            this.SuspendLayout();
+            panelSide = new System.Windows.Forms.Panel();
+            iconLogo = new FontAwesome.Sharp.IconPictureBox();
+            btnClose = new FontAwesome.Sharp.IconButton();
+            lblTitulo = new System.Windows.Forms.Label();
+            lblUsuario = new System.Windows.Forms.Label();
+            txtUsuario = new System.Windows.Forms.TextBox();
+            lblClave = new System.Windows.Forms.Label();
+            txtContrasenera = new System.Windows.Forms.TextBox();
+            lblError = new System.Windows.Forms.Label();
+            btnIngresar = new FontAwesome.Sharp.IconButton();
+            panelSide.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)iconLogo).BeginInit();
+            SuspendLayout();
             // 
             // panelSide
             // 
-            this.panelSide.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
-            this.panelSide.Controls.Add(this.iconLogo);
-            this.panelSide.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelSide.Location = new System.Drawing.Point(0, 0);
-            this.panelSide.Name = "panelSide";
-            this.panelSide.Size = new System.Drawing.Size(150, 360);
-            this.panelSide.TabIndex = 0;
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.FlatAppearance.BorderSize = 0;
-            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.IconChar = FontAwesome.Sharp.IconChar.Xmark;
-            this.btnClose.IconColor = System.Drawing.Color.Gainsboro;
-            this.btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnClose.IconSize = 24;
-            this.btnClose.Location = new System.Drawing.Point(420, 0);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(30, 30);
-            this.btnClose.TabIndex = 8;
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            panelSide.BackColor = System.Drawing.Color.FromArgb(26, 25, 62);
+            panelSide.Controls.Add(iconLogo);
+            panelSide.Dock = System.Windows.Forms.DockStyle.Left;
+            panelSide.Location = new System.Drawing.Point(0, 0);
+            panelSide.Name = "panelSide";
+            panelSide.Size = new System.Drawing.Size(250, 400);
+            panelSide.TabIndex = 0;
             // 
             // iconLogo
             // 
-            this.iconLogo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
-            this.iconLogo.ForeColor = System.Drawing.Color.MediumPurple;
-            this.iconLogo.IconChar = FontAwesome.Sharp.IconChar.HouseUser;
-            this.iconLogo.IconColor = System.Drawing.Color.MediumPurple;
-            this.iconLogo.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.iconLogo.IconSize = 100;
-            this.iconLogo.Location = new System.Drawing.Point(25, 120);
-            this.iconLogo.Name = "iconLogo";
-            this.iconLogo.Size = new System.Drawing.Size(100, 100);
-            this.iconLogo.TabIndex = 0;
-            this.iconLogo.TabStop = false;
+            iconLogo.BackColor = System.Drawing.Color.FromArgb(26, 25, 62);
+            iconLogo.ForeColor = System.Drawing.Color.MediumPurple;
+            iconLogo.IconChar = FontAwesome.Sharp.IconChar.HomeUser;
+            iconLogo.IconColor = System.Drawing.Color.MediumPurple;
+            iconLogo.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            iconLogo.IconSize = 200;
+            iconLogo.Location = new System.Drawing.Point(25, 100);
+            iconLogo.Name = "iconLogo";
+            iconLogo.Size = new System.Drawing.Size(200, 200);
+            iconLogo.TabIndex = 0;
+            iconLogo.TabStop = false;
+            // 
+            // btnClose
+            // 
+            btnClose.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
+            btnClose.FlatAppearance.BorderSize = 0;
+            btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnClose.IconChar = FontAwesome.Sharp.IconChar.Close;
+            btnClose.IconColor = System.Drawing.Color.Gainsboro;
+            btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnClose.IconSize = 24;
+            btnClose.Location = new System.Drawing.Point(570, 0);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new System.Drawing.Size(30, 30);
+            btnClose.TabIndex = 8;
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += btnClose_Click;
             // 
             // lblTitulo
             // 
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTitulo.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblTitulo.Location = new System.Drawing.Point(170, 40);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(186, 30);
-            this.lblTitulo.TabIndex = 1;
-            this.lblTitulo.Text = "INICIAR SESIÓN";
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
+            lblTitulo.ForeColor = System.Drawing.Color.Gainsboro;
+            lblTitulo.Location = new System.Drawing.Point(280, 50);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new System.Drawing.Size(177, 30);
+            lblTitulo.TabIndex = 1;
+            lblTitulo.Text = "INICIAR SESIÓN";
             // 
             // lblUsuario
             // 
-            this.lblUsuario.AutoSize = true;
-            this.lblUsuario.ForeColor = System.Drawing.Color.Silver;
-            this.lblUsuario.Location = new System.Drawing.Point(170, 100);
-            this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(56, 17);
-            this.lblUsuario.TabIndex = 2;
-            this.lblUsuario.Text = "Usuario:";
+            lblUsuario.AutoSize = true;
+            lblUsuario.ForeColor = System.Drawing.Color.Silver;
+            lblUsuario.Location = new System.Drawing.Point(280, 110);
+            lblUsuario.Name = "lblUsuario";
+            lblUsuario.Size = new System.Drawing.Size(56, 17);
+            lblUsuario.TabIndex = 2;
+            lblUsuario.Text = "Usuario:";
             // 
             // txtUsuario
             // 
-            this.txtUsuario.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
-            this.txtUsuario.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtUsuario.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.txtUsuario.ForeColor = System.Drawing.Color.Gainsboro;
-            this.txtUsuario.Location = new System.Drawing.Point(175, 125);
-            this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(240, 20);
-            this.txtUsuario.TabIndex = 3;
+            txtUsuario.BackColor = System.Drawing.Color.FromArgb(45, 45, 81);
+            txtUsuario.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            txtUsuario.Font = new System.Drawing.Font("Segoe UI", 11F);
+            txtUsuario.ForeColor = System.Drawing.Color.Gainsboro;
+            txtUsuario.Location = new System.Drawing.Point(285, 135);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.Size = new System.Drawing.Size(280, 20);
+            txtUsuario.TabIndex = 3;
             // 
             // lblClave
             // 
-            this.lblClave.AutoSize = true;
-            this.lblClave.ForeColor = System.Drawing.Color.Silver;
-            this.lblClave.Location = new System.Drawing.Point(170, 170);
-            this.lblClave.Name = "lblClave";
-            this.lblClave.Size = new System.Drawing.Size(77, 17);
-            this.lblClave.TabIndex = 4;
-            this.lblClave.Text = "Contraseña:";
+            lblClave.AutoSize = true;
+            lblClave.ForeColor = System.Drawing.Color.Silver;
+            lblClave.Location = new System.Drawing.Point(280, 180);
+            lblClave.Name = "lblClave";
+            lblClave.Size = new System.Drawing.Size(77, 17);
+            lblClave.TabIndex = 4;
+            lblClave.Text = "Contraseña:";
             // 
             // txtContrasenera
             // 
-            this.txtContrasenera.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
-            this.txtContrasenera.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtContrasenera.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.txtContrasenera.ForeColor = System.Drawing.Color.Gainsboro;
-            this.txtContrasenera.Location = new System.Drawing.Point(175, 195);
-            this.txtContrasenera.Name = "txtContrasenera";
-            this.txtContrasenera.Size = new System.Drawing.Size(240, 20);
-            this.txtContrasenera.TabIndex = 5;
-            this.txtContrasenera.UseSystemPasswordChar = true;
+            txtContrasenera.BackColor = System.Drawing.Color.FromArgb(45, 45, 81);
+            txtContrasenera.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            txtContrasenera.Font = new System.Drawing.Font("Segoe UI", 11F);
+            txtContrasenera.ForeColor = System.Drawing.Color.Gainsboro;
+            txtContrasenera.Location = new System.Drawing.Point(285, 205);
+            txtContrasenera.Name = "txtContrasenera";
+            txtContrasenera.Size = new System.Drawing.Size(280, 20);
+            txtContrasenera.TabIndex = 5;
+            txtContrasenera.UseSystemPasswordChar = true;
             // 
             // lblError
             // 
-            this.lblError.AutoSize = true;
-            this.lblError.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic);
-            this.lblError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
-            this.lblError.Location = new System.Drawing.Point(175, 230);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(107, 15);
-            this.lblError.TabIndex = 6;
-            this.lblError.Text = "Credenciales inválidas";
-            this.lblError.Visible = false;
+            lblError.AutoSize = true;
+            lblError.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic);
+            lblError.ForeColor = System.Drawing.Color.FromArgb(231, 76, 60);
+            lblError.Location = new System.Drawing.Point(285, 240);
+            lblError.Name = "lblError";
+            lblError.Size = new System.Drawing.Size(125, 15);
+            lblError.TabIndex = 6;
+            lblError.Text = "Credenciales inválidas";
+            lblError.Visible = false;
             // 
             // btnIngresar
             // 
-            this.btnIngresar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(36)))), ((int)(((byte)(81)))));
-            this.btnIngresar.FlatAppearance.BorderSize = 0;
-            this.btnIngresar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnIngresar.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.btnIngresar.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnIngresar.IconChar = FontAwesome.Sharp.IconChar.SignInAlt;
-            this.btnIngresar.IconColor = System.Drawing.Color.Gainsboro;
-            this.btnIngresar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnIngresar.IconSize = 24;
-            this.btnIngresar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnIngresar.Location = new System.Drawing.Point(175, 275);
-            this.btnIngresar.Name = "btnIngresar";
-            this.btnIngresar.Size = new System.Drawing.Size(240, 40);
-            this.btnIngresar.TabIndex = 7;
-            this.btnIngresar.Text = "INGRESAR";
-            this.btnIngresar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnIngresar.UseVisualStyleBackColor = false;
-            this.btnIngresar.Click += new System.EventHandler(this.AlHacerClickEnIngresar);
+            btnIngresar.BackColor = System.Drawing.Color.FromArgb(37, 36, 81);
+            btnIngresar.FlatAppearance.BorderSize = 0;
+            btnIngresar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btnIngresar.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
+            btnIngresar.ForeColor = System.Drawing.Color.Gainsboro;
+            btnIngresar.IconChar = FontAwesome.Sharp.IconChar.RightToBracket;
+            btnIngresar.IconColor = System.Drawing.Color.Gainsboro;
+            btnIngresar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnIngresar.IconSize = 24;
+            btnIngresar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            btnIngresar.Location = new System.Drawing.Point(285, 285);
+            btnIngresar.Name = "btnIngresar";
+            btnIngresar.Size = new System.Drawing.Size(280, 45);
+            btnIngresar.TabIndex = 7;
+            btnIngresar.Text = "INGRESAR";
+            btnIngresar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            btnIngresar.UseVisualStyleBackColor = false;
+            btnIngresar.Click += AlHacerClickEnIngresar;
             // 
             // FrmLogin
             // 
-            this.AcceptButton = this.btnIngresar;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
-            this.ClientSize = new System.Drawing.Size(450, 360);
-            this.Controls.Add(this.btnClose);
-            this.Controls.Add(this.btnIngresar);
-            this.Controls.Add(this.lblError);
-            this.Controls.Add(this.txtContrasenera);
-            this.Controls.Add(this.lblClave);
-            this.Controls.Add(this.txtUsuario);
-            this.Controls.Add(this.lblUsuario);
-            this.Controls.Add(this.lblTitulo);
-            this.Controls.Add(this.panelSide);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "FrmLogin";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Acceso — La Casa de los Niños";
-            this.panelSide.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.iconLogo)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AcceptButton = btnIngresar;
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.FromArgb(34, 33, 74);
+            ClientSize = new System.Drawing.Size(600, 400);
+            Controls.Add(btnClose);
+            Controls.Add(btnIngresar);
+            Controls.Add(lblError);
+            Controls.Add(txtContrasenera);
+            Controls.Add(lblClave);
+            Controls.Add(txtUsuario);
+            Controls.Add(lblUsuario);
+            Controls.Add(lblTitulo);
+            Controls.Add(panelSide);
+            Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            Name = "FrmLogin";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "Acceso — La Casa de los Niños";
+            panelSide.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)iconLogo).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

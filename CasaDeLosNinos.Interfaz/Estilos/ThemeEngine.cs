@@ -29,7 +29,7 @@ public static class ThemeEngine
         if (control is Panel p)
         {
             string name = p.Name.ToLower();
-            if (name.Contains("menu") || name.Contains("navegacion") || name.Contains("side"))
+            if (name.Contains("menu") || name.Contains("navegacion") || name.Contains("side") || name.Contains("logo"))
                 p.BackColor = theme.NavBackground;
             else if (name.Contains("titlebar") || name.Contains("cabecera") || name.Contains("superior") || name.Contains("header"))
                 p.BackColor = theme.HeaderBackground;
@@ -53,6 +53,9 @@ public static class ThemeEngine
             if (name.Contains("title") || name.Contains("titulo") || name.Contains("bienvenida") || name.Contains("header") || name.Contains("org"))
             {
                 lbl.ForeColor = theme.TextPrimary;
+                // Aumento de prominencia solicitado (250%) para títulos principales
+                if (name.Contains("child") || name.Contains("titulo")) 
+                    lbl.Font = new Font(lbl.Font.FontFamily, 22, FontStyle.Bold); // Aprox 250% de 9pt
             }
             else
             {
@@ -81,23 +84,42 @@ public static class ThemeEngine
             
             btn.ForeColor = theme.TextPrimary;
 
-            // Forzar IconColor al texto primario
-            // Especialmente crítico en barras de título y navegación
-            if (btn.Parent != null && (btn.Parent.Name.ToLower().Contains("titlebar") || btn.Parent.Name.ToLower().Contains("header") || btn.Parent.Name.ToLower().Contains("menu") || btn.Parent.Name.ToLower().Contains("side")))
-            {
-                btn.IconColor = theme.TextPrimary;
-            }
-            else if (IsNeutralColor(btn.IconColor))
-            {
-                btn.IconColor = theme.TextPrimary;
-            }
+            string name = btn.Name.ToLower();
 
-            // Fondo transparente para botones que están sobre paneles coloreados
-            if (btn.Parent != null)
+            // Botones de Acción Principal (Accent / Ingresar / Guardar / Nuevo)
+            if (name.Contains("accent") || name.Contains("ingresar") || name.Contains("guardar") || name.Contains("nuevo") || name.Contains("enviar"))
             {
-                string pName = btn.Parent.Name.ToLower();
-                if (pName.Contains("menu") || pName.Contains("side") || pName.Contains("herramientas") || pName.Contains("botones"))
-                    btn.BackColor = Color.Transparent;
+                btn.BackColor = theme.AccentColor;
+                // Calculamos contraste para el texto sobre el AccentColor
+                btn.ForeColor = (theme.AccentColor.GetBrightness() < 0.5f) ? Color.White : Color.Black;
+                btn.IconColor = btn.ForeColor;
+            }
+            else
+            {
+                // Sidebar Highlight Persistence: Si el botón tiene el fondo activo (usualmente Accent o transparente con borde)
+                // En el sidebar mantenemos el color de acento si ya estaba activo
+                if (name.Contains("menu") || name.Contains("side"))
+                {
+                    // Si el botón está "seleccionado" (lo detectamos por el color de su icono si ya fue activado)
+                    // o simplemente dejamos que FormPrincipal lo maneje tras el ApplyTheme
+                }
+
+                // Forzar IconColor al texto primario en cabeceras
+                if (btn.Parent != null && (btn.Parent.Name.ToLower().Contains("titlebar") || btn.Parent.Name.ToLower().Contains("header") || btn.Parent.Name.ToLower().Contains("menu") || btn.Parent.Name.ToLower().Contains("side")))
+                {
+                    btn.IconColor = theme.TextPrimary;
+                }
+                else if (IsNeutralColor(btn.IconColor))
+                {
+                    btn.IconColor = theme.TextPrimary;
+                }
+
+                if (btn.Parent != null)
+                {
+                    string pName = btn.Parent.Name.ToLower();
+                    if (pName.Contains("menu") || pName.Contains("side") || pName.Contains("herramientas") || pName.Contains("botones"))
+                        btn.BackColor = Color.Transparent;
+                }
             }
         }
 
@@ -151,6 +173,22 @@ public static class ThemeEngine
         }
 
         // 7. Formularios
+        if (control is IconPictureBox iconPic)
+        {
+            iconPic.IconColor = theme.AccentColor;
+            if (iconPic.Parent != null && (iconPic.Parent.Name.ToLower().Contains("titlebar") || iconPic.Parent.Name.ToLower().Contains("header")))
+            {
+                iconPic.Size = new Size(48, 48);
+                iconPic.IconSize = 48;
+            }
+        }
+
+        if (control is PictureBox pic)
+        {
+            if (pic.Parent != null && (pic.Parent.Name.ToLower().Contains("logo") || pic.Parent.Name.ToLower().Contains("menu")))
+                pic.BackColor = Color.Transparent;
+        }
+
         if (control is Form frm)
         {
             frm.BackColor = theme.ContentBackground;

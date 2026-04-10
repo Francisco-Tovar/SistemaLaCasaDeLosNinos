@@ -45,11 +45,79 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private void ConfigurarColumnasGrilla()
         {
             grdNinos.Columns.Clear();
-            grdNinos.Columns.Add(new DataGridViewTextBoxColumn { Name = "colId", HeaderText = "ID", DataPropertyName = "Id", Width = 50, FillWeight = 5 });
-            grdNinos.Columns.Add(new DataGridViewTextBoxColumn { Name = "colNombre", HeaderText = "Nombre", DataPropertyName = "NombreCompleto", FillWeight = 35 });
-            grdNinos.Columns.Add(new DataGridViewTextBoxColumn { Name = "colNacimiento", HeaderText = "Nacimiento", DataPropertyName = "FechaNacimiento", FillWeight = 15 });
-            grdNinos.Columns.Add(new DataGridViewTextBoxColumn { Name = "colEncargado", HeaderText = "Encargado", DataPropertyName = "NombreEncargado", FillWeight = 25 });
-            grdNinos.Columns.Add(new DataGridViewCheckBoxColumn { Name = "colActivo", HeaderText = "Activo", DataPropertyName = "Activo", FillWeight = 10 });
+            grdNinos.AutoGenerateColumns = false;
+
+            grdNinos.Columns.Add(new DataGridViewTextBoxColumn 
+            { 
+                Name = "colNombre", 
+                HeaderText = "Nombre", 
+                DataPropertyName = "NombreCompleto", 
+                FillWeight = 40 
+            });
+
+            grdNinos.Columns.Add(new DataGridViewTextBoxColumn 
+            { 
+                Name = "colEdad", 
+                HeaderText = "Edad", 
+                FillWeight = 20,
+                DefaultCellStyle = new DataGridViewCellStyle { WrapMode = DataGridViewTriState.True }
+            });
+
+            grdNinos.Columns.Add(new DataGridViewTextBoxColumn 
+            { 
+                Name = "colEncargado", 
+                HeaderText = "Encargado", 
+                DataPropertyName = "NombreEncargado", 
+                FillWeight = 30 
+            });
+
+            grdNinos.Columns.Add(new DataGridViewCheckBoxColumn 
+            { 
+                Name = "colActivo", 
+                HeaderText = "Activo", 
+                DataPropertyName = "Activo", 
+                FillWeight = 10 
+            });
+
+            grdNinos.CellFormatting += AlFormatearCelda;
+            grdNinos.RowTemplate.Height = 45; // Aumentar altura para wordwrap
+        }
+
+        private void AlFormatearCelda(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (grdNinos.Columns[e.ColumnIndex].Name == "colEdad")
+            {
+                var nino = grdNinos.Rows[e.RowIndex].DataBoundItem as Nino;
+                if (nino?.FechaNacimiento != null)
+                {
+                    var hoy = DateTime.Today;
+                    var fechaNac = nino.FechaNacimiento.Value.Date;
+                    
+                    int edad = hoy.Year - fechaNac.Year;
+                    if (fechaNac > hoy.AddYears(-edad)) edad--;
+
+                    var proximoCumple = fechaNac.AddYears(edad + 1);
+                    var diasParaCumple = (proximoCumple - hoy).Days;
+
+                    string infoExtra = "";
+                    if (hoy.Month == fechaNac.Month && hoy.Day == fechaNac.Day)
+                    {
+                        infoExtra = "\n(¡Hoy cumple!) 🎉";
+                    }
+                    else if (diasParaCumple <= 7)
+                    {
+                        infoExtra = $"\n(en {diasParaCumple} días) 🎂";
+                    }
+
+                    e.Value = $"{edad} años{infoExtra}";
+                    e.FormattingApplied = true;
+                }
+                else
+                {
+                    e.Value = "-";
+                    e.FormattingApplied = true;
+                }
+            }
         }
 
         private async void FrmGestionNinos_Load(object sender, EventArgs e)

@@ -15,8 +15,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void InitializeComponent()
         {
-            this.panelCabecera = new System.Windows.Forms.Panel();
-            this.lblTitulo = new System.Windows.Forms.Label();
             this.panelFecha = new System.Windows.Forms.Panel();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.lblFecha = new System.Windows.Forms.Label();
@@ -28,33 +26,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.lblEstado = new System.Windows.Forms.Label();
             this.btnGuardar = new FontAwesome.Sharp.IconButton();
             this.grdAsistencia = new System.Windows.Forms.DataGridView();
-            this.panelCabecera.SuspendLayout();
             this.panelFecha.SuspendLayout();
             this.panelInferior.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdAsistencia)).BeginInit();
             this.SuspendLayout();
-            // 
-            // panelCabecera
-            // 
-            this.panelCabecera.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
-            this.panelCabecera.Controls.Add(this.lblTitulo);
-            this.panelCabecera.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelCabecera.Location = new System.Drawing.Point(0, 0);
-            this.panelCabecera.Name = "panelCabecera";
-            this.panelCabecera.Size = new System.Drawing.Size(650, 50);
-            this.panelCabecera.TabIndex = 0;
-            // 
-            // lblTitulo
-            // 
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTitulo.ForeColor = System.Drawing.Color.White;
-            this.lblTitulo.Location = new System.Drawing.Point(12, 12);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(222, 25);
-            this.lblTitulo.TabIndex = 0;
-            this.lblTitulo.Text = "📋  Toma de Asistencia";
-            // 
             // panelFecha
             // 
             this.panelFecha.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
@@ -64,7 +39,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.panelFecha.Controls.Add(this.btnMarcarTodos);
             this.panelFecha.Controls.Add(this.btnDesmarcarTodos);
             this.panelFecha.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelFecha.Location = new System.Drawing.Point(0, 50);
+            this.panelFecha.Location = new System.Drawing.Point(0, 0);
             this.panelFecha.Name = "panelFecha";
             this.panelFecha.Padding = new System.Windows.Forms.Padding(12, 9, 12, 5);
             this.panelFecha.Size = new System.Drawing.Size(650, 48);
@@ -210,13 +185,13 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.grdAsistencia.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grdAsistencia.EnableHeadersVisualStyles = false;
             this.grdAsistencia.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
-            this.grdAsistencia.Location = new System.Drawing.Point(0, 98);
+            this.grdAsistencia.Location = new System.Drawing.Point(0, 48);
             this.grdAsistencia.MultiSelect = false;
             this.grdAsistencia.Name = "grdAsistencia";
             this.grdAsistencia.RowHeadersVisible = false;
             this.grdAsistencia.RowTemplate.Height = 35;
             this.grdAsistencia.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdAsistencia.Size = new System.Drawing.Size(650, 429);
+            this.grdAsistencia.Size = new System.Drawing.Size(650, 479);
             this.grdAsistencia.TabIndex = 3;
             // 
             // FrmTomaAsistencia
@@ -228,13 +203,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.Controls.Add(this.grdAsistencia);
             this.Controls.Add(this.panelInferior);
             this.Controls.Add(this.panelFecha);
-            this.Controls.Add(this.panelCabecera);
             this.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "FrmTomaAsistencia";
             this.Text = "Toma de Asistencia";
             this.Load += new System.EventHandler(this.FrmTomaAsistencia_Load);
-            this.panelCabecera.ResumeLayout(false);
-            this.panelCabecera.PerformLayout();
             this.panelFecha.ResumeLayout(false);
             this.panelFecha.PerformLayout();
             this.panelInferior.ResumeLayout(false);
@@ -244,8 +216,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         }
 
-        private System.Windows.Forms.Panel panelCabecera;
-        private System.Windows.Forms.Label lblTitulo;
         private System.Windows.Forms.Panel panelFecha;
         private System.Windows.Forms.Label lblFecha;
         private System.Windows.Forms.DateTimePicker dtpFecha;
