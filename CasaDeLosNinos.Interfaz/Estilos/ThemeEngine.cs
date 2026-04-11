@@ -170,7 +170,7 @@ public static class ThemeEngine
         }
 
         // 4. Controles de Entrada (Elevación)
-        if (control is TextBox txt)
+        if (control is TextBoxBase txt)
         {
             txt.BackColor = theme.SurfaceColor;
             txt.ForeColor = theme.TextPrimary;

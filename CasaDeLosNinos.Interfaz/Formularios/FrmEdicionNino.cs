@@ -58,7 +58,21 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                lblMensaje.Text = "El nombre es obligatorio.";
+                lblMensaje.Text = "El nombre del niño es obligatorio.";
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtEncargado.Text))
+            {
+                lblMensaje.Text = "El nombre del encargado es obligatorio.";
+                return;
+            }
+
+            // Validar teléfono: debe tener 8 dígitos si se ingresa algo
+            string telefonoNumeros = txtTelefono.Text.Trim();
+            if (!string.IsNullOrWhiteSpace(telefonoNumeros) && telefonoNumeros.Length != 8)
+            {
+                lblMensaje.Text = "El teléfono debe tener 8 dígitos (0000-0000).";
                 return;
             }
 

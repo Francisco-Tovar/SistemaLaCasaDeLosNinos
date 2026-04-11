@@ -30,7 +30,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             lblEncargadoDesc = new Label();
             txtEncargado = new TextBox();
             lblTelefonoDesc = new Label();
-            txtTelefono = new TextBox();
+            txtTelefono = new MaskedTextBox();
             lblDireccionDesc = new Label();
             txtDireccion = new TextBox();
             lblMensaje = new Label();
@@ -255,9 +255,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             txtTelefono.ForeColor = Color.Gainsboro;
             txtTelefono.Location = new Point(186, 183);
             txtTelefono.Margin = new Padding(3, 8, 3, 3);
+            txtTelefono.Mask = "0000-0000";
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(239, 20);
             txtTelefono.TabIndex = 9;
+            txtTelefono.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             // 
             // lblDireccionDesc
             // 
@@ -383,7 +385,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private System.Windows.Forms.Label lblEncargadoDesc;
         private System.Windows.Forms.TextBox txtEncargado;
         private System.Windows.Forms.Label lblTelefonoDesc;
-        private System.Windows.Forms.TextBox txtTelefono;
+        private System.Windows.Forms.MaskedTextBox txtTelefono;
         private System.Windows.Forms.Label lblDireccionDesc;
         private System.Windows.Forms.TextBox txtDireccion;
         private System.Windows.Forms.Label lblMensaje;
