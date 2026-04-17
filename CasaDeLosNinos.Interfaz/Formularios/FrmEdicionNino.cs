@@ -1,14 +1,11 @@
+using CasaDeLosNinos.Dominio.Entidades;
+using CasaDeLosNinos.Dominio.Interfaces;
+using CasaDeLosNinos.Interfaz.Estilos;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using FlashCap;
-using CasaDeLosNinos.Dominio.Entidades;
-using CasaDeLosNinos.Dominio.Interfaces;
-using CasaDeLosNinos.Interfaz.Estilos;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
@@ -17,11 +14,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private readonly Nino? _ninoExistente;
         private readonly IServicioNino _servicioNino;
         private readonly IServicioFoto _servicioFoto;
-        
+
         private PictureBox picFoto = null!;
         private byte[]? _imagenNueva;
-        private bool _usandoCamara;
-        private FlashCap.CaptureDevice? _dispositivo;
 
         public FrmEdicionNino(Nino? nino, IServicioNino servicioNino, IServicioFoto servicioFoto)
         {
@@ -29,11 +24,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             _ninoExistente = nino;
             _servicioNino = servicioNino;
             _servicioFoto = servicioFoto;
-            
+
             this.EsRedimensionable = false;
             this.TieneBordeAcento = true;
 
-            ConfigurarControlesFoto();
+            ConfigurarAreaID();
 
             if (_ninoExistente != null)
             {
@@ -41,78 +36,88 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 CargarDatos();
             }
 
-            // Aplicar tema
             ThemeEngine.ApplyTheme(this, ThemeEngine.LoadThemePreference());
-            
-            this.FormClosing += (s, e) => {
-                if (_usandoCamara) StopCamera();
-            };
         }
 
-        private void ConfigurarControlesFoto()
+        private void ConfigurarAreaID()
         {
-            // Crear PictureBox dinámico
+            // Panel de Tarjeta de ID (Se apila entre la cabecera y la tabla)
+            var pnlID = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = 110,
+                BackColor = Color.FromArgb(40, 40, 80),
+                Padding = new Padding(15, 12, 15, 12)
+            };
+            this.Controls.Add(pnlID);
+
+            // EL ORDEN ES CLAVE para el Docking en WinForms:
+            pnlID.SendToBack();          // Evalúa segundo (Debajo de cabecera)
+            panelCabecera.SendToBack();  // Evalúa primero (Absoluto Top)
+            tabla.BringToFront();        // Evalúa último (Llena el resto)
+
+            // Foto Thumbnail
             picFoto = new PictureBox
             {
-                Size = new Size(180, 180),
+                Size = new Size(86, 86),
                 SizeMode = PictureBoxSizeMode.Zoom,
+                BackColor = Color.FromArgb(30, 30, 60),
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.FromArgb(45, 45, 81),
-                Dock = DockStyle.Fill,
-                Margin = new Padding(10, 5, 10, 5)
+                Location = new Point(20, 12)
             };
-            
-            // Añadir a la tabla: Columna 2, Fila 0, con Span de 4 filas
-            tabla.Controls.Add(picFoto, 2, 0);
-            tabla.SetRowSpan(picFoto, 4);
+            pnlID.Controls.Add(picFoto);
 
-            // Contenedor para botones
-            var pnlBotonesFoto = new FlowLayoutPanel
+            // Botón Capturar
+            var btnCaptura = new FontAwesome.Sharp.IconButton
             {
-                Dock = DockStyle.Fill,
-                FlowDirection = FlowDirection.LeftToRight,
-                Margin = new Padding(10, 0, 10, 0)
-            };
-            tabla.Controls.Add(pnlBotonesFoto, 2, 4);
-
-            var btnSubir = new FontAwesome.Sharp.IconButton
-            {
-                Size = new Size(60, 35),
-                IconChar = FontAwesome.Sharp.IconChar.Upload,
-                IconSize = 20,
-                IconColor = Color.FromArgb(52, 152, 219),
-                FlatStyle = FlatStyle.Flat,
-                Text = ""
-            };
-            btnSubir.FlatAppearance.BorderSize = 0;
-            btnSubir.Click += AlHacerClickEnSubir;
-            pnlBotonesFoto.Controls.Add(btnSubir);
-
-            var btnCamara = new FontAwesome.Sharp.IconButton
-            {
-                Size = new Size(60, 35),
+                Size = new Size(32, 32),
                 IconChar = FontAwesome.Sharp.IconChar.Camera,
-                IconSize = 20,
+                IconSize = 18,
                 IconColor = Color.FromArgb(46, 204, 113),
                 FlatStyle = FlatStyle.Flat,
-                Text = ""
+                Location = new Point(115, 12),
+                Cursor = Cursors.Hand
             };
-            btnCamara.FlatAppearance.BorderSize = 0;
-            btnCamara.Click += AlHacerClickEnCamara;
-            pnlBotonesFoto.Controls.Add(btnCamara);
+            btnCaptura.FlatAppearance.BorderSize = 0;
+            btnCaptura.Click += (s, e) => AbrirCapturaCamara();
+            pnlID.Controls.Add(btnCaptura);
+
+            // Botón Subir
+            var btnUpload = new FontAwesome.Sharp.IconButton
+            {
+                Size = new Size(32, 32),
+                IconChar = FontAwesome.Sharp.IconChar.Upload,
+                IconSize = 18,
+                IconColor = Color.FromArgb(52, 152, 219),
+                FlatStyle = FlatStyle.Flat,
+                Location = new Point(115, 48),
+                Cursor = Cursors.Hand
+            };
+            btnUpload.FlatAppearance.BorderSize = 0;
+            btnUpload.Click += AlHacerClickEnSubir;
+            pnlID.Controls.Add(btnUpload);
+
+            // Etiqueta decorativa
+            var lblInfoID = new Label
+            {
+                Text = "IDENTIFICACIÓN VISUAL",
+                ForeColor = Color.Gray,
+                Font = new Font("Segoe UI", 7F, FontStyle.Bold),
+                Location = new Point(115, 84),
+                AutoSize = true
+            };
+            pnlID.Controls.Add(lblInfoID);
         }
 
         private async void CargarDatos()
         {
             if (_ninoExistente == null) return;
-            
-            // Cargar datos básicos
+
             txtNombre.Text = _ninoExistente.NombreCompleto;
             txtEncargado.Text = _ninoExistente.NombreEncargado;
             txtTelefono.Text = _ninoExistente.TelefonoEncargado;
             txtDireccion.Text = _ninoExistente.Direccion;
 
-            // Cargar foto
             var bytes = await _servicioFoto.ObtenerFotoAsync(_ninoExistente.Id);
             if (bytes != null)
             {
@@ -134,49 +139,36 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             };
         }
 
-        private void AlCambiarCheckFecha(object sender, EventArgs e) => dtpNacimiento.Enabled = chkTieneFechaNacimiento.Checked;
-
-        private bool ValidarCampos()
+        private void AbrirCapturaCamara()
         {
-            errorProvider.Clear();
-            bool esValido = true;
-
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            using var frm = new FrmCapturaFoto();
+            if (frm.ShowDialog() == DialogResult.OK && frm.ResultadoFoto != null)
             {
-                errorProvider.SetError(txtNombre, "El nombre del niño es obligatorio.");
-                esValido = false;
-            }
+                _imagenNueva = frm.ResultadoFoto;
+                using var ms = new MemoryStream(_imagenNueva);
+                var old = picFoto.Image;
+                picFoto.Image = Image.FromStream(ms);
+                old?.Dispose();
 
-            if (string.IsNullOrWhiteSpace(txtEncargado.Text))
-            {
-                errorProvider.SetError(txtEncargado, "El nombre del encargado es obligatorio.");
-                esValido = false;
+                lblMensaje.Text = "✅ Foto capturada.";
+                lblMensaje.ForeColor = Color.FromArgb(46, 204, 113);
             }
+        }
 
-            // Validar teléfono: debe tener 8 dígitos si se ingresa
-            string tel = txtTelefono.Text.Trim(); // El control ya excluye literales
-            if (!string.IsNullOrWhiteSpace(tel) && tel.Length != 8)
+        private void AlHacerClickEnSubir(object? sender, EventArgs e)
+        {
+            using var ofd = new OpenFileDialog { Filter = "Images|*.jpg;*.jpeg;*.png" };
+            if (ofd.ShowDialog() == DialogResult.OK)
             {
-                errorProvider.SetError(txtTelefono, "El teléfono debe tener 8 dígitos.");
-                esValido = false;
-            }
+                _imagenNueva = File.ReadAllBytes(ofd.FileName);
+                using var ms = new MemoryStream(_imagenNueva);
+                var old = picFoto.Image;
+                picFoto.Image = Image.FromStream(ms);
+                old?.Dispose();
 
-            if (chkTieneFechaNacimiento.Checked && dtpNacimiento.Value.Date > DateTime.Today)
-            {
-                errorProvider.SetError(dtpNacimiento, "La fecha de nacimiento no puede ser futura.");
-                esValido = false;
+                lblMensaje.Text = "✅ Foto cargada.";
+                lblMensaje.ForeColor = Color.FromArgb(46, 204, 113);
             }
-
-            if (!esValido)
-            {
-                lblMensaje.Text = "⚠️ Revise los campos marcados con error.";
-            }
-            else
-            {
-                lblMensaje.Text = string.Empty;
-            }
-
-            return esValido;
         }
 
         private async void AlHacerClickEnGuardar(object sender, EventArgs e)
@@ -194,22 +186,15 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 nino.Genero = cboGenero.Text switch { "Masculino" => "M", "Femenino" => "F", _ => "X" };
 
                 var (exito, mensaje) = await _servicioNino.GuardarAsync(nino);
-                
                 if (exito)
                 {
-                    // Guardar foto si hay una nueva cargada
                     if (_imagenNueva != null)
-                    {
                         await _servicioFoto.GuardarFotoAsync(nino.Id, _imagenNueva);
-                    }
 
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
-                else
-                {
-                    lblMensaje.Text = mensaje;
-                }
+                else lblMensaje.Text = mensaje;
             }
             catch (Exception ex)
             {
@@ -217,123 +202,36 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             }
         }
 
-        private void AlHacerClickEnSubir(object? sender, EventArgs e)
+        private bool ValidarCampos()
         {
-            using var ofd = new OpenFileDialog { Filter = "Imágenes|*.jpg;*.jpeg;*.png;*.bmp" };
-            if (ofd.ShowDialog() == DialogResult.OK)
+            errorProvider.Clear();
+            bool esValido = true;
+
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                _imagenNueva = File.ReadAllBytes(ofd.FileName);
-                using var ms = new MemoryStream(_imagenNueva);
-                picFoto.Image = Image.FromStream(ms);
+                errorProvider.SetError(txtNombre, "Nombre obligatorio.");
+                esValido = false;
             }
+
+            if (string.IsNullOrWhiteSpace(txtEncargado.Text))
+            {
+                errorProvider.SetError(txtEncargado, "Encargado obligatorio.");
+                esValido = false;
+            }
+
+            return esValido;
         }
 
-        private async Task IniciarCamara()
-        {
-            try
-            {
-                var devices = new CaptureDevices();
-                
-                // Buscar el primer dispositivo con características válidas
-                var deviceDescriptor = devices.EnumerateDescriptors().FirstOrDefault(d => d.Characteristics.Any());
-                if (deviceDescriptor == null)
-                {
-                    MessageBox.Show("No se detectó ninguna cámara compatible.", "Error de Cámara");
-                    return;
-                }
-
-                var characteristics = deviceDescriptor.Characteristics.First();
-
-                _dispositivo = await deviceDescriptor.OpenAsync(
-                    characteristics,
-                    OnPixelBufferArrived
-                );
-
-                await _dispositivo.StartAsync();
-                _usandoCamara = true;
-                lblMensaje.Text = "📸 Cámara activa. Haga clic de nuevo para capturar.";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"No se pudo iniciar la cámara: {ex.Message}", "Hardware");
-            }
-        }
-
-        private void OnPixelBufferArrived(PixelBufferScope scope)
-        {
-            try
-            {
-                // Extraer datos crudos del frame
-                byte[] imageBytes = scope.Buffer.ExtractImage();
-                
-                using var ms = new MemoryStream(imageBytes);
-                var image = Image.FromStream(ms);
-                
-                // Sincronizar con el hilo de la UI para actualizar el PictureBox
-                picFoto.Invoke((MethodInvoker)delegate {
-                    var oldImage = picFoto.Image;
-                    picFoto.Image = image;
-                    oldImage?.Dispose(); 
-                });
-            }
-            catch (Exception)
-            {
-                // Ignorar errores durante el cierre o transiciones
-            }
-            finally
-            {
-                // Liberar memoria del buffer inmediatamente (Fundamental para estabilidad)
-                scope.ReleaseNow(); 
-            }
-        }
-
-        private void AlHacerClickEnCamara(object? sender, EventArgs e)
-        {
-            if (_usandoCamara && _dispositivo != null)
-            {
-                // Capturar frame actual y detener streaming
-                if (picFoto.Image != null)
-                {
-                    using var ms = new MemoryStream();
-                    picFoto.Image.Save(ms, ImageFormat.Jpeg);
-                    _imagenNueva = ms.ToArray();
-                }
-                StopCamera();
-                lblMensaje.Text = "✅ Foto capturada con éxito.";
-            }
-            else
-            {
-                // Iniciar streaming
-                _ = IniciarCamara();
-            }
-        }
-
-        private void StopCamera()
-        {
-            if (_dispositivo != null)
-            {
-                try
-                {
-                    // Intentar cerrar de forma segura
-                    _dispositivo.StopAsync().GetAwaiter().GetResult();
-                    _dispositivo.Dispose();
-                }
-                catch { /* Ignorar errores al cerrar */ }
-                finally
-                {
-                    _dispositivo = null;
-                    _usandoCamara = false;
-                }
-            }
-        }
-
-        private void FrmEdicionNino_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            StopCamera();
-        }
-
+        private void AlCambiarCheckFecha(object sender, EventArgs e) => dtpNacimiento.Enabled = chkTieneFechaNacimiento.Checked;
         private void AlHacerClickEnCancelar(object sender, EventArgs e) => this.Close();
-
         private void panelCabecera_MouseDown(object sender, MouseEventArgs e) => DragForm();
+
+        private void dtpNacimiento_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpNacimiento.Value > DateTime.Today)
+            {
+                dtpNacimiento.Value = DateTime.Today;
+            }
+        }
     }
 }

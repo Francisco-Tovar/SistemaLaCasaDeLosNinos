@@ -106,7 +106,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 var f = dtpFecha.Value.Date;
                 var (exito, mensaje) = await _servicioAsistencia.GuardarAsistenciaAsync(f, _detalles, _idUsuarioSesion);
-                
+
                 if (exito)
                 {
                     MessageBox.Show(mensaje, "Éxito");
@@ -120,6 +120,14 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al guardar:\n{ex.Message}", "Error");
+            }
+        }
+
+        private void dtpFecha_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpFecha.Value > DateTime.Today)
+            {
+                dtpFecha.Value = DateTime.Today;
             }
         }
     }

@@ -54,7 +54,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelCabecera.Dock = DockStyle.Top;
             panelCabecera.Location = new Point(1, 1);
             panelCabecera.Name = "panelCabecera";
-            panelCabecera.Size = new Size(718, 75);
+            panelCabecera.Size = new Size(438, 75);
             panelCabecera.TabIndex = 0;
             panelCabecera.MouseDown += panelCabecera_MouseDown;
             // 
@@ -67,7 +67,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnClose.IconColor = Color.Gainsboro;
             btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnClose.IconSize = 20;
-            btnClose.Location = new Point(685, 0);
+            btnClose.Location = new Point(405, 0);
             btnClose.Name = "btnClose";
             btnClose.Size = new Size(30, 30);
             btnClose.TabIndex = 1;
@@ -87,9 +87,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // tabla
             // 
-            tabla.ColumnCount = 3;
+            tabla.AutoSize = true;
+            tabla.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            tabla.ColumnCount = 2;
             tabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 150F));
-            tabla.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 246F));
             tabla.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tabla.Controls.Add(lblNombreDesc, 0, 0);
             tabla.Controls.Add(txtNombre, 1, 0);
@@ -118,7 +119,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             tabla.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
             tabla.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tabla.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tabla.Size = new Size(718, 363);
+            tabla.Size = new Size(438, 463);
             tabla.TabIndex = 1;
             // 
             // lblNombreDesc
@@ -142,7 +143,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             txtNombre.Location = new Point(173, 23);
             txtNombre.Margin = new Padding(3, 8, 3, 3);
             txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(240, 20);
+            txtNombre.Size = new Size(242, 20);
             txtNombre.TabIndex = 1;
             // 
             // lblFechaDesc
@@ -164,7 +165,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelFecha.Location = new Point(170, 55);
             panelFecha.Margin = new Padding(0);
             panelFecha.Name = "panelFecha";
-            panelFecha.Size = new Size(246, 40);
+            panelFecha.Size = new Size(248, 40);
             panelFecha.TabIndex = 3;
             // 
             // dtpNacimiento
@@ -176,6 +177,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             dtpNacimiento.Name = "dtpNacimiento";
             dtpNacimiento.Size = new Size(100, 24);
             dtpNacimiento.TabIndex = 0;
+            dtpNacimiento.ValueChanged += dtpNacimiento_ValueChanged;
             // 
             // chkTieneFechaNacimiento
             // 
@@ -236,7 +238,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             txtEncargado.Location = new Point(173, 143);
             txtEncargado.Margin = new Padding(3, 8, 3, 3);
             txtEncargado.Name = "txtEncargado";
-            txtEncargado.Size = new Size(240, 20);
+            txtEncargado.Size = new Size(242, 20);
             txtEncargado.TabIndex = 7;
             // 
             // lblTelefonoDesc
@@ -261,7 +263,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             txtTelefono.Margin = new Padding(3, 8, 3, 3);
             txtTelefono.Mask = "0000-0000";
             txtTelefono.Name = "txtTelefono";
-            txtTelefono.Size = new Size(240, 20);
+            txtTelefono.Size = new Size(242, 20);
             txtTelefono.TabIndex = 9;
             txtTelefono.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
             // 
@@ -287,7 +289,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             txtDireccion.Margin = new Padding(3, 8, 3, 3);
             txtDireccion.Multiline = true;
             txtDireccion.Name = "txtDireccion";
-            txtDireccion.Size = new Size(240, 49);
+            txtDireccion.Size = new Size(242, 49);
             txtDireccion.TabIndex = 11;
             // 
             // lblMensaje
@@ -298,7 +300,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             lblMensaje.ForeColor = Color.FromArgb(231, 76, 60);
             lblMensaje.Location = new Point(23, 275);
             lblMensaje.Name = "lblMensaje";
-            lblMensaje.Size = new Size(390, 30);
+            lblMensaje.Size = new Size(392, 30);
             lblMensaje.TabIndex = 12;
             lblMensaje.TextAlign = ContentAlignment.MiddleCenter;
             // 
@@ -312,7 +314,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             pnlAcciones.Location = new Point(20, 305);
             pnlAcciones.Margin = new Padding(0);
             pnlAcciones.Name = "pnlAcciones";
-            pnlAcciones.Size = new Size(396, 48);
+            pnlAcciones.Size = new Size(398, 148);
             pnlAcciones.TabIndex = 14;
             // 
             // btnCancelar
@@ -324,7 +326,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnCancelar.IconColor = Color.FromArgb(231, 76, 60);
             btnCancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnCancelar.IconSize = 24;
-            btnCancelar.Location = new Point(286, 3);
+            btnCancelar.Location = new Point(288, 3);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(107, 40);
             btnCancelar.TabIndex = 1;
@@ -342,7 +344,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnGuardar.IconColor = Color.FromArgb(46, 204, 113);
             btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnGuardar.IconSize = 24;
-            btnGuardar.Location = new Point(170, 3);
+            btnGuardar.Location = new Point(172, 3);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(110, 40);
             btnGuardar.TabIndex = 0;
@@ -361,14 +363,13 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(34, 33, 74);
-            ClientSize = new Size(720, 440);
+            ClientSize = new Size(440, 540);
             Controls.Add(tabla);
             Controls.Add(panelCabecera);
             Font = new Font("Segoe UI", 9.5F);
             Name = "FrmEdicionNino";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Edición — La Casa de los Niños";
-            FormClosing += FrmEdicionNino_FormClosing;
             panelCabecera.ResumeLayout(false);
             panelCabecera.PerformLayout();
             tabla.ResumeLayout(false);
@@ -378,7 +379,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             pnlAcciones.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)errorProvider).EndInit();
             ResumeLayout(false);
-
+            PerformLayout();
         }
 
         private System.Windows.Forms.Panel panelCabecera;

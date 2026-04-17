@@ -15,204 +15,206 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void InitializeComponent()
         {
-            this.panelFecha = new System.Windows.Forms.Panel();
-            this.dtpFecha = new System.Windows.Forms.DateTimePicker();
-            this.lblFecha = new System.Windows.Forms.Label();
-            this.btnCargar = new FontAwesome.Sharp.IconButton();
-            this.btnMarcarTodos = new FontAwesome.Sharp.IconButton();
-            this.btnDesmarcarTodos = new FontAwesome.Sharp.IconButton();
-            this.panelInferior = new System.Windows.Forms.Panel();
-            this.lblResumen = new System.Windows.Forms.Label();
-            this.lblEstado = new System.Windows.Forms.Label();
-            this.btnGuardar = new FontAwesome.Sharp.IconButton();
-            this.grdAsistencia = new System.Windows.Forms.DataGridView();
-            this.panelFecha.SuspendLayout();
-            this.panelInferior.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdAsistencia)).BeginInit();
-            this.SuspendLayout();
+            panelFecha = new Panel();
+            dtpFecha = new DateTimePicker();
+            lblFecha = new Label();
+            btnCargar = new FontAwesome.Sharp.IconButton();
+            btnMarcarTodos = new FontAwesome.Sharp.IconButton();
+            btnDesmarcarTodos = new FontAwesome.Sharp.IconButton();
+            panelInferior = new Panel();
+            lblResumen = new Label();
+            lblEstado = new Label();
+            btnGuardar = new FontAwesome.Sharp.IconButton();
+            grdAsistencia = new DataGridView();
+            panelFecha.SuspendLayout();
+            panelInferior.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)grdAsistencia).BeginInit();
+            SuspendLayout();
+            // 
             // panelFecha
             // 
-            this.panelFecha.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
-            this.panelFecha.Controls.Add(this.dtpFecha);
-            this.panelFecha.Controls.Add(this.lblFecha);
-            this.panelFecha.Controls.Add(this.btnCargar);
-            this.panelFecha.Controls.Add(this.btnMarcarTodos);
-            this.panelFecha.Controls.Add(this.btnDesmarcarTodos);
-            this.panelFecha.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelFecha.Location = new System.Drawing.Point(0, 0);
-            this.panelFecha.Name = "panelFecha";
-            this.panelFecha.Padding = new System.Windows.Forms.Padding(12, 9, 12, 5);
-            this.panelFecha.Size = new System.Drawing.Size(650, 48);
-            this.panelFecha.TabIndex = 1;
+            panelFecha.BackColor = Color.FromArgb(34, 33, 74);
+            panelFecha.Controls.Add(dtpFecha);
+            panelFecha.Controls.Add(lblFecha);
+            panelFecha.Controls.Add(btnCargar);
+            panelFecha.Controls.Add(btnMarcarTodos);
+            panelFecha.Controls.Add(btnDesmarcarTodos);
+            panelFecha.Dock = DockStyle.Top;
+            panelFecha.Location = new Point(0, 0);
+            panelFecha.Name = "panelFecha";
+            panelFecha.Padding = new Padding(12, 9, 12, 5);
+            panelFecha.Size = new Size(650, 48);
+            panelFecha.TabIndex = 1;
             // 
             // dtpFecha
             // 
-            this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFecha.Location = new System.Drawing.Point(65, 12);
-            this.dtpFecha.Name = "dtpFecha";
-            this.dtpFecha.Size = new System.Drawing.Size(100, 24);
-            this.dtpFecha.TabIndex = 1;
+            dtpFecha.Format = DateTimePickerFormat.Short;
+            dtpFecha.Location = new Point(65, 12);
+            dtpFecha.Name = "dtpFecha";
+            dtpFecha.Size = new Size(100, 24);
+            dtpFecha.TabIndex = 1;
+            dtpFecha.ValueChanged += dtpFecha_ValueChanged;
             // 
             // lblFecha
             // 
-            this.lblFecha.AutoSize = true;
-            this.lblFecha.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblFecha.Location = new System.Drawing.Point(15, 15);
-            this.lblFecha.Name = "lblFecha";
-            this.lblFecha.Size = new System.Drawing.Size(44, 17);
-            this.lblFecha.TabIndex = 0;
-            this.lblFecha.Text = "Fecha:";
+            lblFecha.AutoSize = true;
+            lblFecha.ForeColor = Color.Gainsboro;
+            lblFecha.Location = new Point(15, 15);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(44, 17);
+            lblFecha.TabIndex = 0;
+            lblFecha.Text = "Fecha:";
             // 
             // btnCargar
             // 
-            this.btnCargar.FlatAppearance.BorderSize = 0;
-            this.btnCargar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCargar.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnCargar.IconChar = FontAwesome.Sharp.IconChar.Rotate;
-            this.btnCargar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.btnCargar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnCargar.IconSize = 24;
-            this.btnCargar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCargar.Location = new System.Drawing.Point(180, 6);
-            this.btnCargar.Name = "btnCargar";
-            this.btnCargar.Size = new System.Drawing.Size(100, 36);
-            this.btnCargar.TabIndex = 2;
-            this.btnCargar.Text = "Cargar";
-            this.btnCargar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnCargar.UseVisualStyleBackColor = true;
-            this.btnCargar.Click += new System.EventHandler(this.AlHacerClickEnCargar);
+            btnCargar.FlatAppearance.BorderSize = 0;
+            btnCargar.FlatStyle = FlatStyle.Flat;
+            btnCargar.ForeColor = Color.Gainsboro;
+            btnCargar.IconChar = FontAwesome.Sharp.IconChar.SyncAlt;
+            btnCargar.IconColor = Color.FromArgb(52, 152, 219);
+            btnCargar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnCargar.IconSize = 24;
+            btnCargar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCargar.Location = new Point(180, 6);
+            btnCargar.Name = "btnCargar";
+            btnCargar.Size = new Size(100, 36);
+            btnCargar.TabIndex = 2;
+            btnCargar.Text = "Cargar";
+            btnCargar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnCargar.UseVisualStyleBackColor = true;
+            btnCargar.Click += AlHacerClickEnCargar;
             // 
             // btnMarcarTodos
             // 
-            this.btnMarcarTodos.FlatAppearance.BorderSize = 0;
-            this.btnMarcarTodos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMarcarTodos.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnMarcarTodos.IconChar = FontAwesome.Sharp.IconChar.CheckDouble;
-            this.btnMarcarTodos.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
-            this.btnMarcarTodos.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnMarcarTodos.IconSize = 24;
-            this.btnMarcarTodos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnMarcarTodos.Location = new System.Drawing.Point(280, 6);
-            this.btnMarcarTodos.Name = "btnMarcarTodos";
-            this.btnMarcarTodos.Size = new System.Drawing.Size(110, 36);
-            this.btnMarcarTodos.TabIndex = 3;
-            this.btnMarcarTodos.Text = "Todos";
-            this.btnMarcarTodos.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnMarcarTodos.UseVisualStyleBackColor = true;
-            this.btnMarcarTodos.Click += new System.EventHandler(this.AlHacerClickEnMarcarTodos);
+            btnMarcarTodos.FlatAppearance.BorderSize = 0;
+            btnMarcarTodos.FlatStyle = FlatStyle.Flat;
+            btnMarcarTodos.ForeColor = Color.Gainsboro;
+            btnMarcarTodos.IconChar = FontAwesome.Sharp.IconChar.CheckDouble;
+            btnMarcarTodos.IconColor = Color.FromArgb(46, 204, 113);
+            btnMarcarTodos.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnMarcarTodos.IconSize = 24;
+            btnMarcarTodos.ImageAlign = ContentAlignment.MiddleLeft;
+            btnMarcarTodos.Location = new Point(280, 6);
+            btnMarcarTodos.Name = "btnMarcarTodos";
+            btnMarcarTodos.Size = new Size(110, 36);
+            btnMarcarTodos.TabIndex = 3;
+            btnMarcarTodos.Text = "Todos";
+            btnMarcarTodos.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnMarcarTodos.UseVisualStyleBackColor = true;
+            btnMarcarTodos.Click += AlHacerClickEnMarcarTodos;
             // 
             // btnDesmarcarTodos
             // 
-            this.btnDesmarcarTodos.FlatAppearance.BorderSize = 0;
-            this.btnDesmarcarTodos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDesmarcarTodos.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnDesmarcarTodos.IconChar = FontAwesome.Sharp.IconChar.Square;
-            this.btnDesmarcarTodos.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
-            this.btnDesmarcarTodos.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnDesmarcarTodos.IconSize = 24;
-            this.btnDesmarcarTodos.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDesmarcarTodos.Location = new System.Drawing.Point(390, 6);
-            this.btnDesmarcarTodos.Name = "btnDesmarcarTodos";
-            this.btnDesmarcarTodos.Size = new System.Drawing.Size(120, 36);
-            this.btnDesmarcarTodos.TabIndex = 4;
-            this.btnDesmarcarTodos.Text = "Ninguno";
-            this.btnDesmarcarTodos.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnDesmarcarTodos.UseVisualStyleBackColor = true;
-            this.btnDesmarcarTodos.Click += new System.EventHandler(this.AlHacerClickEnDesmarcarTodos);
+            btnDesmarcarTodos.FlatAppearance.BorderSize = 0;
+            btnDesmarcarTodos.FlatStyle = FlatStyle.Flat;
+            btnDesmarcarTodos.ForeColor = Color.Gainsboro;
+            btnDesmarcarTodos.IconChar = FontAwesome.Sharp.IconChar.Square;
+            btnDesmarcarTodos.IconColor = Color.FromArgb(231, 76, 60);
+            btnDesmarcarTodos.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnDesmarcarTodos.IconSize = 24;
+            btnDesmarcarTodos.ImageAlign = ContentAlignment.MiddleLeft;
+            btnDesmarcarTodos.Location = new Point(390, 6);
+            btnDesmarcarTodos.Name = "btnDesmarcarTodos";
+            btnDesmarcarTodos.Size = new Size(120, 36);
+            btnDesmarcarTodos.TabIndex = 4;
+            btnDesmarcarTodos.Text = "Ninguno";
+            btnDesmarcarTodos.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnDesmarcarTodos.UseVisualStyleBackColor = true;
+            btnDesmarcarTodos.Click += AlHacerClickEnDesmarcarTodos;
             // 
             // panelInferior
             // 
-            this.panelInferior.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
-            this.panelInferior.Controls.Add(this.lblResumen);
-            this.panelInferior.Controls.Add(this.lblEstado);
-            this.panelInferior.Controls.Add(this.btnGuardar);
-            this.panelInferior.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelInferior.Location = new System.Drawing.Point(0, 527);
-            this.panelInferior.Name = "panelInferior";
-            this.panelInferior.Padding = new System.Windows.Forms.Padding(12, 8, 12, 6);
-            this.panelInferior.Size = new System.Drawing.Size(650, 54);
-            this.panelInferior.TabIndex = 2;
+            panelInferior.BackColor = Color.FromArgb(26, 25, 62);
+            panelInferior.Controls.Add(lblResumen);
+            panelInferior.Controls.Add(lblEstado);
+            panelInferior.Controls.Add(btnGuardar);
+            panelInferior.Dock = DockStyle.Bottom;
+            panelInferior.Location = new Point(0, 527);
+            panelInferior.Name = "panelInferior";
+            panelInferior.Padding = new Padding(12, 8, 12, 6);
+            panelInferior.Size = new Size(650, 54);
+            panelInferior.TabIndex = 2;
             // 
             // lblResumen
             // 
-            this.lblResumen.AutoSize = true;
-            this.lblResumen.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblResumen.ForeColor = System.Drawing.Color.Gainsboro;
-            this.lblResumen.Location = new System.Drawing.Point(12, 10);
-            this.lblResumen.Name = "lblResumen";
-            this.lblResumen.Size = new System.Drawing.Size(0, 17);
-            this.lblResumen.TabIndex = 0;
+            lblResumen.AutoSize = true;
+            lblResumen.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            lblResumen.ForeColor = Color.Gainsboro;
+            lblResumen.Location = new Point(12, 10);
+            lblResumen.Name = "lblResumen";
+            lblResumen.Size = new Size(0, 17);
+            lblResumen.TabIndex = 0;
             // 
             // lblEstado
             // 
-            this.lblEstado.AutoSize = true;
-            this.lblEstado.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.lblEstado.ForeColor = System.Drawing.Color.Silver;
-            this.lblEstado.Location = new System.Drawing.Point(12, 30);
-            this.lblEstado.Name = "lblEstado";
-            this.lblEstado.Size = new System.Drawing.Size(0, 15);
-            this.lblEstado.TabIndex = 1;
+            lblEstado.AutoSize = true;
+            lblEstado.Font = new Font("Segoe UI", 8.5F, FontStyle.Italic);
+            lblEstado.ForeColor = Color.Silver;
+            lblEstado.Location = new Point(12, 30);
+            lblEstado.Name = "lblEstado";
+            lblEstado.Size = new Size(0, 15);
+            lblEstado.TabIndex = 1;
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGuardar.FlatAppearance.BorderSize = 0;
-            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGuardar.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btnGuardar.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btnGuardar.IconChar = FontAwesome.Sharp.IconChar.Save;
-            this.btnGuardar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(172)))), ((int)(((byte)(126)))), ((int)(((byte)(241)))));
-            this.btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnGuardar.IconSize = 24;
-            this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnGuardar.Location = new System.Drawing.Point(470, 8);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(160, 36);
-            this.btnGuardar.TabIndex = 2;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.AlHacerClickEnGuardar);
+            btnGuardar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnGuardar.FlatAppearance.BorderSize = 0;
+            btnGuardar.FlatStyle = FlatStyle.Flat;
+            btnGuardar.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnGuardar.ForeColor = Color.Gainsboro;
+            btnGuardar.IconChar = FontAwesome.Sharp.IconChar.Save;
+            btnGuardar.IconColor = Color.FromArgb(172, 126, 241);
+            btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnGuardar.IconSize = 24;
+            btnGuardar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnGuardar.Location = new Point(470, 8);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(160, 36);
+            btnGuardar.TabIndex = 2;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += AlHacerClickEnGuardar;
             // 
             // grdAsistencia
             // 
-            this.grdAsistencia.AllowUserToAddRows = false;
-            this.grdAsistencia.AllowUserToDeleteRows = false;
-            this.grdAsistencia.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
-            this.grdAsistencia.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.grdAsistencia.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.grdAsistencia.ColumnHeadersHeight = 35;
-            this.grdAsistencia.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdAsistencia.EnableHeadersVisualStyles = false;
-            this.grdAsistencia.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
-            this.grdAsistencia.Location = new System.Drawing.Point(0, 48);
-            this.grdAsistencia.MultiSelect = false;
-            this.grdAsistencia.Name = "grdAsistencia";
-            this.grdAsistencia.RowHeadersVisible = false;
-            this.grdAsistencia.RowTemplate.Height = 35;
-            this.grdAsistencia.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdAsistencia.Size = new System.Drawing.Size(650, 479);
-            this.grdAsistencia.TabIndex = 3;
+            grdAsistencia.AllowUserToAddRows = false;
+            grdAsistencia.AllowUserToDeleteRows = false;
+            grdAsistencia.BackgroundColor = Color.FromArgb(34, 33, 74);
+            grdAsistencia.BorderStyle = BorderStyle.None;
+            grdAsistencia.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            grdAsistencia.ColumnHeadersHeight = 35;
+            grdAsistencia.Dock = DockStyle.Fill;
+            grdAsistencia.EnableHeadersVisualStyles = false;
+            grdAsistencia.GridColor = Color.FromArgb(45, 45, 81);
+            grdAsistencia.Location = new Point(0, 48);
+            grdAsistencia.MultiSelect = false;
+            grdAsistencia.Name = "grdAsistencia";
+            grdAsistencia.RowHeadersVisible = false;
+            grdAsistencia.RowTemplate.Height = 35;
+            grdAsistencia.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            grdAsistencia.Size = new Size(650, 479);
+            grdAsistencia.TabIndex = 3;
             // 
             // FrmTomaAsistencia
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
-            this.ClientSize = new System.Drawing.Size(650, 581);
-            this.Controls.Add(this.grdAsistencia);
-            this.Controls.Add(this.panelInferior);
-            this.Controls.Add(this.panelFecha);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Name = "FrmTomaAsistencia";
-            this.Text = "Toma de Asistencia";
-            this.Load += new System.EventHandler(this.FrmTomaAsistencia_Load);
-            this.panelFecha.ResumeLayout(false);
-            this.panelFecha.PerformLayout();
-            this.panelInferior.ResumeLayout(false);
-            this.panelInferior.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdAsistencia)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(34, 33, 74);
+            ClientSize = new Size(650, 581);
+            Controls.Add(grdAsistencia);
+            Controls.Add(panelInferior);
+            Controls.Add(panelFecha);
+            Font = new Font("Segoe UI", 9.5F);
+            Name = "FrmTomaAsistencia";
+            Text = "Toma de Asistencia";
+            Load += FrmTomaAsistencia_Load;
+            panelFecha.ResumeLayout(false);
+            panelFecha.PerformLayout();
+            panelInferior.ResumeLayout(false);
+            panelInferior.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)grdAsistencia).EndInit();
+            ResumeLayout(false);
 
         }
 
