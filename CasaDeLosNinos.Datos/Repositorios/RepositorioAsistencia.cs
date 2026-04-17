@@ -35,9 +35,13 @@ public class RepositorioAsistencia : IRepositorioAsistencia
     {
         await using var conexion = new SqliteConnection(_cadenaConexion);
         const string sql = @"
-            SELECT Id, IdNino, Fecha, Presente, Observacion, IdUsuario
-            FROM Asistencia
-            WHERE Fecha = @Fecha;";
+            SELECT 
+                a.Id, a.IdNino, a.Fecha, a.Presente, a.IdUsuario, a.IdObservacion,
+                o.Contenido AS ObservacionTexto
+            FROM Asistencia a
+            LEFT JOIN Observaciones o ON o.Id = a.IdObservacion
+            WHERE a.Fecha = @Fecha;";
+        
         return await conexion.QueryAsync<Asistencia>(sql,
             new { Fecha = fecha.ToString("yyyy-MM-dd") });
     }
@@ -51,8 +55,8 @@ public class RepositorioAsistencia : IRepositorioAsistencia
         try
         {
             const string sql = @"
-                INSERT OR REPLACE INTO Asistencia (IdNino, Fecha, Presente, Observacion, IdUsuario)
-                VALUES (@IdNino, @Fecha, @Presente, @Observacion, @IdUsuario);";
+                INSERT OR REPLACE INTO Asistencia (IdNino, Fecha, Presente, IdObservacion, IdUsuario)
+                VALUES (@IdNino, @Fecha, @Presente, @IdObservacion, @IdUsuario);";
 
             foreach (var registro in registros)
             {
@@ -61,7 +65,7 @@ public class RepositorioAsistencia : IRepositorioAsistencia
                     registro.IdNino,
                     Fecha      = registro.Fecha.ToString("yyyy-MM-dd"),
                     Presente   = registro.Presente ? 1 : 0,
-                    registro.Observacion,
+                    registro.IdObservacion,
                     registro.IdUsuario
                 }, transaccion);
             }
@@ -71,7 +75,7 @@ public class RepositorioAsistencia : IRepositorioAsistencia
         catch
         {
             await transaccion.RollbackAsync();
-            throw; // Re-lanzar para que el servicio lo maneje
+            throw; 
         }
     }
 }

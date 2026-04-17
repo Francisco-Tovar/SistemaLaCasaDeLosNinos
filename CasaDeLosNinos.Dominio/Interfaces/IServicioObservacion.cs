@@ -13,10 +13,12 @@ public interface IServicioObservacion
     /// </summary>
     Task<IEnumerable<ObservacionDetalleDto>> ObtenerHistorialAsync(int idNino);
 
-    /// <summary>
-    /// Registra una nueva observación.
-    /// El servicio asigna FechaHora = DateTime.Now automaticamente.
-    /// El idUsuarioSesion se inyecta desde la UI sin que el usuario lo edite.
-    /// </summary>
-    Task RegistrarAsync(int idNino, int idUsuarioSesion, string contenido);
+    /// <summary>Registra una nueva observación y retorna el ID.</summary>
+    Task<int> RegistrarAsync(int idNino, int idUsuarioSesion, string contenido, DateTime? fechaManual = null);
+
+    /// <summary>Actualiza una observación existente.</summary>
+    Task ActualizarAsync(int id, string contenido);
+
+    /// <summary>Elimina una observación.</summary>
+    Task EliminarAsync(int id);
 }

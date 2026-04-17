@@ -10,6 +10,9 @@ public class Asistencia
     public int IdNino { get; set; }         // FK plana
     public DateTime Fecha { get; set; } = DateTime.Today;
     public bool Presente { get; set; } = false;
-    public string Observacion { get; set; } = string.Empty;
+    public int? IdObservacion { get; set; } // Referencia a Bitácora
     public int IdUsuario { get; set; }      // FK plana — quién registró
+
+    // Campo informativo (cargado vía JOIN desde Bitácora)
+    public string ObservacionTexto { get; set; } = string.Empty;
 }

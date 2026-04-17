@@ -24,7 +24,7 @@ public class ServicioObservacion : IServicioObservacion
         => await _repositorio.ObtenerPorNinoAsync(idNino);
 
     /// <inheritdoc/>
-    public async Task RegistrarAsync(int idNino, int idUsuarioSesion, string contenido)
+    public async Task<int> RegistrarAsync(int idNino, int idUsuarioSesion, string contenido, DateTime? fechaManual = null)
     {
         // ── Validaciones de negocio ───────────────────────────────
         if (idNino <= 0)
@@ -41,15 +41,35 @@ public class ServicioObservacion : IServicioObservacion
         if (texto.Length > 2000)
             throw new InvalidOperationException("El contenido no puede superar los 2,000 caracteres.");
 
-        // ── FechaHora asignada aquí — nunca editada por el usuario ─
+        // ── FechaHora asignada ───────────────────────────────────
         var observacion = new Observacion
         {
             IdNino    = idNino,
-            IdUsuario = idUsuarioSesion,  // viene de la sesión activa, no del formulario
-            FechaHora = DateTime.Now,     // marca de tiempo inmutable del sistema
+            IdUsuario = idUsuarioSesion,
+            FechaHora = fechaManual ?? DateTime.Now, // <--- Usamos fecha manual si existe
             Contenido = texto
         };
 
-        await _repositorio.InsertarAsync(observacion);
+        return await _repositorio.InsertarAsync(observacion);
+    }
+
+    /// <inheritdoc/>
+    public async Task ActualizarAsync(int id, string contenido)
+    {
+        var texto = contenido?.Trim() ?? string.Empty;
+        if (string.IsNullOrEmpty(texto))
+            throw new InvalidOperationException("El contenido no puede estar vacío.");
+
+        if (texto.Length > 2000)
+            throw new InvalidOperationException("El contenido no puede superar los 2,000 caracteres.");
+
+        await _repositorio.ActualizarAsync(id, texto);
+    }
+
+    /// <inheritdoc/>
+    public async Task EliminarAsync(int id)
+    {
+        if (id <= 0) return;
+        await _repositorio.EliminarAsync(id);
     }
 }

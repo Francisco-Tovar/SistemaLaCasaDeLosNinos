@@ -11,4 +11,5 @@ public class NinoAsistenciaDto
     public int IdNino { get; set; }
     public string NombreCompleto { get; set; } = string.Empty;
     public bool Presente { get; set; } = false;
+    public string Observacion { get; set; } = string.Empty;
 }

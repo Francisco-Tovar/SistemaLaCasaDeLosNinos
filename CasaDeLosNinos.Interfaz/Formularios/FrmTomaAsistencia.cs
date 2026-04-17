@@ -23,12 +23,25 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
             ConfigurarEstiloGrilla();
             ConfigurarColumnasGrilla();
+            ConfigurarEventos();
+        }
+
+        private void ConfigurarEventos()
+        {
+            dtpFecha.ValueChanged += async (s, e) => await CargarDatosAsync();
+            btnCargar.Visible = false; // Ya no es necesario con la carga automática
         }
 
         private void ConfigurarEstiloGrilla()
         {
             // El estilo base es manejado por ThemeEngine.
-            grdAsistencia.ColumnHeadersHeight = 35;
+            grdAsistencia.ColumnHeadersHeight = 30;
+            grdAsistencia.RowTemplate.Height = 32;
+
+            // Bloquear redimensionamiento por el usuario
+            grdAsistencia.AllowUserToResizeColumns = false;
+            grdAsistencia.AllowUserToResizeRows = false;
+            grdAsistencia.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
         }
 
         private void ConfigurarColumnasGrilla()

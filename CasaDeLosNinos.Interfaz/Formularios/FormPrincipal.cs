@@ -174,7 +174,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 var servicioNino = _proveedor.GetRequiredService<IServicioNino>();
                 var servicioObservacion = _proveedor.GetRequiredService<IServicioObservacion>();
-                OpenChildForm(new FrmGestionNinos(servicioNino, servicioObservacion, _usuarioActual.Id));
+                var servicioFoto = _proveedor.GetRequiredService<IServicioFoto>();
+                OpenChildForm(new FrmGestionNinos(servicioNino, servicioObservacion, servicioFoto, _usuarioActual.Id));
             }
             catch (Exception ex)
             {

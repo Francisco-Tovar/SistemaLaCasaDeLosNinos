@@ -34,20 +34,37 @@ public class RepositorioObservacion : IRepositorioObservacion
             FROM  Observaciones o
             JOIN  Usuarios      u ON u.Id = o.IdUsuario
             WHERE o.IdNino = @idNino
-            ORDER BY o.FechaHora DESC;";
+            ORDER BY o.FechaHora ASC;";
 
         await using var conexion = new SqliteConnection(_cadenaConexion);
         return await conexion.QueryAsync<ObservacionDetalleDto>(sql, new { idNino });
     }
 
     /// <inheritdoc/>
-    public async Task InsertarAsync(Observacion observacion)
+    public async Task<int> InsertarAsync(Observacion observacion)
     {
         const string sql = @"
             INSERT INTO Observaciones (IdNino, IdUsuario, FechaHora, Contenido)
-            VALUES (@IdNino, @IdUsuario, @FechaHora, @Contenido);";
+            VALUES (@IdNino, @IdUsuario, @FechaHora, @Contenido);
+            SELECT last_insert_rowid();";
 
         await using var conexion = new SqliteConnection(_cadenaConexion);
-        await conexion.ExecuteAsync(sql, observacion);
+        return await conexion.QuerySingleAsync<int>(sql, observacion);
+    }
+
+    /// <inheritdoc/>
+    public async Task ActualizarAsync(int id, string contenido)
+    {
+        const string sql = "UPDATE Observaciones SET Contenido = @contenido WHERE Id = @id;";
+        await using var conexion = new SqliteConnection(_cadenaConexion);
+        await conexion.ExecuteAsync(sql, new { id, contenido });
+    }
+
+    /// <inheritdoc/>
+    public async Task EliminarAsync(int id)
+    {
+        const string sql = "DELETE FROM Observaciones WHERE Id = @id;";
+        await using var conexion = new SqliteConnection(_cadenaConexion);
+        await conexion.ExecuteAsync(sql, new { id });
     }
 }

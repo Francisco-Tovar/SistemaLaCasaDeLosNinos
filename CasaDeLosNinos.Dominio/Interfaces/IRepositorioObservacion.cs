@@ -16,9 +16,12 @@ public interface IRepositorioObservacion
     /// </summary>
     Task<IEnumerable<ObservacionDetalleDto>> ObtenerPorNinoAsync(int idNino);
 
-    /// <summary>
-    /// Inserta una nueva observación. FechaHora se asigna en el servicio,
-    /// nunca en la UI.
-    /// </summary>
-    Task InsertarAsync(Observacion observacion);
+    /// <summary>Inserta una nueva observación y retorna el ID generado.</summary>
+    Task<int> InsertarAsync(Observacion observacion);
+
+    /// <summary>Actualiza el contenido de una observación existente.</summary>
+    Task ActualizarAsync(int id, string contenido);
+
+    /// <summary>Elimina físicamente una observación.</summary>
+    Task EliminarAsync(int id);
 }

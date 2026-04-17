@@ -14,6 +14,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
     {
         private readonly IServicioNino _servicioNino;
         private readonly IServicioObservacion _servicioObservacion;
+        private readonly IServicioFoto _servicioFoto;
         private readonly int _idUsuarioSesion;
 
         private List<Nino> _todosLosNinos = new();
@@ -21,11 +22,13 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         public FrmGestionNinos(
             IServicioNino servicioNino,
             IServicioObservacion servicioObservacion,
+            IServicioFoto servicioFoto,
             int idUsuarioSesion)
         {
             InitializeComponent();
             _servicioNino = servicioNino;
             _servicioObservacion = servicioObservacion;
+            _servicioFoto = servicioFoto;
             _idUsuarioSesion = idUsuarioSesion;
 
             ConfigurarEstiloGrilla();
@@ -33,13 +36,19 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
             btnActualizar.Click += async (_, _) => await CargarNinosAsync();
             chkMostrarInactivos.CheckedChanged += (_, _) => AplicarFiltro();
+            grdNinos.SelectionChanged += (_, _) => ActualizarBotonesEstado();
         }
 
         private void ConfigurarEstiloGrilla()
         {
             // El estilo base es manejado por ThemeEngine.
             // Aquí solo definimos comportamiento funcional.
-            grdNinos.ColumnHeadersHeight = 35;
+            grdNinos.ColumnHeadersHeight = 30;
+            
+            // Bloquear redimensionamiento por el usuario
+            grdNinos.AllowUserToResizeColumns = false;
+            grdNinos.AllowUserToResizeRows = false;
+            grdNinos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
         }
 
         private void ConfigurarColumnasGrilla()
@@ -80,7 +89,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             });
 
             grdNinos.CellFormatting += AlFormatearCelda;
-            grdNinos.RowTemplate.Height = 45; // Aumentar altura para wordwrap
+            grdNinos.RowTemplate.Height = 32; // Altura más compacta y profesional
         }
 
         private void AlFormatearCelda(object? sender, DataGridViewCellFormattingEventArgs e)
@@ -180,7 +189,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private async void AlHacerClickEnNuevo(object sender, EventArgs e)
         {
-            using var frm = new FrmEdicionNino(null, _servicioNino);
+            using var frm = new FrmEdicionNino(null, _servicioNino, _servicioFoto);
             if (frm.ShowDialog(this) == DialogResult.OK) await CargarNinosAsync();
         }
 
@@ -189,7 +198,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             var nino = ObtenerNinoSeleccionado();
             if (nino == null) return;
 
-            using var frm = new FrmEdicionNino(nino, _servicioNino);
+            using var frm = new FrmEdicionNino(nino, _servicioNino, _servicioFoto);
             if (frm.ShowDialog(this) == DialogResult.OK) await CargarNinosAsync();
         }
 

@@ -74,12 +74,14 @@ internal static class Program
         servicios.AddTransient<IRepositorioNino,        RepositorioNino>();
         servicios.AddTransient<IRepositorioAsistencia,  RepositorioAsistencia>();
         servicios.AddTransient<IRepositorioObservacion, RepositorioObservacion>();
+        servicios.AddTransient<IRepositorioFoto,        RepositorioFoto>();
 
         // Servicios (Transient)
         servicios.AddTransient<IServicioAutenticacion, ServicioAutenticacion>();
         servicios.AddTransient<IServicioNino,          ServicioNino>();
         servicios.AddTransient<IServicioAsistencia,    ServicioAsistencia>();
         servicios.AddTransient<IServicioObservacion,   ServicioObservacion>();
+        servicios.AddTransient<IServicioFoto,          ServicioFoto>();
 
         // Formularios (Transient)
         servicios.AddTransient<FrmLogin>();

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.6" />
   </ItemGroup>
 
   <PropertyGroup>

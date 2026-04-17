@@ -28,6 +28,12 @@ public class ServicioNino : IServicioNino
         if (string.IsNullOrWhiteSpace(nino.NombreCompleto))
             return (false, "El nombre completo del niño es obligatorio.");
 
+        if (string.IsNullOrWhiteSpace(nino.NombreEncargado))
+            return (false, "El nombre del encargado es obligatorio.");
+
+        if (!string.IsNullOrWhiteSpace(nino.TelefonoEncargado) && nino.TelefonoEncargado.Length != 8)
+            return (false, "El teléfono debe tener exactamente 8 dígitos.");
+
         if (nino.FechaNacimiento.HasValue && nino.FechaNacimiento.Value > DateTime.Today)
             return (false, "La fecha de nacimiento no puede ser una fecha futura.");
 

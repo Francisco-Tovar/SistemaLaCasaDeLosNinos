@@ -32,6 +32,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             ThemeEngine.ApplyTheme(this, ThemeEngine.LoadThemePreference());
         }
 
+        private int? _idObservacionEdicion = null;
+
         private async void FrmObservaciones_Load(object sender, EventArgs e) => await CargarHistorialAsync();
 
         private async Task CargarHistorialAsync()
@@ -48,31 +50,72 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar: {ex.Message}", "Error");
+                MessageBox.Show($"Error al cargar historial: {ex.Message}", "Error");
             }
         }
 
         private void AgregarControlObservacion(ObservacionDetalleDto obs)
         {
             var theme = ThemeEngine.LoadThemePreference();
+            
+            // Panel contenedor principal
             var pnl = new Panel
             {
                 Dock = DockStyle.Top,
                 AutoSize = true,
                 BackColor = theme.SurfaceColor,
-                Padding = new Padding(10),
-                Margin = new Padding(0, 0, 0, 10)
+                Padding = new Padding(12),
+                Margin = new Padding(0, 0, 0, 15)
             };
 
+            // Panel de acciones (Derecha)
+            var pnlAcciones = new FlowLayoutPanel
+            {
+                FlowDirection = FlowDirection.RightToLeft,
+                Dock = DockStyle.Top,
+                Height = 30
+            };
+
+            var btnEliminar = new FontAwesome.Sharp.IconButton
+            {
+                IconChar = FontAwesome.Sharp.IconChar.TrashAlt,
+                IconColor = Color.FromArgb(231, 76, 60),
+                IconFont = FontAwesome.Sharp.IconFont.Auto,
+                IconSize = 18,
+                Size = new Size(30, 30),
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand
+            };
+            btnEliminar.FlatAppearance.BorderSize = 0;
+            btnEliminar.Click += async (s, e) => await AlEliminarObservacion(obs.Id);
+
+            var btnEditar = new FontAwesome.Sharp.IconButton
+            {
+                IconChar = FontAwesome.Sharp.IconChar.Pen,
+                IconColor = theme.AccentColor,
+                IconFont = FontAwesome.Sharp.IconFont.Auto,
+                IconSize = 18,
+                Size = new Size(30, 30),
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand
+            };
+            btnEditar.FlatAppearance.BorderSize = 0;
+            btnEditar.Click += (s, e) => ActivarModoEdicion(obs);
+
+            pnlAcciones.Controls.Add(btnEliminar);
+            pnlAcciones.Controls.Add(btnEditar);
+
+            // Metadata
             var lblMeta = new Label
             {
                 Text = $"{obs.FechaHora:dd/MM/yyyy HH:mm} — Por: {obs.NombreAutor}",
                 Dock = DockStyle.Top,
                 ForeColor = theme.AccentColor,
                 Font = new Font("Segoe UI", 8.5f, FontStyle.Bold),
-                Height = 20
+                Height = 22
             };
 
+            // Contenido
             var lblTexto = new Label
             {
                 Text = obs.Contenido,
@@ -80,12 +123,36 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 AutoSize = true,
                 ForeColor = theme.TextPrimary,
                 Font = new Font("Segoe UI", 9.5f),
-                Padding = new Padding(0, 5, 0, 5)
+                Padding = new Padding(0, 5, 0, 5),
+                // Crucial para WordWrap en Labels dinámicos:
+                MaximumSize = new Size(panelHistorial.Width - 60, 0)
             };
 
             pnl.Controls.Add(lblTexto);
             pnl.Controls.Add(lblMeta);
+            pnl.Controls.Add(pnlAcciones);
+            
             panelHistorial.Controls.Add(pnl);
+        }
+
+        private void ActivarModoEdicion(ObservacionDetalleDto obs)
+        {
+            _idObservacionEdicion = obs.Id;
+            txtNuevaObservacion.Text = obs.Contenido;
+            lblNueva.Text = "✏️ Editando Observación:";
+            btnGuardar.Text = "Actualizar";
+            btnGuardar.IconColor = Color.FromArgb(52, 152, 219);
+            txtNuevaObservacion.Focus();
+            txtNuevaObservacion.SelectionStart = txtNuevaObservacion.Text.Length;
+        }
+
+        private void CancelarEdicion()
+        {
+            _idObservacionEdicion = null;
+            txtNuevaObservacion.Clear();
+            lblNueva.Text = "Nueva Observación:";
+            btnGuardar.Text = "Guardar";
+            btnGuardar.IconColor = Color.FromArgb(46, 204, 113);
         }
 
         private async void AlGuardarObservacion(object sender, EventArgs e)
@@ -95,20 +162,53 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
             try
             {
-                await _servicioObservacion.RegistrarAsync(_nino.Id, _idUsuarioSesion, texto);
+                if (_idObservacionEdicion.HasValue)
+                {
+                    await _servicioObservacion.ActualizarAsync(_idObservacionEdicion.Value, texto);
+                    CancelarEdicion();
+                }
+                else
+                {
+                    await _servicioObservacion.RegistrarAsync(_nino.Id, _idUsuarioSesion, texto);
+                    txtNuevaObservacion.Clear();
+                }
 
-                txtNuevaObservacion.Clear();
                 await CargarHistorialAsync();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar: {ex.Message}", "Error");
+                MessageBox.Show($"Error al procesar: {ex.Message}", "Error");
+            }
+        }
+
+        private async Task AlEliminarObservacion(int id)
+        {
+            if (MessageBox.Show("¿Está seguro de eliminar esta observación?", "Confirmar", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    await _servicioObservacion.EliminarAsync(id);
+                    await CargarHistorialAsync();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al eliminar: {ex.Message}", "Error");
+                }
             }
         }
 
         private void AlCambiarTexto(object sender, EventArgs e) => lblContador.Text = $"{txtNuevaObservacion.Text.Length} / 2000";
 
-        private void AlHacerClickEnCerrar(object sender, EventArgs e) => this.Close();
+        private void AlHacerClickEnCerrar(object sender, EventArgs e)
+        {
+            if (_idObservacionEdicion.HasValue)
+            {
+                if (MessageBox.Show("Hay cambios sin guardar. ¿Desea cerrar de todas formas?", "Aviso", 
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No) return;
+            }
+            this.Close();
+        }
 
         private void panelEncabezado_MouseDown(object sender, MouseEventArgs e) => DragForm();
     }

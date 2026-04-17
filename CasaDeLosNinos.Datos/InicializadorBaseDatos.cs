@@ -12,25 +12,103 @@ namespace CasaDeLosNinos.Datos;
 /// </summary>
 public class InicializadorBaseDatos : IInicializadorBaseDatos
 {
-    private readonly string _cadenaConexion;
+    private readonly string _cadenaConexionPrincipal;
+    private readonly string _cadenaConexionFotos;
 
     public InicializadorBaseDatos(IConfiguration configuracion)
     {
-        _cadenaConexion = configuracion.GetConnectionString("BaseDatos")
-            ?? throw new InvalidOperationException(
-                "La cadena de conexión 'BaseDatos' no está definida en appsettings.json.");
+        _cadenaConexionPrincipal = configuracion.GetConnectionString("BaseDatos")
+            ?? throw new InvalidOperationException("Falta 'BaseDatos' en appsettings.json.");
+            
+        _cadenaConexionFotos = configuracion.GetConnectionString("BaseDatosFotos")
+            ?? throw new InvalidOperationException("Falta 'BaseDatosFotos' en appsettings.json.");
     }
 
     public async Task InicializarAsync()
     {
-        await using var conexion = new SqliteConnection(_cadenaConexion);
-        await conexion.OpenAsync();
+        // 1. Inicializar Base de Datos Principal
+        await using (var conexion = new SqliteConnection(_cadenaConexionPrincipal))
+        {
+            await conexion.OpenAsync();
+            await conexion.ExecuteAsync("PRAGMA foreign_keys = ON;");
+            await CrearTablasAsync(conexion);
+            await RepararIntegridadBitacoraAsync(conexion);
+            await InsertarDatosInicialesAsync(conexion);
+        }
 
-        // Habilitar claves foráneas en SQLite (desactivadas por defecto)
-        await conexion.ExecuteAsync("PRAGMA foreign_keys = ON;");
+        // 2. Inicializar Base de Datos de Fotos (Separada)
+        await using (var conexion = new SqliteConnection(_cadenaConexionFotos))
+        {
+            await conexion.OpenAsync();
+            await CrearTablaFotosAsync(conexion);
+        }
+    }
 
-        await CrearTablasAsync(conexion);
-        await InsertarDatosInicialesAsync(conexion);
+    private static async Task CrearTablaFotosAsync(SqliteConnection conexion)
+    {
+        // Esta tabla es 1:1 con Ninos. El ID es el mismo.
+        await conexion.ExecuteAsync(@"
+            CREATE TABLE IF NOT EXISTS FotosBeneficiarios (
+                IdNino          INTEGER PRIMARY KEY,
+                Imagen          BLOB    NOT NULL,
+                FechaActualizacion TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );");
+    }
+
+    /// <summary>
+    /// Detecta si hay registros de asistencia compartiendo la misma observación
+    /// (error de integridad) y los independiza creando clones de la nota.
+    /// También añade un índice único para prevenir reaparición.
+    /// </summary>
+    private static async Task RepararIntegridadBitacoraAsync(SqliteConnection conexion)
+    {
+        // 1. Encontrar IDs de observación compartidos
+        const string sqlDuplicados = @"
+            SELECT IdObservacion 
+            FROM Asistencia 
+            WHERE IdObservacion IS NOT NULL 
+            GROUP BY IdObservacion 
+            HAVING COUNT(*) > 1;";
+
+        var idsCompartidos = (await conexion.QueryAsync<int>(sqlDuplicados)).ToList();
+
+        foreach (var idObs in idsCompartidos)
+        {
+            // Obtener todos los registros de asistencia que usan este ID, excepto el primero
+            const string sqlMismos = @"
+                SELECT Id, IdNino 
+                FROM Asistencia 
+                WHERE IdObservacion = @idObs 
+                ORDER BY Id ASC;";
+            
+            var registros = (await conexion.QueryAsync(sqlMismos, new { idObs })).ToList();
+            
+            // Saltamos el primero (él se queda con el ID original)
+            for (int i = 1; i < registros.Count; i++)
+            {
+                var reg = registros[i];
+                
+                // Clonar la observación en la tabla Observaciones
+                const string sqlClonar = @"
+                    INSERT INTO Observaciones (IdNino, IdUsuario, FechaHora, Contenido)
+                    SELECT IdNino, IdUsuario, FechaHora, Contenido 
+                    FROM Observaciones WHERE Id = @idObs;
+                    SELECT last_insert_rowid();";
+                
+                int nuevoId = await conexion.QuerySingleAsync<int>(sqlClonar, new { idObs });
+
+                // Vincular el registro de asistencia específico al nuevo ID clonado
+                await conexion.ExecuteAsync(
+                    "UPDATE Asistencia SET IdObservacion = @nuevoId WHERE Id = @idAsistencia;",
+                    new { nuevoId, idAsistencia = reg.Id });
+            }
+        }
+
+        // 2. Blindaje: Crear índice único para evitar que esto vuelva a pasar físicamente
+        await conexion.ExecuteAsync(@"
+            CREATE UNIQUE INDEX IF NOT EXISTS ux_asistencia_observacion_unica
+            ON Asistencia(IdObservacion) 
+            WHERE IdObservacion IS NOT NULL;");
     }
 
     // ══════════════════════════════════════════════════════════════
@@ -86,13 +164,18 @@ public class InicializadorBaseDatos : IInicializadorBaseDatos
         // ── Asistencia ────────────────────────────────────────────
         await conexion.ExecuteAsync(@"
             CREATE TABLE IF NOT EXISTS Asistencia (
-                Id          INTEGER PRIMARY KEY AUTOINCREMENT,
-                IdNino      INTEGER NOT NULL REFERENCES Ninos(Id),
-                Fecha       TEXT    NOT NULL,
-                Presente    INTEGER NOT NULL DEFAULT 0,
-                Observacion TEXT    NOT NULL DEFAULT '',
-                IdUsuario   INTEGER NOT NULL REFERENCES Usuarios(Id)
+                Id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                IdNino          INTEGER NOT NULL REFERENCES Ninos(Id),
+                Fecha           TEXT    NOT NULL,
+                Presente        INTEGER NOT NULL DEFAULT 0,
+                IdObservacion   INTEGER REFERENCES Observaciones(Id),
+                IdUsuario       INTEGER NOT NULL REFERENCES Usuarios(Id)
             );");
+
+        // Migración: Agregar columna IdObservacion si no existe (para DBs existentes)
+        try {
+            await conexion.ExecuteAsync("ALTER TABLE Asistencia ADD COLUMN IdObservacion INTEGER REFERENCES Observaciones(Id);");
+        } catch { /* Ignorar si ya existe */ }
 
         // Índice parcial: evita duplicados por niño/fecha
         await conexion.ExecuteAsync(@"
