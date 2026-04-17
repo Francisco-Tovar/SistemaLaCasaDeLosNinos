@@ -16,6 +16,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private void InitializeComponent()
         {
             panelFecha = new Panel();
+            txtBuscar = new TextBox();
             dtpFecha = new DateTimePicker();
             lblFecha = new Label();
             btnCargar = new FontAwesome.Sharp.IconButton();
@@ -34,6 +35,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // panelFecha
             // 
             panelFecha.BackColor = Color.FromArgb(34, 33, 74);
+            panelFecha.Controls.Add(txtBuscar);
             panelFecha.Controls.Add(dtpFecha);
             panelFecha.Controls.Add(lblFecha);
             panelFecha.Controls.Add(btnCargar);
@@ -45,6 +47,18 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelFecha.Padding = new Padding(12, 9, 12, 5);
             panelFecha.Size = new Size(650, 48);
             panelFecha.TabIndex = 1;
+            // 
+            // txtBuscar
+            // 
+            txtBuscar.BackColor = Color.FromArgb(45, 45, 81);
+            txtBuscar.BorderStyle = BorderStyle.FixedSingle;
+            txtBuscar.ForeColor = Color.Gainsboro;
+            txtBuscar.Location = new Point(175, 12);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.PlaceholderText = "🔍 Buscar niña/o...";
+            txtBuscar.Size = new Size(160, 24);
+            txtBuscar.TabIndex = 2;
+            txtBuscar.TextChanged += AlCambiarBusqueda;
             // 
             // dtpFecha
             // 
@@ -82,6 +96,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnCargar.Text = "Cargar";
             btnCargar.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnCargar.UseVisualStyleBackColor = true;
+            btnCargar.Visible = false;
             btnCargar.Click += AlHacerClickEnCargar;
             // 
             // btnMarcarTodos
@@ -94,9 +109,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnMarcarTodos.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnMarcarTodos.IconSize = 24;
             btnMarcarTodos.ImageAlign = ContentAlignment.MiddleLeft;
-            btnMarcarTodos.Location = new Point(280, 6);
+            btnMarcarTodos.Location = new Point(340, 6);
             btnMarcarTodos.Name = "btnMarcarTodos";
-            btnMarcarTodos.Size = new Size(110, 36);
+            btnMarcarTodos.Size = new Size(100, 36);
             btnMarcarTodos.TabIndex = 3;
             btnMarcarTodos.Text = "Todos";
             btnMarcarTodos.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -113,9 +128,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnDesmarcarTodos.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnDesmarcarTodos.IconSize = 24;
             btnDesmarcarTodos.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDesmarcarTodos.Location = new Point(390, 6);
+            btnDesmarcarTodos.Location = new Point(445, 6);
             btnDesmarcarTodos.Name = "btnDesmarcarTodos";
-            btnDesmarcarTodos.Size = new Size(120, 36);
+            btnDesmarcarTodos.Size = new Size(110, 36);
             btnDesmarcarTodos.TabIndex = 4;
             btnDesmarcarTodos.Text = "Ninguno";
             btnDesmarcarTodos.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -170,7 +185,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnGuardar.Location = new Point(470, 8);
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Size = new Size(160, 36);
-            btnGuardar.TabIndex = 2;
+            btnGuardar.TabIndex = 5;
             btnGuardar.Text = "Guardar";
             btnGuardar.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnGuardar.UseVisualStyleBackColor = true;
@@ -215,7 +230,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelInferior.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)grdAsistencia).EndInit();
             ResumeLayout(false);
-
+            PerformLayout();
         }
 
         private System.Windows.Forms.Panel panelFecha;
@@ -228,6 +243,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private System.Windows.Forms.Label lblResumen;
         private System.Windows.Forms.Label lblEstado;
         private FontAwesome.Sharp.IconButton btnGuardar;
+        private System.Windows.Forms.TextBox txtBuscar;
         private System.Windows.Forms.DataGridView grdAsistencia;
     }
 }

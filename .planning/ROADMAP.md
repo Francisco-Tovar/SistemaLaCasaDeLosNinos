@@ -1,9 +1,9 @@
 # Hoja de Ruta - Sistema La Casa de los Niños
 
 ## Fase 1: Estabilización del Módulo de Beneficiarios (Actual)
-- [ ] 1.1 Implementar validaciones de entrada robustas (MaskedTextBox, validación de fechas).
-- [ ] 1.2 Refinar UX de edición (Feedback de guardado, TabOrder).
-- [ ] 1.3 Auditoría de borrado lógico y filtros de búsqueda.
+- [x] 1.1 Implementar validaciones de entrada robustas (MaskedTextBox, validación de fechas).
+- [x] 1.2 Refinar UX de edición (Feedback de guardado, TabOrder).
+- [x] 1.3 Auditoría de borrado lógico y filtros de búsqueda.
 
 ## Fase 2: Gestión de Seguridad y Acceso
 - [ ] 2.1 Mantenimiento de Usuarios.

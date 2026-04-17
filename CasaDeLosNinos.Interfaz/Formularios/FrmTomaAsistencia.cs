@@ -68,9 +68,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 var fecha = dtpFecha.Value.Date;
                 var lista = await _servicioAsistencia.ObtenerNinosParaAsistenciaAsync(fecha);
                 _detalles = lista.OrderBy(n => n.NombreCompleto).ToList();
-
-                grdAsistencia.DataSource = null;
-                grdAsistencia.DataSource = _detalles;
+                AplicarFiltro();
 
                 btnGuardar.Enabled = true;
                 lblEstado.Text = "📝 Hoja de asistencia cargada.";
@@ -129,6 +127,22 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 dtpFecha.Value = DateTime.Today;
             }
+        }
+
+        private void AlCambiarBusqueda(object sender, EventArgs e) => AplicarFiltro();
+
+        private void AplicarFiltro()
+        {
+            var texto = txtBuscar.Text.Trim().ToLowerInvariant();
+            var filtrados = string.IsNullOrWhiteSpace(texto) 
+                ? _detalles 
+                : _detalles.Where(d => d.NombreCompleto.ToLowerInvariant().Contains(texto)).ToList();
+
+            grdAsistencia.DataSource = null;
+            grdAsistencia.DataSource = filtrados;
+            
+            // Importante: El DataSource cambia pero los objetos en _detalles persisten,
+            // permitiendo que los cambios en CheckBox se mantengan en la lista maestra.
         }
     }
 }

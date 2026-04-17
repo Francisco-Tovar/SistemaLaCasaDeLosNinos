@@ -208,7 +208,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.grdNinos.RowTemplate.Height = 35;
             this.grdNinos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grdNinos.Size = new System.Drawing.Size(884, 461);
-            this.grdNinos.TabIndex = 3;
+            this.grdNinos.TabIndex = 7;
             this.grdNinos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AlDobleClickEnFila);
             // 
             // FrmGestionNinos

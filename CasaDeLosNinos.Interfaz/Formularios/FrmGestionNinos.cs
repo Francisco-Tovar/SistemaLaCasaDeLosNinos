@@ -155,7 +155,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             var lista = _todosLosNinos
                 .Where(n => (mostrarInactivos || n.Activo)
                          && (string.IsNullOrEmpty(filtro)
-                             || n.NombreCompleto.ToLowerInvariant().Contains(filtro)))
+                             || n.NombreCompleto.ToLowerInvariant().Contains(filtro)
+                             || n.NombreEncargado.ToLowerInvariant().Contains(filtro)
+                             || n.TelefonoEncargado.Contains(filtro)
+                             || n.Direccion.ToLowerInvariant().Contains(filtro)))
                 .OrderBy(n => n.NombreCompleto)
                 .ToList();
 
