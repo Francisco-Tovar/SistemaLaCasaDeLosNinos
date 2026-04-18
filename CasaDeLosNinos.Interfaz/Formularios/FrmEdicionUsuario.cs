@@ -11,7 +11,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
     {
         private readonly IServicioUsuario _servicioUsuario;
         private readonly Usuario? _usuarioEdicion;
-        private readonly ThemeColors _theme;
+
 
         public FrmEdicionUsuario(IServicioUsuario servicioUsuario, ThemeColors theme, Usuario? usuario = null)
         {
@@ -26,6 +26,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             CasaDeLosNinos.Interfaz.Estilos.ThemeEngine.ApplyTheme(this, _theme);
 
             ConfigurarComboRoles();
+            
+            txtUsername.TextChanged += (s, e) => {
+                int cursor = txtUsername.SelectionStart;
+                txtUsername.Text = txtUsername.Text.ToLower();
+                txtUsername.SelectionStart = cursor;
+            };
             
             if (_usuarioEdicion != null)
             {

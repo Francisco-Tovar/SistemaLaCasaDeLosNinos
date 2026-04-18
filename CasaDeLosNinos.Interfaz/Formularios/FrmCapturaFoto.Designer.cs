@@ -44,7 +44,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnClose.FlatAppearance.BorderSize = 0;
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.IconChar = FontAwesome.Sharp.IconChar.Close;
-            btnClose.IconColor = Color.Black;
+
             btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnClose.IconSize = 20;
             btnClose.Location = new Point(468, 0);
@@ -89,7 +89,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnRotar.FlatAppearance.BorderSize = 0;
             btnRotar.FlatStyle = FlatStyle.Flat;
             btnRotar.IconChar = FontAwesome.Sharp.IconChar.Refresh;
-            btnRotar.IconColor = Color.Black;
+
             btnRotar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnRotar.IconSize = 28;
             btnRotar.Location = new Point(30, 15);
@@ -106,7 +106,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnCapturar.FlatStyle = FlatStyle.Flat;
             btnCapturar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnCapturar.IconChar = FontAwesome.Sharp.IconChar.CameraAlt;
-            btnCapturar.IconColor = Color.Black;
+
             btnCapturar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnCapturar.IconSize = 32;
             btnCapturar.Location = new Point(174, 15);

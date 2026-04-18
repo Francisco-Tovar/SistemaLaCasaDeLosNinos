@@ -11,7 +11,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
     {
         private readonly IServicioUsuario _servicioUsuario;
         private readonly int _usuarioActualId;
-        private readonly ThemeColors _theme;
+
 
         public FrmGestionUsuarios(IServicioUsuario servicioUsuario, int usuarioActualId, ThemeColors theme)
         {
@@ -19,9 +19,33 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             _servicioUsuario = servicioUsuario;
             _usuarioActualId = usuarioActualId;
             _theme = theme;
+            ThemeEngine.ApplyTheme(this, _theme);
             
             this.Text = "Gestión de Usuarios";
             ConfigurarColumnas();
+            dgvUsuarios.CellFormatting += DgvUsuarios_CellFormatting;
+        }
+
+        private void DgvUsuarios_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvUsuarios.Rows.Count) return;
+
+            if (dgvUsuarios.Rows[e.RowIndex].DataBoundItem is Usuario user)
+            {
+                // Mapeo de Rol
+                if (dgvUsuarios.Columns[e.ColumnIndex].Name == "ColRol")
+                {
+                    e.Value = user.IdRol == 1 ? "Administrador" : "Funcionario";
+                    e.FormattingApplied = true;
+                }
+
+                // Estilo para Inactivos
+                if (!user.Activo)
+                {
+                    e.CellStyle.ForeColor = _theme.TextSecondary;
+                    e.CellStyle.Font = new Font(dgvUsuarios.Font, FontStyle.Italic);
+                }
+            }
         }
 
         private async void FrmGestionUsuarios_Load(object sender, EventArgs e)
@@ -52,18 +76,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 var usuarios = await _servicioUsuario.ObtenerTodosAsync();
                 dgvUsuarios.DataSource = null;
                 dgvUsuarios.DataSource = usuarios;
-
-                // Mapeo manual de nombres de Roles (Simplicidad por ahora)
-                foreach (DataGridViewRow row in dgvUsuarios.Rows)
-                {
-                    var user = (Usuario)row.DataBoundItem;
-                    row.Cells["ColRol"].Value = user.IdRol == 1 ? "Administrador" : "Funcionario";
-                    
-                    if (!user.Activo)
-                    {
-                        row.DefaultCellStyle.ForeColor = Color.Gray;
-                    }
-                }
             }
             catch (Exception ex)
             {

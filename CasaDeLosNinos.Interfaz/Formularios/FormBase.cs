@@ -14,23 +14,30 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         protected extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
 
         public bool EsRedimensionable { get; set; } = true;
-        
         public bool TieneBordeAcento { get; set; } = false;
+        protected Estilos.ThemeColors _theme;
         
         public FormBase()
         {
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(1); // Espacio para el borde de 1px
+            _theme = Estilos.ThemeEngine.LoadThemePreference();
+        }
+
+        public virtual void RefreshTheme(Estilos.ThemeColors theme)
+        {
+            _theme = theme;
+            Estilos.ThemeEngine.ApplyTheme(this, _theme);
+            this.Invalidate(); // Forzar redibujado de bordes y controles
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             
-            if (TieneBordeAcento)
+            if (TieneBordeAcento && _theme != null)
             {
-                var theme = Estilos.ThemeEngine.LoadThemePreference();
-                using (var pen = new Pen(theme.AccentColor, 1))
+                using (var pen = new Pen(_theme.AccentColor, 1))
                 {
                     // Dibujar el borde justo en el límite interior
                     e.Graphics.DrawRectangle(pen, 0, 0, this.Width - 1, this.Height - 1);

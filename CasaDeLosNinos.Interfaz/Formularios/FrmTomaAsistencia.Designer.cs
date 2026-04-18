@@ -69,7 +69,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // lblFecha
             // 
             lblFecha.AutoSize = true;
-            lblFecha.ForeColor = Color.Gainsboro;
+
             lblFecha.Location = new Point(15, 15);
             lblFecha.Name = "lblFecha";
             lblFecha.Size = new Size(44, 17);
@@ -144,7 +144,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             lblResumen.AutoSize = true;
             lblResumen.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            lblResumen.ForeColor = Color.Gainsboro;
+
             lblResumen.Location = new Point(12, 10);
             lblResumen.Name = "lblResumen";
             lblResumen.Size = new Size(0, 17);
@@ -154,7 +154,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             lblEstado.AutoSize = true;
             lblEstado.Font = new Font("Segoe UI", 8.5F, FontStyle.Italic);
-            lblEstado.ForeColor = Color.Silver;
+
             lblEstado.Location = new Point(12, 30);
             lblEstado.Name = "lblEstado";
             lblEstado.Size = new Size(0, 15);
@@ -166,7 +166,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnGuardar.FlatAppearance.BorderSize = 0;
             btnGuardar.FlatStyle = FlatStyle.Flat;
             btnGuardar.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            btnGuardar.ForeColor = Color.Gainsboro;
+
             btnGuardar.IconChar = FontAwesome.Sharp.IconChar.Save;
             btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnGuardar.IconSize = 24;

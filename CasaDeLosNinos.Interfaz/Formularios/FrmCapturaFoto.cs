@@ -18,7 +18,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         public byte[]? ResultadoFoto { get; private set; }
 
-        private readonly ThemeColors _theme;
+
 
         public FrmCapturaFoto(ThemeColors theme)
         {

@@ -68,7 +68,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnClose.FlatAppearance.BorderSize = 0;
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.IconChar = FontAwesome.Sharp.IconChar.Close;
-            btnClose.IconColor = Color.Gray;
+            btnClose.IconColor = Color.Black;
             btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnClose.IconSize = 20;
             btnClose.Location = new Point(383, 5);
@@ -264,7 +264,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnCancelar.FlatAppearance.BorderSize = 0;
             btnCancelar.FlatStyle = FlatStyle.Flat;
             btnCancelar.IconChar = FontAwesome.Sharp.IconChar.XmarkCircle;
-            btnCancelar.IconColor = Color.FromArgb(231, 76, 60);
+            btnCancelar.IconColor = Color.Black;
             btnCancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnCancelar.IconSize = 24;
             btnCancelar.Location = new Point(295, 3);
@@ -281,7 +281,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnGuardar.FlatAppearance.BorderSize = 0;
             btnGuardar.FlatStyle = FlatStyle.Flat;
             btnGuardar.IconChar = FontAwesome.Sharp.IconChar.Save;
-            btnGuardar.IconColor = Color.FromArgb(46, 204, 113);
+            btnGuardar.IconColor = Color.Black;
             btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnGuardar.IconSize = 24;
             btnGuardar.Location = new Point(189, 3);

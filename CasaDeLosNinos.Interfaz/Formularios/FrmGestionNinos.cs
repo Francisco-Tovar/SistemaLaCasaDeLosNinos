@@ -11,13 +11,13 @@ using FontAwesome.Sharp;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
-    public partial class FrmGestionNinos : Form
+    public partial class FrmGestionNinos : FormBase
     {
         private readonly IServicioNino _servicioNino;
         private readonly IServicioObservacion _servicioObservacion;
         private readonly IServicioFoto _servicioFoto;
         private readonly int _idUsuarioSesion;
-        private readonly ThemeColors _theme;
+
 
         private List<Nino> _todosLosNinos = new();
 

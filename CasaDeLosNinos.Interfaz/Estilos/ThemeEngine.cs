@@ -124,11 +124,11 @@ public static class ThemeEngine
                 btn.ForeColor = Color.White;
                 btn.IconColor = btn.ForeColor;
             }
-            else if (name.Contains("cancelar") || name.Contains("eliminar") || name.Contains("desactivar"))
+            else if (name.Contains("cancelar") || name.Contains("eliminar") || name.Contains("desactivar") || name.Contains("logout"))
             {
-                btn.BackColor = theme.StatusError;
-                btn.ForeColor = Color.White;
-                btn.IconColor = btn.ForeColor;
+                btn.BackColor = name.Contains("logout") ? Color.Transparent : theme.StatusError;
+                btn.ForeColor = name.Contains("logout") ? theme.TextPrimary : Color.White;
+                btn.IconColor = name.Contains("logout") ? theme.AccentColor : btn.ForeColor;
             }
             else if (name.Contains("accent") || name.Contains("ingresar") || name.Contains("enviar"))
             {

@@ -151,7 +151,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.SuspendLayout();
             ThemeEngine.ApplyTheme(this, _currentTheme);
             if (currentChildForm != null)
-                ThemeEngine.ApplyTheme(currentChildForm, _currentTheme);
+            {
+                if (currentChildForm is FormBase childBase)
+                    childBase.RefreshTheme(_currentTheme);
+                else
+                    ThemeEngine.ApplyTheme(currentChildForm, _currentTheme);
+            }
             
             // Re-activar botón destacado si existe uno para mantener el resaltado tras el cambio de tema
             if (currentBtn != null)
@@ -273,6 +278,17 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private void btnTheme_Click(object sender, EventArgs e)
         {
             _themeMenu.Show(btnTheme, new Point(0, btnTheme.Height));
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("¿Está seguro que desea cerrar sesión?", "Cerrar Sesión", 
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            
+            if (result == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
 
         private void btnMinimize_Click(object sender, EventArgs e)

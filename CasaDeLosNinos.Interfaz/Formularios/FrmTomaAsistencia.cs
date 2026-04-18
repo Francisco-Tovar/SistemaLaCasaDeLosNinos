@@ -10,11 +10,11 @@ using CasaDeLosNinos.Dominio.Interfaces;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
-    public partial class FrmTomaAsistencia : Form
+    public partial class FrmTomaAsistencia : FormBase
     {
         private readonly IServicioAsistencia _servicioAsistencia;
         private readonly int _idUsuarioSesion;
-        private readonly ThemeColors _theme;
+
         private List<NinoAsistenciaDto> _detalles = new();
 
         public FrmTomaAsistencia(IServicioAsistencia servicioAsistencia, int idUsuarioSesion, ThemeColors theme)

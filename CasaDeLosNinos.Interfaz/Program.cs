@@ -124,23 +124,22 @@ internal static class Program
 
         ApplicationConfiguration.Initialize();
 
-        using var frmLogin = proveedor.GetRequiredService<FrmLogin>();
-        if (frmLogin.ShowDialog() != DialogResult.OK)
+        while (true)
         {
-            // El usuario canceló o cerró el login
-            return;
+            using var frmLogin = proveedor.GetRequiredService<FrmLogin>();
+            if (frmLogin.ShowDialog() != DialogResult.OK) break;
+
+            var usuarioAutenticado = frmLogin.UsuarioAutenticado
+                ?? throw new InvalidOperationException("Usuario autenticado no disponible.");
+
+            using (var formPrincipal = new FormPrincipal(
+                proveedor.GetRequiredService<IConfiguration>(),
+                proveedor,
+                usuarioAutenticado))
+            {
+                Application.Run(formPrincipal);
+            }
         }
-
-        // El usuario autenticado se pasa explícitamente al formulario principal
-        var usuarioAutenticado = frmLogin.UsuarioAutenticado
-            ?? throw new InvalidOperationException("Usuario autenticado no disponible.");
-
-        var formPrincipal = new FormPrincipal(
-            proveedor.GetRequiredService<IConfiguration>(),
-            proveedor,
-            usuarioAutenticado);
-
-        Application.Run(formPrincipal);
     }
 
     // ══════════════════════════════════════════════════

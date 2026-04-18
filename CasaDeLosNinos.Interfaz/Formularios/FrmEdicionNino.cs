@@ -17,7 +17,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private PictureBox picFoto = null!;
         private byte[]? _imagenNueva;
-        private readonly ThemeColors _theme;
+
 
         public FrmEdicionNino(Nino? nino, IServicioNino servicioNino, IServicioFoto servicioFoto, ThemeColors theme)
         {
@@ -26,7 +26,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             _servicioNino = servicioNino;
             _servicioFoto = servicioFoto;
             _theme = theme;
-
             this.EsRedimensionable = false;
             this.TieneBordeAcento = true;
 
@@ -50,7 +49,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 Height = 110,
                 BackColor = _theme.HeaderBackground,
                 Padding = new Padding(15, 12, 15, 12),
-                Name = "pnlID"
+                Name = "pnlHeaderID"
             };
             this.Controls.Add(pnlID);
 

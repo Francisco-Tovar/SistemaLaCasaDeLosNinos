@@ -25,6 +25,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             txtContrasenera = new TextBox();
             lblError = new Label();
             btnIngresar = new FontAwesome.Sharp.IconButton();
+            lblCreditos = new Label();
             panelSide.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)iconLogo).BeginInit();
             SuspendLayout();
@@ -54,7 +55,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnClose.FlatAppearance.BorderSize = 0;
             btnClose.FlatStyle = FlatStyle.Flat;
             btnClose.IconChar = FontAwesome.Sharp.IconChar.Close;
-            btnClose.IconColor = Color.Gainsboro;
+            btnClose.IconColor = Color.Black;
             btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnClose.IconSize = 24;
             btnClose.Location = new Point(570, 0);
@@ -68,7 +69,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Consolas", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitulo.ForeColor = Color.Gainsboro;
             lblTitulo.Location = new Point(280, 50);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(178, 24);
@@ -78,7 +78,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // lblUsuario
             // 
             lblUsuario.AutoSize = true;
-            lblUsuario.ForeColor = Color.Silver;
             lblUsuario.Location = new Point(280, 110);
             lblUsuario.Name = "lblUsuario";
             lblUsuario.Size = new Size(56, 17);
@@ -89,16 +88,15 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             txtUsuario.BorderStyle = BorderStyle.None;
             txtUsuario.Font = new Font("Segoe UI", 11F);
-            txtUsuario.ForeColor = Color.Gainsboro;
             txtUsuario.Location = new Point(285, 135);
             txtUsuario.Name = "txtUsuario";
             txtUsuario.Size = new Size(280, 20);
             txtUsuario.TabIndex = 3;
+            txtUsuario.TextAlign = HorizontalAlignment.Center;
             // 
             // lblClave
             // 
             lblClave.AutoSize = true;
-            lblClave.ForeColor = Color.Silver;
             lblClave.Location = new Point(280, 180);
             lblClave.Name = "lblClave";
             lblClave.Size = new Size(77, 17);
@@ -109,18 +107,17 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             txtContrasenera.BorderStyle = BorderStyle.None;
             txtContrasenera.Font = new Font("Segoe UI", 11F);
-            txtContrasenera.ForeColor = Color.Gainsboro;
             txtContrasenera.Location = new Point(285, 205);
             txtContrasenera.Name = "txtContrasenera";
             txtContrasenera.Size = new Size(280, 20);
             txtContrasenera.TabIndex = 5;
+            txtContrasenera.TextAlign = HorizontalAlignment.Center;
             txtContrasenera.UseSystemPasswordChar = true;
             // 
             // lblError
             // 
             lblError.AutoSize = true;
             lblError.Font = new Font("Segoe UI", 8.5F, FontStyle.Italic);
-            lblError.ForeColor = Color.FromArgb(231, 76, 60);
             lblError.Location = new Point(285, 240);
             lblError.Name = "lblError";
             lblError.Size = new Size(125, 15);
@@ -133,9 +130,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnIngresar.FlatAppearance.BorderSize = 0;
             btnIngresar.FlatStyle = FlatStyle.Flat;
             btnIngresar.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnIngresar.ForeColor = Color.Gainsboro;
             btnIngresar.IconChar = FontAwesome.Sharp.IconChar.RightToBracket;
-            btnIngresar.IconColor = Color.Gainsboro;
+            btnIngresar.IconColor = Color.Black;
             btnIngresar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnIngresar.IconSize = 24;
             btnIngresar.ImageAlign = ContentAlignment.MiddleLeft;
@@ -148,12 +144,24 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnIngresar.UseVisualStyleBackColor = false;
             btnIngresar.Click += AlHacerClickEnIngresar;
             // 
+            // lblCreditos
+            // 
+            lblCreditos.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblCreditos.Font = new Font("Segoe UI", 8.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            lblCreditos.Location = new Point(444, 364);
+            lblCreditos.Name = "lblCreditos";
+            lblCreditos.Size = new Size(150, 30);
+            lblCreditos.TabIndex = 9;
+            lblCreditos.Text = "Sistema Creado por:\r\nFrancisco Tovar @2026";
+            lblCreditos.TextAlign = ContentAlignment.BottomRight;
+            // 
             // FrmLogin
             // 
             AcceptButton = btnIngresar;
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(600, 400);
+            Controls.Add(lblCreditos);
             Controls.Add(btnClose);
             Controls.Add(btnIngresar);
             Controls.Add(lblError);
@@ -184,5 +192,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private System.Windows.Forms.Label lblError;
         private FontAwesome.Sharp.IconButton btnIngresar;
         private FontAwesome.Sharp.IconButton btnClose;
+        private System.Windows.Forms.Label lblCreditos;
     }
 }

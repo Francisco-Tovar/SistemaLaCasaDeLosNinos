@@ -43,7 +43,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             btnDesactivar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnDesactivar.IconChar = FontAwesome.Sharp.IconChar.UserSlash;
-            btnDesactivar.IconColor = Color.Black;
+
             btnDesactivar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnDesactivar.IconSize = 24;
             btnDesactivar.Location = new Point(478, 11);
@@ -59,7 +59,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             btnEditar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnEditar.IconChar = FontAwesome.Sharp.IconChar.UserPen;
-            btnEditar.IconColor = Color.Black;
+
             btnEditar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnEditar.IconSize = 24;
             btnEditar.Location = new Point(613, 11);
@@ -94,7 +94,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             btnNuevo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnNuevo.IconChar = FontAwesome.Sharp.IconChar.UserPlus;
-            btnNuevo.IconColor = Color.Black;
+
             btnNuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnNuevo.IconSize = 24;
             btnNuevo.Location = new Point(718, 11);

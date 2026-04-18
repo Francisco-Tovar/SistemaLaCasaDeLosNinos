@@ -28,8 +28,15 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             lblTitulo.Text = $"📋  Bitácora — {_nino.NombreCompleto}";
             lblAutorInfo.Text = $"Escribiendo como usuario ID: {_idUsuarioSesion}";
 
-            // Aplicar tema
-            ThemeEngine.ApplyTheme(this, ThemeEngine.LoadThemePreference());
+            // Cargar tema inicial
+            _theme = ThemeEngine.LoadThemePreference();
+            ThemeEngine.ApplyTheme(this, _theme);
+        }
+
+        public override void RefreshTheme(ThemeColors theme)
+        {
+            base.RefreshTheme(theme);
+            _ = CargarHistorialAsync(); // Refrescar historial dinámico
         }
 
         private int? _idObservacionEdicion = null;
@@ -56,14 +63,14 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void AgregarControlObservacion(ObservacionDetalleDto obs)
         {
-            var theme = ThemeEngine.LoadThemePreference();
+            // Nota: _theme ya está disponible desde FormBase y actualizado
             
             // Panel contenedor principal
             var pnl = new Panel
             {
                 Dock = DockStyle.Top,
                 AutoSize = true,
-                BackColor = theme.SurfaceColor,
+                BackColor = _theme.SurfaceColor,
                 Padding = new Padding(12),
                 Margin = new Padding(0, 0, 0, 15)
             };
@@ -92,7 +99,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             var btnEditar = new FontAwesome.Sharp.IconButton
             {
                 IconChar = FontAwesome.Sharp.IconChar.Pen,
-                IconColor = theme.AccentColor,
+                IconColor = _theme.AccentColor,
                 IconFont = FontAwesome.Sharp.IconFont.Auto,
                 IconSize = 18,
                 Size = new Size(30, 30),
@@ -110,7 +117,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 Text = $"{obs.FechaHora:dd/MM/yyyy HH:mm} — Por: {obs.NombreAutor}",
                 Dock = DockStyle.Top,
-                ForeColor = theme.AccentColor,
+                ForeColor = _theme.AccentColor,
                 Font = new Font("Segoe UI", 8.5f, FontStyle.Bold),
                 Height = 22
             };
@@ -121,7 +128,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 Text = obs.Contenido,
                 Dock = DockStyle.Top,
                 AutoSize = true,
-                ForeColor = theme.TextPrimary,
+                ForeColor = _theme.TextPrimary,
                 Font = new Font("Segoe UI", 9.5f),
                 Padding = new Padding(0, 5, 0, 5),
                 // Crucial para WordWrap en Labels dinámicos:
@@ -141,7 +148,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             txtNuevaObservacion.Text = obs.Contenido;
             lblNueva.Text = "✏️ Editando Observación:";
             btnGuardar.Text = "Actualizar";
-            btnGuardar.IconColor = Color.FromArgb(52, 152, 219);
+            btnGuardar.IconColor = _theme.AccentColor;
             txtNuevaObservacion.Focus();
             txtNuevaObservacion.SelectionStart = txtNuevaObservacion.Text.Length;
         }
@@ -152,7 +159,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             txtNuevaObservacion.Clear();
             lblNueva.Text = "Nueva Observación:";
             btnGuardar.Text = "Guardar";
-            btnGuardar.IconColor = Color.FromArgb(46, 204, 113);
+            btnGuardar.IconColor = _theme.AccentColor;
         }
 
         private async void AlGuardarObservacion(object sender, EventArgs e)
