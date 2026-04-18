@@ -50,8 +50,36 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // Cargar y Aplicar Tema Inicial
             _currentTheme = ThemeEngine.LoadThemePreference();
             ConfigurarMenuTemas();
+            ConfigurarEventosBotones();
             ApplyTheme();
             this.FormClosing += FormPrincipal_FormClosing;
+        }
+
+        private void ConfigurarEventosBotones()
+        {
+            foreach (Control ctrl in panelMenu.Controls)
+            {
+                if (ctrl is IconButton btn)
+                {
+                    btn.MouseEnter += (s, e) => 
+                    {
+                        if (btn != currentBtn) // Solo si no es el botón activo
+                        {
+                            btn.ForeColor = _currentTheme.TextPrimary;
+                            btn.IconColor = _currentTheme.TextPrimary;
+                        }
+                    };
+
+                    btn.MouseLeave += (s, e) => 
+                    {
+                        if (btn != currentBtn) // Solo si no es el botón activo
+                        {
+                            btn.ForeColor = _currentTheme.AccentColor;
+                            btn.IconColor = _currentTheme.AccentColor;
+                        }
+                    };
+                }
+            }
         }
 
         private void FormPrincipal_FormClosing(object? sender, FormClosingEventArgs e)
@@ -99,24 +127,23 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             if (senderBtn != null)
             {
                 DisableButton();
-                // Botón
                 currentBtn = (IconButton)senderBtn;
-                currentBtn.BackColor = _currentTheme.SurfaceColor;
-                currentBtn.ForeColor = _currentTheme.AccentColor;
+                currentBtn.BackColor = color; // Accent Color
+                currentBtn.ForeColor = Color.Black; // Máximo contraste
                 currentBtn.TextAlign = ContentAlignment.MiddleCenter;
-                currentBtn.IconColor = _currentTheme.AccentColor;
+                currentBtn.IconColor = Color.Black;
                 currentBtn.TextImageRelation = TextImageRelation.TextBeforeImage;
                 currentBtn.ImageAlign = ContentAlignment.MiddleRight;
-
-                // Borde izquierdo del botón
-                leftBorderBtn.BackColor = _currentTheme.AccentColor;
+                
+                // Borde lateral decorativo
+                leftBorderBtn.BackColor = color;
                 leftBorderBtn.Location = new Point(0, currentBtn.Location.Y);
                 leftBorderBtn.Visible = true;
                 leftBorderBtn.BringToFront();
 
-                // Icono del formulario hijo actual
+                // Icono de cabecera
                 iconCurrentChildForm.IconChar = currentBtn.IconChar;
-                iconCurrentChildForm.IconColor = _currentTheme.AccentColor;
+                iconCurrentChildForm.IconColor = color;
             }
         }
 
@@ -125,9 +152,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             if (currentBtn != null)
             {
                 currentBtn.BackColor = Color.Transparent;
-                currentBtn.ForeColor = _currentTheme.TextPrimary;
+                currentBtn.ForeColor = _currentTheme.AccentColor;
                 currentBtn.TextAlign = ContentAlignment.MiddleLeft;
-                currentBtn.IconColor = _currentTheme.TextPrimary;
+                currentBtn.IconColor = _currentTheme.AccentColor;
                 currentBtn.TextImageRelation = TextImageRelation.ImageBeforeText;
                 currentBtn.ImageAlign = ContentAlignment.MiddleLeft;
             }
@@ -143,6 +170,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
+            if (childForm is FormBase formBase) formBase.EsRedimensionable = false;
             panelDesktop.Controls.Add(childForm);
             panelDesktop.Tag = childForm;
             childForm.BringToFront();
@@ -230,6 +258,21 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al abrir el módulo de usuarios:\n{ex.Message}", "Error");
+            }
+        }
+
+        private void btnVoluntarios_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender, _currentTheme.AccentColor);
+            try
+            {
+                var servicioVoluntario = _proveedor.GetRequiredService<IServicioVoluntario>();
+                var servicioRegistroHoras = _proveedor.GetRequiredService<IServicioRegistroHoras>();
+                OpenChildForm(new FrmGestionVoluntarios(servicioVoluntario, servicioRegistroHoras, _proveedor, _usuarioActual.Id, _currentTheme));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el módulo de voluntarios:\n{ex.Message}", "Error");
             }
         }
 

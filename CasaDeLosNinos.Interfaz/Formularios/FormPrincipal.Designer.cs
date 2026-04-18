@@ -22,6 +22,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnNinos = new FontAwesome.Sharp.IconButton();
             panelLogo = new Panel();
             btnHome = new PictureBox();
+            btnVoluntarios = new FontAwesome.Sharp.IconButton();
             panelTitleBar = new Panel();
             btnTheme = new FontAwesome.Sharp.IconButton();
             btnMinimize = new FontAwesome.Sharp.IconButton();
@@ -44,6 +45,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // panelMenu
             // 
             panelMenu.Controls.Add(btnLogout);
+            panelMenu.Controls.Add(btnVoluntarios);
             panelMenu.Controls.Add(btnUsuarios);
             panelMenu.Controls.Add(btnAsistencia);
             panelMenu.Controls.Add(btnNinos);
@@ -97,6 +99,27 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnUsuarios.UseVisualStyleBackColor = true;
             btnUsuarios.Click += btnUsuarios_Click;
             // 
+            // btnVoluntarios
+            // 
+            btnVoluntarios.Dock = DockStyle.Top;
+            btnVoluntarios.FlatAppearance.BorderSize = 0;
+            btnVoluntarios.FlatStyle = FlatStyle.Flat;
+            btnVoluntarios.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnVoluntarios.IconChar = FontAwesome.Sharp.IconChar.HandshakeAngle;
+            btnVoluntarios.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnVoluntarios.IconSize = 32;
+            btnVoluntarios.ImageAlign = ContentAlignment.MiddleLeft;
+            btnVoluntarios.Location = new Point(0, 320);
+            btnVoluntarios.Name = "btnVoluntarios";
+            btnVoluntarios.Padding = new Padding(10, 0, 20, 0);
+            btnVoluntarios.Size = new Size(220, 60);
+            btnVoluntarios.TabIndex = 5;
+            btnVoluntarios.Text = "Voluntarios";
+            btnVoluntarios.TextAlign = ContentAlignment.MiddleLeft;
+            btnVoluntarios.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnVoluntarios.UseVisualStyleBackColor = true;
+            btnVoluntarios.Click += btnVoluntarios_Click;
+            // 
             // btnAsistencia
             // 
             btnAsistencia.Dock = DockStyle.Top;
@@ -135,7 +158,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnNinos.Padding = new Padding(10, 0, 20, 0);
             btnNinos.Size = new Size(220, 60);
             btnNinos.TabIndex = 1;
-            btnNinos.Text = "Gestión de Niños";
+            btnNinos.Text = "Niños";
             btnNinos.TextAlign = ContentAlignment.MiddleLeft;
             btnNinos.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnNinos.UseVisualStyleBackColor = true;
@@ -353,6 +376,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private System.Windows.Forms.Panel panelDesktop;
         private System.Windows.Forms.Label lblBienvenida;
         private System.Windows.Forms.Label lblOrg;
+        private FontAwesome.Sharp.IconButton btnVoluntarios;
         private FontAwesome.Sharp.IconButton btnMinimize;
         private FontAwesome.Sharp.IconButton btnMaximize;
         private FontAwesome.Sharp.IconButton btnClose;

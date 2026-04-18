@@ -15,200 +15,196 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void InitializeComponent()
         {
-            this.panelHerramientas = new System.Windows.Forms.Panel();
-            this.txtBuscar = new System.Windows.Forms.TextBox();
-            this.chkMostrarInactivos = new System.Windows.Forms.CheckBox();
-            this.btnNuevo = new FontAwesome.Sharp.IconButton();
-            this.btnEditar = new FontAwesome.Sharp.IconButton();
-            this.btnBitacora = new FontAwesome.Sharp.IconButton();
-            this.btnEstado = new FontAwesome.Sharp.IconButton();
-            this.btnActualizar = new FontAwesome.Sharp.IconButton();
-            this.panelInferior = new System.Windows.Forms.Panel();
-            this.lblConteo = new System.Windows.Forms.Label();
-            this.grdNinos = new System.Windows.Forms.DataGridView();
-            this.panelHerramientas.SuspendLayout();
-            this.panelInferior.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdNinos)).BeginInit();
-            this.SuspendLayout();
+            panelHerramientas = new Panel();
+            btnActualizar = new FontAwesome.Sharp.IconButton();
+            btnEstado = new FontAwesome.Sharp.IconButton();
+            btnBitacora = new FontAwesome.Sharp.IconButton();
+            btnEditar = new FontAwesome.Sharp.IconButton();
+            btnNuevo = new FontAwesome.Sharp.IconButton();
+            chkMostrarInactivos = new CheckBox();
+            txtBuscar = new TextBox();
+            panelInferior = new Panel();
+            lblConteo = new Label();
+            grdNinos = new DataGridView();
+            panelHerramientas.SuspendLayout();
+            panelInferior.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)grdNinos).BeginInit();
+            SuspendLayout();
             // 
             // panelHerramientas
             // 
-            this.panelHerramientas.Controls.Add(this.btnActualizar);
-            this.panelHerramientas.Controls.Add(this.btnEstado);
-            this.panelHerramientas.Controls.Add(this.btnBitacora);
-            this.panelHerramientas.Controls.Add(this.btnEditar);
-            this.panelHerramientas.Controls.Add(this.btnNuevo);
-            this.panelHerramientas.Controls.Add(this.chkMostrarInactivos);
-            this.panelHerramientas.Controls.Add(this.txtBuscar);
-            this.panelHerramientas.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelHerramientas.Location = new System.Drawing.Point(0, 0);
-            this.panelHerramientas.Name = "panelHerramientas";
-            this.panelHerramientas.Padding = new System.Windows.Forms.Padding(10, 8, 10, 4);
-            this.panelHerramientas.Size = new System.Drawing.Size(884, 50);
-            this.panelHerramientas.TabIndex = 1;
-            // 
-            // txtBuscar
-            // 
-            this.txtBuscar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtBuscar.Location = new System.Drawing.Point(10, 12);
-            this.txtBuscar.Name = "txtBuscar";
-            this.txtBuscar.PlaceholderText = "🔍  Buscar...";
-            this.txtBuscar.Size = new System.Drawing.Size(180, 24);
-            this.txtBuscar.TabIndex = 0;
-            this.txtBuscar.TextChanged += new System.EventHandler(this.AlCambiarBusqueda);
-            // 
-            // chkMostrarInactivos
-            // 
-            this.chkMostrarInactivos.AutoSize = true;
-            this.chkMostrarInactivos.Location = new System.Drawing.Point(200, 14);
-            this.chkMostrarInactivos.Name = "chkMostrarInactivos";
-            this.chkMostrarInactivos.Size = new System.Drawing.Size(78, 21);
-            this.chkMostrarInactivos.TabIndex = 1;
-            this.chkMostrarInactivos.Text = "Inactivos";
-            this.chkMostrarInactivos.UseVisualStyleBackColor = true;
-            // 
-            // btnNuevo
-            // 
-            this.btnNuevo.FlatAppearance.BorderSize = 0;
-            this.btnNuevo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNuevo.IconChar = FontAwesome.Sharp.IconChar.Plus;
-            this.btnNuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnNuevo.IconSize = 24;
-            this.btnNuevo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnNuevo.Location = new System.Drawing.Point(310, 6);
-            this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(100, 36);
-            this.btnNuevo.TabIndex = 2;
-            this.btnNuevo.Text = "Nuevo";
-            this.btnNuevo.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnNuevo.UseVisualStyleBackColor = true;
-            this.btnNuevo.Click += new System.EventHandler(this.AlHacerClickEnNuevo);
-            // 
-            // btnEditar
-            // 
-            this.btnEditar.FlatAppearance.BorderSize = 0;
-            this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditar.IconChar = FontAwesome.Sharp.IconChar.PenToSquare;
-            this.btnEditar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnEditar.IconSize = 24;
-            this.btnEditar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditar.Location = new System.Drawing.Point(415, 6);
-            this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(100, 36);
-            this.btnEditar.TabIndex = 3;
-            this.btnEditar.Text = "Editar";
-            this.btnEditar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnEditar.UseVisualStyleBackColor = true;
-            this.btnEditar.Click += new System.EventHandler(this.AlHacerClickEnEditar);
-            // 
-            // btnBitacora
-            // 
-            this.btnBitacora.FlatAppearance.BorderSize = 0;
-            this.btnBitacora.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBitacora.IconChar = FontAwesome.Sharp.IconChar.BookOpen;
-            this.btnBitacora.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnBitacora.IconSize = 24;
-            this.btnBitacora.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBitacora.Location = new System.Drawing.Point(520, 6);
-            this.btnBitacora.Name = "btnBitacora";
-            this.btnBitacora.Size = new System.Drawing.Size(110, 36);
-            this.btnBitacora.TabIndex = 4;
-            this.btnBitacora.Text = "Bitácora";
-            this.btnBitacora.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnBitacora.UseVisualStyleBackColor = true;
-            this.btnBitacora.Click += new System.EventHandler(this.AlHacerClickEnBitacora);
-            // 
-            // btnEstado
-            // 
-            this.btnEstado.FlatAppearance.BorderSize = 0;
-            this.btnEstado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEstado.IconChar = FontAwesome.Sharp.IconChar.Ban;
-            this.btnEstado.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnEstado.IconSize = 24;
-            this.btnEstado.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEstado.Location = new System.Drawing.Point(635, 6);
-            this.btnEstado.Name = "btnEstado";
-            this.btnEstado.Size = new System.Drawing.Size(120, 36);
-            this.btnEstado.TabIndex = 5;
-            this.btnEstado.Text = "Desactivar";
-            this.btnEstado.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnEstado.UseVisualStyleBackColor = true;
-            this.btnEstado.Click += new System.EventHandler(this.AlHacerClickEnCambiarEstado);
+            panelHerramientas.Controls.Add(btnActualizar);
+            panelHerramientas.Controls.Add(btnEstado);
+            panelHerramientas.Controls.Add(btnBitacora);
+            panelHerramientas.Controls.Add(btnEditar);
+            panelHerramientas.Controls.Add(btnNuevo);
+            panelHerramientas.Controls.Add(chkMostrarInactivos);
+            panelHerramientas.Controls.Add(txtBuscar);
+            panelHerramientas.Dock = DockStyle.Top;
+            panelHerramientas.Location = new Point(1, 1);
+            panelHerramientas.Name = "panelHerramientas";
+            panelHerramientas.Padding = new Padding(10, 8, 10, 4);
+            panelHerramientas.Size = new Size(882, 48);
+            panelHerramientas.TabIndex = 1;
             // 
             // btnActualizar
             // 
-            this.btnActualizar.FlatAppearance.BorderSize = 0;
-            this.btnActualizar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnActualizar.IconChar = FontAwesome.Sharp.IconChar.Rotate;
-            this.btnActualizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnActualizar.IconSize = 24;
-            this.btnActualizar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnActualizar.Location = new System.Drawing.Point(760, 6);
-            this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(115, 36);
-            this.btnActualizar.TabIndex = 6;
-            this.btnActualizar.Text = "Refrescar";
-            this.btnActualizar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnActualizar.UseVisualStyleBackColor = true;
+            btnActualizar.FlatAppearance.BorderSize = 0;
+            btnActualizar.IconChar = FontAwesome.Sharp.IconChar.SyncAlt;
+            btnActualizar.IconColor = Color.Black;
+            btnActualizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnActualizar.IconSize = 24;
+            btnActualizar.Location = new Point(752, 7);
+            btnActualizar.Name = "btnActualizar";
+            btnActualizar.Size = new Size(115, 32);
+            btnActualizar.TabIndex = 6;
+            btnActualizar.Text = "Refrescar";
+            btnActualizar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnActualizar.UseVisualStyleBackColor = true;
+            // 
+            // btnEstado
+            // 
+            btnEstado.FlatAppearance.BorderSize = 0;
+            btnEstado.IconChar = FontAwesome.Sharp.IconChar.Cancel;
+            btnEstado.IconColor = Color.Black;
+            btnEstado.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnEstado.IconSize = 24;
+            btnEstado.Location = new Point(510, 7);
+            btnEstado.Name = "btnEstado";
+            btnEstado.Size = new Size(120, 32);
+            btnEstado.TabIndex = 5;
+            btnEstado.Text = "Desactivar";
+            btnEstado.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnEstado.UseVisualStyleBackColor = true;
+            btnEstado.Click += AlHacerClickEnCambiarEstado;
+            // 
+            // btnBitacora
+            // 
+            btnBitacora.FlatAppearance.BorderSize = 0;
+            btnBitacora.IconChar = FontAwesome.Sharp.IconChar.BookOpen;
+            btnBitacora.IconColor = Color.Black;
+            btnBitacora.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnBitacora.IconSize = 24;
+            btnBitacora.Location = new Point(636, 7);
+            btnBitacora.Name = "btnBitacora";
+            btnBitacora.Size = new Size(110, 32);
+            btnBitacora.TabIndex = 4;
+            btnBitacora.Text = "Bitácora";
+            btnBitacora.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnBitacora.UseVisualStyleBackColor = true;
+            btnBitacora.Click += AlHacerClickEnBitacora;
+            // 
+            // btnEditar
+            // 
+            btnEditar.FlatAppearance.BorderSize = 0;
+            btnEditar.IconChar = FontAwesome.Sharp.IconChar.Edit;
+            btnEditar.IconColor = Color.Black;
+            btnEditar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnEditar.IconSize = 24;
+            btnEditar.Location = new Point(404, 7);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(100, 32);
+            btnEditar.TabIndex = 3;
+            btnEditar.Text = "Editar";
+            btnEditar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnEditar.UseVisualStyleBackColor = true;
+            btnEditar.Click += AlHacerClickEnEditar;
+            // 
+            // btnNuevo
+            // 
+            btnNuevo.FlatAppearance.BorderSize = 0;
+            btnNuevo.IconChar = FontAwesome.Sharp.IconChar.Add;
+            btnNuevo.IconColor = Color.Black;
+            btnNuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnNuevo.IconSize = 24;
+            btnNuevo.Location = new Point(298, 7);
+            btnNuevo.Name = "btnNuevo";
+            btnNuevo.Size = new Size(100, 32);
+            btnNuevo.TabIndex = 2;
+            btnNuevo.Text = "Nuevo";
+            btnNuevo.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnNuevo.UseVisualStyleBackColor = true;
+            btnNuevo.Click += AlHacerClickEnNuevo;
+            // 
+            // chkMostrarInactivos
+            // 
+            chkMostrarInactivos.AutoSize = true;
+            chkMostrarInactivos.Location = new Point(200, 14);
+            chkMostrarInactivos.Name = "chkMostrarInactivos";
+            chkMostrarInactivos.Size = new Size(77, 21);
+            chkMostrarInactivos.TabIndex = 1;
+            chkMostrarInactivos.Text = "Inactivos";
+            chkMostrarInactivos.UseVisualStyleBackColor = true;
+            // 
+            // txtBuscar
+            // 
+            txtBuscar.BorderStyle = BorderStyle.FixedSingle;
+            txtBuscar.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtBuscar.Location = new Point(10, 12);
+            txtBuscar.Name = "txtBuscar";
+            txtBuscar.PlaceholderText = "🔍  Buscar...";
+            txtBuscar.Size = new Size(175, 25);
+            txtBuscar.TabIndex = 0;
+            txtBuscar.TextChanged += AlCambiarBusqueda;
             // 
             // panelInferior
             // 
-            this.panelInferior.Controls.Add(this.lblConteo);
-            this.panelInferior.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelInferior.Location = new System.Drawing.Point(0, 511);
-            this.panelInferior.Name = "panelInferior";
-            this.panelInferior.Padding = new System.Windows.Forms.Padding(10, 5, 10, 0);
-            this.panelInferior.Size = new System.Drawing.Size(884, 30);
-            this.panelInferior.TabIndex = 2;
+            panelInferior.Controls.Add(lblConteo);
+            panelInferior.Dock = DockStyle.Bottom;
+            panelInferior.Location = new Point(1, 510);
+            panelInferior.Name = "panelInferior";
+            panelInferior.Padding = new Padding(10, 5, 10, 0);
+            panelInferior.Size = new Size(882, 30);
+            panelInferior.TabIndex = 2;
             // 
             // lblConteo
             // 
-            this.lblConteo.AutoSize = true;
-            this.lblConteo.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.lblConteo.Location = new System.Drawing.Point(10, 5);
-            this.lblConteo.Name = "lblConteo";
-            this.lblConteo.Size = new System.Drawing.Size(0, 15);
-            this.lblConteo.TabIndex = 0;
+            lblConteo.AutoSize = true;
+            lblConteo.Font = new Font("Segoe UI", 8.5F, FontStyle.Italic);
+            lblConteo.Location = new Point(10, 5);
+            lblConteo.Name = "lblConteo";
+            lblConteo.Size = new Size(0, 15);
+            lblConteo.TabIndex = 0;
             // 
             // grdNinos
             // 
-            this.grdNinos.AllowUserToAddRows = false;
-            this.grdNinos.AllowUserToDeleteRows = false;
-            this.grdNinos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.grdNinos.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.grdNinos.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.grdNinos.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.grdNinos.ColumnHeadersHeight = 30;
-            this.grdNinos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdNinos.Location = new System.Drawing.Point(0, 50);
-            this.grdNinos.MultiSelect = false;
-            this.grdNinos.Name = "grdNinos";
-            this.grdNinos.ReadOnly = true;
-            this.grdNinos.RowHeadersVisible = false;
-            this.grdNinos.RowTemplate.Height = 35;
-            this.grdNinos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdNinos.Size = new System.Drawing.Size(884, 461);
-            this.grdNinos.TabIndex = 7;
-            this.grdNinos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AlDobleClickEnFila);
+            grdNinos.AllowUserToAddRows = false;
+            grdNinos.AllowUserToDeleteRows = false;
+            grdNinos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            grdNinos.BorderStyle = BorderStyle.None;
+            grdNinos.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            grdNinos.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            grdNinos.ColumnHeadersHeight = 30;
+            grdNinos.Dock = DockStyle.Fill;
+            grdNinos.Location = new Point(1, 49);
+            grdNinos.MultiSelect = false;
+            grdNinos.Name = "grdNinos";
+            grdNinos.ReadOnly = true;
+            grdNinos.RowHeadersVisible = false;
+            grdNinos.RowTemplate.Height = 35;
+            grdNinos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            grdNinos.Size = new Size(882, 461);
+            grdNinos.TabIndex = 7;
+            grdNinos.CellDoubleClick += AlDobleClickEnFila;
             // 
             // FrmGestionNinos
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 541);
-            this.Controls.Add(this.grdNinos);
-            this.Controls.Add(this.panelInferior);
-            this.Controls.Add(this.panelHerramientas);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.Name = "FrmGestionNinos";
-            this.Text = "Gestión de Niños";
-            this.Load += new System.EventHandler(this.FrmGestionNinos_Load);
-            this.panelHerramientas.ResumeLayout(false);
-            this.panelHerramientas.PerformLayout();
-            this.panelInferior.ResumeLayout(false);
-            this.panelInferior.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdNinos)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(884, 541);
+            Controls.Add(grdNinos);
+            Controls.Add(panelInferior);
+            Controls.Add(panelHerramientas);
+            Font = new Font("Segoe UI", 9.5F);
+            Name = "FrmGestionNinos";
+            Text = "Gestión de Niños";
+            Load += FrmGestionNinos_Load;
+            panelHerramientas.ResumeLayout(false);
+            panelHerramientas.PerformLayout();
+            panelInferior.ResumeLayout(false);
+            panelInferior.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)grdNinos).EndInit();
+            ResumeLayout(false);
 
         }
 

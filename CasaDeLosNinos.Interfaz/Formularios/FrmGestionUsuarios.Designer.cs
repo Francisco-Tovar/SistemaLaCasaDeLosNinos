@@ -18,7 +18,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelHeader = new Panel();
             btnDesactivar = new FontAwesome.Sharp.IconButton();
             btnEditar = new FontAwesome.Sharp.IconButton();
-            label1 = new Label();
             txtBusqueda = new TextBox();
             btnNuevo = new FontAwesome.Sharp.IconButton();
             dgvUsuarios = new DataGridView();
@@ -30,23 +29,21 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             panelHeader.Controls.Add(btnDesactivar);
             panelHeader.Controls.Add(btnEditar);
-            panelHeader.Controls.Add(label1);
             panelHeader.Controls.Add(txtBusqueda);
             panelHeader.Controls.Add(btnNuevo);
             panelHeader.Dock = DockStyle.Top;
             panelHeader.Location = new Point(1, 1);
             panelHeader.Name = "panelHeader";
-            panelHeader.Size = new Size(882, 53);
+            panelHeader.Size = new Size(882, 48);
             panelHeader.TabIndex = 0;
             // 
             // btnDesactivar
             // 
-            btnDesactivar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnDesactivar.IconChar = FontAwesome.Sharp.IconChar.UserSlash;
-
+            btnDesactivar.IconColor = Color.Black;
             btnDesactivar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnDesactivar.IconSize = 24;
-            btnDesactivar.Location = new Point(478, 11);
+            btnDesactivar.Location = new Point(406, 7);
             btnDesactivar.Name = "btnDesactivar";
             btnDesactivar.Size = new Size(130, 32);
             btnDesactivar.TabIndex = 4;
@@ -57,12 +54,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // btnEditar
             // 
-            btnEditar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnEditar.IconChar = FontAwesome.Sharp.IconChar.UserPen;
-
+            btnEditar.IconColor = Color.Black;
             btnEditar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnEditar.IconSize = 24;
-            btnEditar.Location = new Point(613, 11);
+            btnEditar.Location = new Point(300, 7);
             btnEditar.Name = "btnEditar";
             btnEditar.Size = new Size(100, 32);
             btnEditar.TabIndex = 3;
@@ -71,37 +67,28 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnEditar.UseVisualStyleBackColor = true;
             btnEditar.Click += btnEditar_Click;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(13, 17);
-            label1.Name = "label1";
-            label1.Size = new Size(111, 15);
-            label1.TabIndex = 2;
-            label1.Text = "Buscar por nombre:";
-            // 
             // txtBusqueda
             // 
             txtBusqueda.BorderStyle = BorderStyle.FixedSingle;
-            txtBusqueda.Location = new Point(185, 17);
+            txtBusqueda.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtBusqueda.Location = new Point(10, 12);
             txtBusqueda.Name = "txtBusqueda";
-            txtBusqueda.PlaceholderText = " Nombre o usuario...";
-            txtBusqueda.Size = new Size(250, 23);
+            txtBusqueda.PlaceholderText = "🔍  Buscar...";
+            txtBusqueda.Size = new Size(175, 25);
             txtBusqueda.TabIndex = 1;
             txtBusqueda.TextChanged += txtBusqueda_TextChanged;
             // 
             // btnNuevo
             // 
-            btnNuevo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnNuevo.IconChar = FontAwesome.Sharp.IconChar.UserPlus;
-
+            btnNuevo.IconColor = Color.Black;
             btnNuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnNuevo.IconSize = 24;
-            btnNuevo.Location = new Point(718, 11);
+            btnNuevo.Location = new Point(195, 7);
             btnNuevo.Name = "btnNuevo";
-            btnNuevo.Size = new Size(150, 32);
+            btnNuevo.Size = new Size(100, 32);
             btnNuevo.TabIndex = 0;
-            btnNuevo.Text = "Nuevo Usuario";
+            btnNuevo.Text = "Nuevo";
             btnNuevo.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnNuevo.UseVisualStyleBackColor = true;
             btnNuevo.Click += btnNuevo_Click;
@@ -115,14 +102,14 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             dgvUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvUsuarios.ColumnHeadersHeight = 35;
             dgvUsuarios.Dock = DockStyle.Fill;
-            dgvUsuarios.Location = new Point(1, 54);
+            dgvUsuarios.Location = new Point(1, 49);
             dgvUsuarios.MultiSelect = false;
             dgvUsuarios.Name = "dgvUsuarios";
             dgvUsuarios.ReadOnly = true;
             dgvUsuarios.RowHeadersVisible = false;
             dgvUsuarios.RowTemplate.Height = 30;
             dgvUsuarios.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvUsuarios.Size = new Size(882, 440);
+            dgvUsuarios.Size = new Size(882, 445);
             dgvUsuarios.TabIndex = 1;
             dgvUsuarios.CellDoubleClick += dgvUsuarios_CellDoubleClick;
             // 
@@ -147,7 +134,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private FontAwesome.Sharp.IconButton btnNuevo;
         private FontAwesome.Sharp.IconButton btnEditar;
         private FontAwesome.Sharp.IconButton btnDesactivar;
-        private Label label1;
         private TextBox txtBusqueda;
     }
 }

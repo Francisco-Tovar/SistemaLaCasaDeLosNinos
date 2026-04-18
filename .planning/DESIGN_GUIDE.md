@@ -86,7 +86,14 @@ protected override void WndProc(ref Message m)
 *   **Docking:** Always dock the main containers (Left, Top, Fill).
 *   **Form Loading:** Clear `ContentPanel.Controls` before adding a new form and set `childForm.TopLevel = false`, `childForm.FormBorderStyle = None`, and `childForm.Dock = Fill`.
 
-## 7. Gestión de Temas
+## 7. Estándares de Tablas (DataGridView)
+Las grillas de datos deben mantener un diseño limpio, moderno e institucional ("Estilo Niños"):
+1.  **Sin Líneas Verticales:** `CellBorderStyle = SingleHorizontal`
+2.  **Encabezados Limpios:** `ColumnHeadersBorderStyle = None`
+3.  **Contenedor:** El DataGridView NO debe tener bordes propios (`BorderStyle = None`) y debe estar encapsulado en un `Panel` con `Padding=10` para dejar un suspiro limpio al ras del contorno.
+4.  **Conteo de Registros:** Agregar siempre un "Panel de Estado" (Bottom) con un `Label` que indique la cantidad de registros visibles.
+
+## 8. Gestión de Temas
 Para permitir una experiencia de usuario personalizada, el sistema soporta temas dinámicos (Oscuro/Claro).
 
 ### Estructura de Colores (ThemeColors)

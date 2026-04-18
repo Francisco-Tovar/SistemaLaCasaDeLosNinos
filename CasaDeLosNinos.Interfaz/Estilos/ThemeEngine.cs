@@ -40,7 +40,9 @@ public static class ThemeEngine
             }
             else if (name.Contains("desktop") || name.Contains("contenido") || name.Contains("main"))
                 p.BackColor = theme.ContentBackground;
-            else if (name.Contains("herramientas") || name.Contains("inferior") || name.Contains("botones") || name.Contains("surface") || name.Contains("fecha") || name.Contains("filtro"))
+            else if (name.Contains("herramientas") || name.Contains("inferior") || name.Contains("botones"))
+                p.BackColor = theme.ContentBackground;
+            else if (name.Contains("surface") || name.Contains("fecha") || name.Contains("filtro"))
                 p.BackColor = theme.SurfaceColor;
             else if (name.Contains("shadow"))
                 p.BackColor = GetShadowColor(theme);
@@ -151,18 +153,29 @@ public static class ThemeEngine
             }
             else
             {
-                // Sidebar Typography
-                bool isSidebarButton = name.Contains("menu") || name.Contains("side") || 
-                                     (btn.Parent != null && (btn.Parent.Name.ToLower().Contains("menu") || btn.Parent.Name.ToLower().Contains("side")));
+                // Identificar si es un botón de navegación lateral
+                string pName = btn.Parent != null ? btn.Parent.Name.ToLower() : "";
+                bool isSidebar = name.Contains("menu") || name.Contains("side") || pName.Contains("menu") || pName.Contains("side");
 
-                if (isSidebarButton)
+                if (isSidebar)
                 {
                     btn.Font = FontManager.GetFont("Grandstander", 12, FontStyle.Bold);
+                    btn.ForeColor = theme.AccentColor;
+                    btn.IconColor = theme.AccentColor;
+                }
+                else
+                {
+                    // Estándar para botones de acción en módulos (Excluyendo Login)
+                    var parentForm = btn.FindForm();
+                    bool isLogin = parentForm != null && parentForm.Name.Contains("Login");
+                    
+                    if (!isLogin)
+                        btn.Font = FontManager.GetFont("Nunito Sans", 10, FontStyle.Regular);
                 }
 
                 if (btn.Parent != null)
                 {
-                    string pName = btn.Parent.Name.ToLower();
+                    pName = btn.Parent.Name.ToLower();
                     if (pName.Contains("menu") || pName.Contains("side") || pName.Contains("herramientas") || pName.Contains("botones"))
                         btn.BackColor = Color.Transparent;
                 }
@@ -206,18 +219,20 @@ public static class ThemeEngine
             grd.BackgroundColor = theme.ContentBackground;
             grd.GridColor = theme.DividerColor;
             grd.BorderStyle = BorderStyle.None;
+            grd.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            grd.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             
             grd.ColumnHeadersDefaultCellStyle.BackColor = theme.HeaderBackground;
             grd.ColumnHeadersDefaultCellStyle.ForeColor = theme.TextPrimary;
             grd.ColumnHeadersDefaultCellStyle.SelectionBackColor = theme.HeaderBackground;
-            grd.ColumnHeadersDefaultCellStyle.Font = FontManager.GetFont("Grandstander", 10, FontStyle.Bold);
+            grd.ColumnHeadersDefaultCellStyle.Font = FontManager.GetFont("Grandstander", 12, FontStyle.Bold);
             grd.EnableHeadersVisualStyles = false;
             
             grd.DefaultCellStyle.BackColor = theme.ContentBackground;
             grd.DefaultCellStyle.ForeColor = theme.TextPrimary;
             grd.DefaultCellStyle.SelectionBackColor = theme.AccentColor;
             grd.DefaultCellStyle.SelectionForeColor = (theme == ThemeConfiguration.DarkTheme) ? Color.Black : Color.White;
-            grd.DefaultCellStyle.Font = FontManager.GetFont("Nunito Sans", 9, FontStyle.Regular);
+            grd.DefaultCellStyle.Font = FontManager.GetFont("Nunito Sans", 11, FontStyle.Regular);
             
             grd.AlternatingRowsDefaultCellStyle.BackColor = theme.SurfaceColor;
             grd.AlternatingRowsDefaultCellStyle.ForeColor = theme.TextPrimary;

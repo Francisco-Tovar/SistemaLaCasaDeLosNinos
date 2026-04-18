@@ -134,12 +134,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnIngresar.IconColor = Color.Black;
             btnIngresar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnIngresar.IconSize = 24;
-            btnIngresar.ImageAlign = ContentAlignment.MiddleLeft;
             btnIngresar.Location = new Point(285, 285);
             btnIngresar.Name = "btnIngresar";
             btnIngresar.Size = new Size(280, 45);
             btnIngresar.TabIndex = 7;
             btnIngresar.Text = "INGRESAR";
+            btnIngresar.TextAlign = ContentAlignment.MiddleRight;
             btnIngresar.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnIngresar.UseVisualStyleBackColor = false;
             btnIngresar.Click += AlHacerClickEnIngresar;
@@ -147,13 +147,13 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // lblCreditos
             // 
             lblCreditos.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            lblCreditos.Font = new Font("Segoe UI", 8.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            lblCreditos.Location = new Point(444, 364);
+            lblCreditos.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            lblCreditos.Location = new Point(260, 359);
             lblCreditos.Name = "lblCreditos";
             lblCreditos.Size = new Size(150, 30);
             lblCreditos.TabIndex = 9;
             lblCreditos.Text = "Sistema Creado por:\r\nFrancisco Tovar @2026";
-            lblCreditos.TextAlign = ContentAlignment.BottomRight;
+            lblCreditos.TextAlign = ContentAlignment.BottomLeft;
             // 
             // FrmLogin
             // 

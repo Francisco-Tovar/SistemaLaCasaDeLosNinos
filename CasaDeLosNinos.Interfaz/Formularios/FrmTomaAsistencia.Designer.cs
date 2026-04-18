@@ -18,6 +18,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelFecha = new Panel();
             txtBuscar = new TextBox();
             dtpFecha = new DateTimePicker();
+            btnGuardar = new FontAwesome.Sharp.IconButton();
             lblFecha = new Label();
             btnCargar = new FontAwesome.Sharp.IconButton();
             btnMarcarTodos = new FontAwesome.Sharp.IconButton();
@@ -25,7 +26,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelInferior = new Panel();
             lblResumen = new Label();
             lblEstado = new Label();
-            btnGuardar = new FontAwesome.Sharp.IconButton();
             grdAsistencia = new DataGridView();
             panelFecha.SuspendLayout();
             panelInferior.SuspendLayout();
@@ -36,24 +36,26 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             panelFecha.Controls.Add(txtBuscar);
             panelFecha.Controls.Add(dtpFecha);
+            panelFecha.Controls.Add(btnGuardar);
             panelFecha.Controls.Add(lblFecha);
             panelFecha.Controls.Add(btnCargar);
             panelFecha.Controls.Add(btnMarcarTodos);
             panelFecha.Controls.Add(btnDesmarcarTodos);
             panelFecha.Dock = DockStyle.Top;
-            panelFecha.Location = new Point(0, 0);
+            panelFecha.Location = new Point(1, 1);
             panelFecha.Name = "panelFecha";
             panelFecha.Padding = new Padding(12, 9, 12, 5);
-            panelFecha.Size = new Size(650, 48);
+            panelFecha.Size = new Size(648, 48);
             panelFecha.TabIndex = 1;
             // 
             // txtBuscar
             // 
             txtBuscar.BorderStyle = BorderStyle.FixedSingle;
+            txtBuscar.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtBuscar.Location = new Point(175, 12);
             txtBuscar.Name = "txtBuscar";
-            txtBuscar.PlaceholderText = "🔍 Buscar niña/o...";
-            txtBuscar.Size = new Size(160, 24);
+            txtBuscar.PlaceholderText = "🔍  Buscar...";
+            txtBuscar.Size = new Size(160, 25);
             txtBuscar.TabIndex = 2;
             txtBuscar.TextChanged += AlCambiarBusqueda;
             // 
@@ -66,10 +68,26 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             dtpFecha.TabIndex = 1;
             dtpFecha.ValueChanged += dtpFecha_ValueChanged;
             // 
+            // btnGuardar
+            // 
+            btnGuardar.FlatAppearance.BorderSize = 0;
+            btnGuardar.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnGuardar.IconChar = FontAwesome.Sharp.IconChar.Save;
+            btnGuardar.IconColor = Color.Black;
+            btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnGuardar.IconSize = 24;
+            btnGuardar.Location = new Point(539, 7);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(106, 32);
+            btnGuardar.TabIndex = 5;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += AlHacerClickEnGuardar;
+            // 
             // lblFecha
             // 
             lblFecha.AutoSize = true;
-
             lblFecha.Location = new Point(15, 15);
             lblFecha.Name = "lblFecha";
             lblFecha.Size = new Size(44, 17);
@@ -81,6 +99,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnCargar.FlatAppearance.BorderSize = 0;
             btnCargar.FlatStyle = FlatStyle.Flat;
             btnCargar.IconChar = FontAwesome.Sharp.IconChar.RotateRight;
+            btnCargar.IconColor = Color.Black;
             btnCargar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnCargar.IconSize = 24;
             btnCargar.ImageAlign = ContentAlignment.MiddleLeft;
@@ -97,14 +116,13 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // btnMarcarTodos
             // 
             btnMarcarTodos.FlatAppearance.BorderSize = 0;
-            btnMarcarTodos.FlatStyle = FlatStyle.Flat;
             btnMarcarTodos.IconChar = FontAwesome.Sharp.IconChar.CheckDouble;
+            btnMarcarTodos.IconColor = Color.Black;
             btnMarcarTodos.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnMarcarTodos.IconSize = 24;
-            btnMarcarTodos.ImageAlign = ContentAlignment.MiddleLeft;
-            btnMarcarTodos.Location = new Point(340, 6);
+            btnMarcarTodos.Location = new Point(341, 7);
             btnMarcarTodos.Name = "btnMarcarTodos";
-            btnMarcarTodos.Size = new Size(100, 36);
+            btnMarcarTodos.Size = new Size(89, 32);
             btnMarcarTodos.TabIndex = 3;
             btnMarcarTodos.Text = "Todos";
             btnMarcarTodos.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -114,14 +132,13 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // btnDesmarcarTodos
             // 
             btnDesmarcarTodos.FlatAppearance.BorderSize = 0;
-            btnDesmarcarTodos.FlatStyle = FlatStyle.Flat;
             btnDesmarcarTodos.IconChar = FontAwesome.Sharp.IconChar.Eraser;
+            btnDesmarcarTodos.IconColor = Color.Black;
             btnDesmarcarTodos.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnDesmarcarTodos.IconSize = 24;
-            btnDesmarcarTodos.ImageAlign = ContentAlignment.MiddleLeft;
-            btnDesmarcarTodos.Location = new Point(445, 6);
+            btnDesmarcarTodos.Location = new Point(435, 7);
             btnDesmarcarTodos.Name = "btnDesmarcarTodos";
-            btnDesmarcarTodos.Size = new Size(110, 36);
+            btnDesmarcarTodos.Size = new Size(98, 32);
             btnDesmarcarTodos.TabIndex = 4;
             btnDesmarcarTodos.Text = "Ninguno";
             btnDesmarcarTodos.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -132,19 +149,17 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             panelInferior.Controls.Add(lblResumen);
             panelInferior.Controls.Add(lblEstado);
-            panelInferior.Controls.Add(btnGuardar);
             panelInferior.Dock = DockStyle.Bottom;
-            panelInferior.Location = new Point(0, 527);
+            panelInferior.Location = new Point(1, 550);
             panelInferior.Name = "panelInferior";
             panelInferior.Padding = new Padding(12, 8, 12, 6);
-            panelInferior.Size = new Size(650, 54);
+            panelInferior.Size = new Size(648, 30);
             panelInferior.TabIndex = 2;
             // 
             // lblResumen
             // 
             lblResumen.AutoSize = true;
             lblResumen.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-
             lblResumen.Location = new Point(12, 10);
             lblResumen.Name = "lblResumen";
             lblResumen.Size = new Size(0, 17);
@@ -154,46 +169,26 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             lblEstado.AutoSize = true;
             lblEstado.Font = new Font("Segoe UI", 8.5F, FontStyle.Italic);
-
             lblEstado.Location = new Point(12, 30);
             lblEstado.Name = "lblEstado";
             lblEstado.Size = new Size(0, 15);
             lblEstado.TabIndex = 1;
             // 
-            // btnGuardar
-            // 
-            btnGuardar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnGuardar.FlatAppearance.BorderSize = 0;
-            btnGuardar.FlatStyle = FlatStyle.Flat;
-            btnGuardar.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-
-            btnGuardar.IconChar = FontAwesome.Sharp.IconChar.Save;
-            btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnGuardar.IconSize = 24;
-            btnGuardar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGuardar.Location = new Point(470, 8);
-            btnGuardar.Name = "btnGuardar";
-            btnGuardar.Size = new Size(160, 36);
-            btnGuardar.TabIndex = 5;
-            btnGuardar.Text = "Guardar";
-            btnGuardar.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnGuardar.UseVisualStyleBackColor = true;
-            btnGuardar.Click += AlHacerClickEnGuardar;
-            // 
             // grdAsistencia
             // 
             grdAsistencia.AllowUserToAddRows = false;
             grdAsistencia.AllowUserToDeleteRows = false;
+            grdAsistencia.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             grdAsistencia.BorderStyle = BorderStyle.None;
             grdAsistencia.ColumnHeadersHeight = 35;
             grdAsistencia.Dock = DockStyle.Fill;
-            grdAsistencia.Location = new Point(0, 48);
+            grdAsistencia.Location = new Point(1, 49);
             grdAsistencia.MultiSelect = false;
             grdAsistencia.Name = "grdAsistencia";
             grdAsistencia.RowHeadersVisible = false;
             grdAsistencia.RowTemplate.Height = 35;
             grdAsistencia.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            grdAsistencia.Size = new Size(650, 479);
+            grdAsistencia.Size = new Size(648, 501);
             grdAsistencia.TabIndex = 3;
             // 
             // FrmTomaAsistencia
@@ -214,7 +209,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelInferior.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)grdAsistencia).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         private System.Windows.Forms.Panel panelFecha;

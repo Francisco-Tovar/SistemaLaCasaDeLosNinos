@@ -54,12 +54,32 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             grdAsistencia.Columns.Clear();
             grdAsistencia.AutoGenerateColumns = false;
 
-            grdAsistencia.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "NombreCompleto", HeaderText = "Niño", Width = 250, ReadOnly = true });
-            grdAsistencia.Columns.Add(new DataGridViewCheckBoxColumn { DataPropertyName = "Presente", HeaderText = "Presente", Width = 80 });
-            grdAsistencia.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Observacion", HeaderText = "Observación", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            var colNombre = new DataGridViewTextBoxColumn { DataPropertyName = "NombreCompleto", HeaderText = "Niño", Width = 250, Name = "Nombre" };
+            colNombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+            var colPresente = new DataGridViewCheckBoxColumn { DataPropertyName = "Presente", HeaderText = "Presente", Width = 80, Name = "Presente" };
+            colPresente.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+            var colObservacion = new DataGridViewTextBoxColumn { DataPropertyName = "Observacion", Name = "Observacion" };
+            colObservacion.HeaderText = "Observación";
+            colObservacion.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colObservacion.ReadOnly = false; // Forzar editabilidad
+            
+            grdAsistencia.Columns.AddRange(colNombre, colPresente, colObservacion);
+            
+            // Bloquear solo el nombre
+            colNombre.ReadOnly = true;
 
             grdAsistencia.CellValueChanged += AlCambiarCelda;
-            grdAsistencia.CurrentCellDirtyStateChanged += (_, _) => { if (grdAsistencia.IsCurrentCellDirty) grdAsistencia.CommitEdit(DataGridViewDataErrorContexts.Commit); };
+            grdAsistencia.CurrentCellDirtyStateChanged += (_, _) => 
+            { 
+                if (grdAsistencia.IsCurrentCellDirty && grdAsistencia.CurrentCell is DataGridViewCheckBoxCell) 
+                    grdAsistencia.CommitEdit(DataGridViewDataErrorContexts.Commit); 
+            };
+            grdAsistencia.CellDoubleClick += AlDobleClickEnFila;
+            
+            // Garantizar que se puedan editar celdas (para Observaciones)
+            grdAsistencia.ReadOnly = false;
         }
 
         private async void FrmTomaAsistencia_Load(object sender, EventArgs e) => await CargarDatosAsync();
@@ -92,6 +112,35 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         }
 
         private void AlCambiarCelda(object? sender, DataGridViewCellEventArgs e) => ActualizarResumen();
+
+        private void AlDobleClickEnFila(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            // Si hacen clic en Observación no alternar asistencia, para permitir escribir.
+            if (e.ColumnIndex == grdAsistencia.Columns["Observacion"].Index) 
+            {
+                grdAsistencia.BeginEdit(true);
+                return;
+            }
+            
+            // Si hacen clic directo en el CheckBox de Presente, no alternar manualmente
+            // porque el control CheckBox nativo ya lo alterna en el primer click.
+            if (e.ColumnIndex == grdAsistencia.Columns["Presente"].Index) return;
+
+            var fila = grdAsistencia.Rows[e.RowIndex];
+            if (fila.DataBoundItem is NinoAsistenciaDto dto)
+            {
+                // Solo alternar si el click fue en el nombre u otra zona vacía de la fila
+                dto.Presente = !dto.Presente;
+                
+                // Repintar grilla al instante forzando actualización de la celda específica
+                grdAsistencia.InvalidateCell(grdAsistencia.Columns["Presente"].Index, e.RowIndex);
+                grdAsistencia.UpdateCellValue(grdAsistencia.Columns["Presente"].Index, e.RowIndex);
+                
+                ActualizarResumen();
+            }
+        }
 
         private void AlHacerClickEnMarcarTodos(object sender, EventArgs e) => CambiarEstadoTodos(true);
         private void AlHacerClickEnDesmarcarTodos(object sender, EventArgs e) => CambiarEstadoTodos(false);
