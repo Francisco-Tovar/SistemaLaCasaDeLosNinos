@@ -58,7 +58,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnRefrescar.IconSize = 24;
             btnRefrescar.Location = new Point(742, 6);
             btnRefrescar.Name = "btnRefrescar";
-            btnRefrescar.Size = new Size(100, 32);
+            btnRefrescar.Size = new Size(113, 32);
             btnRefrescar.TabIndex = 2;
             btnRefrescar.Text = "Refrescar";
             btnRefrescar.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -68,7 +68,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // btnDesactivar
             // 
             btnDesactivar.Font = new Font("Segoe UI", 9.75F);
-            btnDesactivar.IconChar = FontAwesome.Sharp.IconChar.Cancel;
+            btnDesactivar.IconChar = FontAwesome.Sharp.IconChar.UserSlash;
             btnDesactivar.IconColor = Color.Black;
             btnDesactivar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnDesactivar.IconSize = 24;
@@ -100,7 +100,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // btnEditar
             // 
             btnEditar.Font = new Font("Segoe UI", 9.75F);
-            btnEditar.IconChar = FontAwesome.Sharp.IconChar.Edit;
+            btnEditar.IconChar = FontAwesome.Sharp.IconChar.UserPen;
             btnEditar.IconColor = Color.Black;
             btnEditar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnEditar.IconSize = 24;
@@ -116,7 +116,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // btnNuevo
             // 
             btnNuevo.Font = new Font("Segoe UI", 9.75F);
-            btnNuevo.IconChar = FontAwesome.Sharp.IconChar.Add;
+            btnNuevo.IconChar = FontAwesome.Sharp.IconChar.UserPlus;
             btnNuevo.IconColor = Color.Black;
             btnNuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnNuevo.IconSize = 24;

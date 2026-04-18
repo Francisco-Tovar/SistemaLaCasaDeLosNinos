@@ -15,175 +15,175 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void InitializeComponent()
         {
-            this.panelEncabezado = new System.Windows.Forms.Panel();
-            this.btnClose = new FontAwesome.Sharp.IconButton();
-            this.lblTitulo = new System.Windows.Forms.Label();
-            this.panelCaptura = new System.Windows.Forms.Panel();
-            this.btnGuardar = new FontAwesome.Sharp.IconButton();
-            this.lblContador = new System.Windows.Forms.Label();
-            this.txtNuevaObservacion = new System.Windows.Forms.TextBox();
-            this.lblAutorInfo = new System.Windows.Forms.Label();
-            this.lblNueva = new System.Windows.Forms.Label();
-            this.lblHistorial = new System.Windows.Forms.Label();
-            this.panelHistorial = new System.Windows.Forms.Panel();
-            this.panelEncabezado.SuspendLayout();
-            this.panelCaptura.SuspendLayout();
-            this.SuspendLayout();
+            panelEncabezado = new Panel();
+            btnClose = new FontAwesome.Sharp.IconButton();
+            lblTitulo = new Label();
+            panelCaptura = new Panel();
+            btnGuardar = new FontAwesome.Sharp.IconButton();
+            lblContador = new Label();
+            txtNuevaObservacion = new TextBox();
+            lblAutorInfo = new Label();
+            lblNueva = new Label();
+            lblHistorial = new Label();
+            panelHistorial = new Panel();
+            panelEncabezado.SuspendLayout();
+            panelCaptura.SuspendLayout();
+            SuspendLayout();
             // 
             // panelEncabezado
             // 
-            this.panelEncabezado.Controls.Add(this.btnClose);
-            this.panelEncabezado.Controls.Add(this.lblTitulo);
-            this.panelEncabezado.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelEncabezado.Location = new System.Drawing.Point(0, 0);
-            this.panelEncabezado.Name = "panelEncabezado";
-            this.panelEncabezado.Padding = new System.Windows.Forms.Padding(12, 8, 12, 8);
-            this.panelEncabezado.Size = new System.Drawing.Size(704, 54);
-            this.panelEncabezado.TabIndex = 0;
-            this.panelEncabezado.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panelEncabezado_MouseDown);
+            panelEncabezado.Controls.Add(btnClose);
+            panelEncabezado.Controls.Add(lblTitulo);
+            panelEncabezado.Dock = DockStyle.Top;
+            panelEncabezado.Location = new Point(1, 1);
+            panelEncabezado.Name = "panelEncabezado";
+            panelEncabezado.Padding = new Padding(12, 8, 12, 8);
+            panelEncabezado.Size = new Size(702, 54);
+            panelEncabezado.TabIndex = 0;
+            panelEncabezado.MouseDown += panelEncabezado_MouseDown;
             // 
             // btnClose
             // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.FlatAppearance.BorderSize = 0;
-            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.IconChar = FontAwesome.Sharp.IconChar.Xmark;
-            this.btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnClose.IconSize = 20;
-            this.btnClose.Location = new System.Drawing.Point(674, 0);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(30, 30);
-            this.btnClose.TabIndex = 1;
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Click += new System.EventHandler(this.AlHacerClickEnCerrar);
+            btnClose.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnClose.FlatAppearance.BorderSize = 0;
+            btnClose.FlatStyle = FlatStyle.Flat;
+            btnClose.IconChar = FontAwesome.Sharp.IconChar.Close;
+            btnClose.IconColor = Color.Black;
+            btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnClose.IconSize = 20;
+            btnClose.Location = new Point(672, 0);
+            btnClose.Name = "btnClose";
+            btnClose.Size = new Size(30, 30);
+            btnClose.TabIndex = 1;
+            btnClose.UseVisualStyleBackColor = true;
+            btnClose.Click += AlHacerClickEnCerrar;
             // 
             // lblTitulo
             // 
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTitulo.Location = new System.Drawing.Point(12, 14);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(264, 21);
-            this.lblTitulo.TabIndex = 0;
-            this.lblTitulo.Text = "📋  Bitácora de Observaciones — ";
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblTitulo.Location = new Point(12, 14);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(267, 21);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "📋  Bitácora de Observaciones — ";
             // 
             // panelCaptura
             // 
-            this.panelCaptura.Controls.Add(this.btnGuardar);
-            this.panelCaptura.Controls.Add(this.lblContador);
-            this.panelCaptura.Controls.Add(this.txtNuevaObservacion);
-            this.panelCaptura.Controls.Add(this.lblAutorInfo);
-            this.panelCaptura.Controls.Add(this.lblNueva);
-            this.panelCaptura.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelCaptura.Location = new System.Drawing.Point(0, 391);
-            this.panelCaptura.Name = "panelCaptura";
-            this.panelCaptura.Padding = new System.Windows.Forms.Padding(12, 8, 12, 10);
-            this.panelCaptura.Size = new System.Drawing.Size(704, 190);
-            this.panelCaptura.TabIndex = 1;
+            panelCaptura.Controls.Add(btnGuardar);
+            panelCaptura.Controls.Add(lblContador);
+            panelCaptura.Controls.Add(txtNuevaObservacion);
+            panelCaptura.Controls.Add(lblAutorInfo);
+            panelCaptura.Controls.Add(lblNueva);
+            panelCaptura.Dock = DockStyle.Bottom;
+            panelCaptura.Location = new Point(1, 390);
+            panelCaptura.Name = "panelCaptura";
+            panelCaptura.Padding = new Padding(12, 8, 12, 10);
+            panelCaptura.Size = new Size(702, 190);
+            panelCaptura.TabIndex = 1;
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGuardar.FlatAppearance.BorderSize = 0;
-            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGuardar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnGuardar.IconChar = FontAwesome.Sharp.IconChar.PaperPlane;
-            this.btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnGuardar.IconSize = 24;
-            this.btnGuardar.Location = new System.Drawing.Point(520, 140);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(170, 40);
-            this.btnGuardar.TabIndex = 4;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.AlGuardarObservacion);
+            btnGuardar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnGuardar.FlatAppearance.BorderSize = 0;
+            btnGuardar.FlatStyle = FlatStyle.Flat;
+            btnGuardar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnGuardar.IconChar = FontAwesome.Sharp.IconChar.Save;
+            btnGuardar.IconColor = Color.Black;
+            btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnGuardar.IconSize = 24;
+            btnGuardar.Location = new Point(518, 140);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(170, 40);
+            btnGuardar.TabIndex = 4;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnGuardar.UseVisualStyleBackColor = true;
+            btnGuardar.Click += AlGuardarObservacion;
             // 
             // lblContador
             // 
-            this.lblContador.AutoSize = true;
-            this.lblContador.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblContador.Location = new System.Drawing.Point(12, 140);
-            this.lblContador.Name = "lblContador";
-            this.lblContador.Size = new System.Drawing.Size(53, 15);
-            this.lblContador.TabIndex = 3;
-            this.lblContador.Text = "0 / 2000";
+            lblContador.AutoSize = true;
+            lblContador.Font = new Font("Segoe UI", 8.5F);
+            lblContador.Location = new Point(12, 140);
+            lblContador.Name = "lblContador";
+            lblContador.Size = new Size(48, 15);
+            lblContador.TabIndex = 3;
+            lblContador.Text = "0 / 2000";
             // 
             // txtNuevaObservacion
             // 
-            this.txtNuevaObservacion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNuevaObservacion.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtNuevaObservacion.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtNuevaObservacion.Location = new System.Drawing.Point(12, 65);
-            this.txtNuevaObservacion.MaxLength = 2000;
-            this.txtNuevaObservacion.Multiline = true;
-            this.txtNuevaObservacion.Name = "txtNuevaObservacion";
-            this.txtNuevaObservacion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtNuevaObservacion.Size = new System.Drawing.Size(680, 60);
-            this.txtNuevaObservacion.TabIndex = 2;
-            this.txtNuevaObservacion.TextChanged += new System.EventHandler(this.AlCambiarTexto);
+            txtNuevaObservacion.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtNuevaObservacion.BorderStyle = BorderStyle.None;
+            txtNuevaObservacion.Font = new Font("Segoe UI", 10F);
+            txtNuevaObservacion.Location = new Point(12, 65);
+            txtNuevaObservacion.MaxLength = 2000;
+            txtNuevaObservacion.Multiline = true;
+            txtNuevaObservacion.Name = "txtNuevaObservacion";
+            txtNuevaObservacion.ScrollBars = ScrollBars.Vertical;
+            txtNuevaObservacion.Size = new Size(678, 60);
+            txtNuevaObservacion.TabIndex = 2;
+            txtNuevaObservacion.TextChanged += AlCambiarTexto;
             // 
             // lblAutorInfo
             // 
-            this.lblAutorInfo.AutoSize = true;
-            this.lblAutorInfo.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic);
-            this.lblAutorInfo.Location = new System.Drawing.Point(12, 40);
-            this.lblAutorInfo.Name = "lblAutorInfo";
-            this.lblAutorInfo.Size = new System.Drawing.Size(0, 15);
-            this.lblAutorInfo.TabIndex = 1;
+            lblAutorInfo.AutoSize = true;
+            lblAutorInfo.Font = new Font("Segoe UI", 8.5F, FontStyle.Italic);
+            lblAutorInfo.Location = new Point(12, 40);
+            lblAutorInfo.Name = "lblAutorInfo";
+            lblAutorInfo.Size = new Size(0, 15);
+            lblAutorInfo.TabIndex = 1;
             // 
             // lblNueva
             // 
-            this.lblNueva.AutoSize = true;
-            this.lblNueva.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblNueva.Location = new System.Drawing.Point(12, 10);
-            this.lblNueva.Name = "lblNueva";
-            this.lblNueva.Size = new System.Drawing.Size(140, 19);
-            this.lblNueva.TabIndex = 0;
-            this.lblNueva.Text = "Nueva Observación:";
+            lblNueva.AutoSize = true;
+            lblNueva.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblNueva.Location = new Point(12, 10);
+            lblNueva.Name = "lblNueva";
+            lblNueva.Size = new Size(145, 19);
+            lblNueva.TabIndex = 0;
+            lblNueva.Text = "Nueva Observación:";
             // 
             // lblHistorial
             // 
-            this.lblHistorial.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblHistorial.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblHistorial.Location = new System.Drawing.Point(0, 54);
-            this.lblHistorial.Name = "lblHistorial";
-            this.lblHistorial.Padding = new System.Windows.Forms.Padding(12, 10, 0, 0);
-            this.lblHistorial.Size = new System.Drawing.Size(704, 40);
-            this.lblHistorial.TabIndex = 2;
-            this.lblHistorial.Text = "Historial:";
+            lblHistorial.Dock = DockStyle.Top;
+            lblHistorial.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblHistorial.Location = new Point(1, 55);
+            lblHistorial.Name = "lblHistorial";
+            lblHistorial.Padding = new Padding(12, 10, 0, 0);
+            lblHistorial.Size = new Size(702, 40);
+            lblHistorial.TabIndex = 2;
+            lblHistorial.Text = "Historial:";
             // 
             // panelHistorial
             // 
-            this.panelHistorial.AutoScroll = true;
-            this.panelHistorial.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelHistorial.Location = new System.Drawing.Point(0, 84);
-            this.panelHistorial.Name = "panelHistorial";
-            this.panelHistorial.Padding = new System.Windows.Forms.Padding(15, 10, 15, 10);
-            this.panelHistorial.Size = new System.Drawing.Size(704, 297);
-            this.panelHistorial.TabIndex = 3;
+            panelHistorial.AutoScroll = true;
+            panelHistorial.Dock = DockStyle.Fill;
+            panelHistorial.Location = new Point(1, 95);
+            panelHistorial.Name = "panelHistorial";
+            panelHistorial.Padding = new Padding(15, 10, 15, 10);
+            panelHistorial.Size = new Size(702, 295);
+            panelHistorial.TabIndex = 3;
             // 
             // FrmObservaciones
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(704, 581);
-            this.Controls.Add(this.panelHistorial);
-            this.Controls.Add(this.lblHistorial);
-            this.Controls.Add(this.panelCaptura);
-            this.Controls.Add(this.panelEncabezado);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "FrmObservaciones";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Bitácora";
-            this.Load += new System.EventHandler(this.FrmObservaciones_Load);
-            this.panelEncabezado.ResumeLayout(false);
-            this.panelEncabezado.PerformLayout();
-            this.panelCaptura.ResumeLayout(false);
-            this.panelCaptura.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(704, 581);
+            Controls.Add(panelHistorial);
+            Controls.Add(lblHistorial);
+            Controls.Add(panelCaptura);
+            Controls.Add(panelEncabezado);
+            Font = new Font("Segoe UI", 9.5F);
+            Name = "FrmObservaciones";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Bitácora";
+            Load += FrmObservaciones_Load;
+            panelEncabezado.ResumeLayout(false);
+            panelEncabezado.PerformLayout();
+            panelCaptura.ResumeLayout(false);
+            panelCaptura.PerformLayout();
+            ResumeLayout(false);
 
         }
 

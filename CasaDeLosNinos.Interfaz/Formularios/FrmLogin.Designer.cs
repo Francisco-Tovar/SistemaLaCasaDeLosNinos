@@ -138,7 +138,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnIngresar.Name = "btnIngresar";
             btnIngresar.Size = new Size(280, 45);
             btnIngresar.TabIndex = 7;
-            btnIngresar.Text = "INGRESAR";
+            btnIngresar.Text = "   INGRESAR";
             btnIngresar.TextAlign = ContentAlignment.MiddleRight;
             btnIngresar.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnIngresar.UseVisualStyleBackColor = false;

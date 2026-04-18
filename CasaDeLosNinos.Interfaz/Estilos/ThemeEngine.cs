@@ -76,7 +76,7 @@ public static class ThemeEngine
 
                 lbl.Font = FontManager.GetFont("Grandstander", fontSize, FontStyle.Bold);
                 
-                if (name.Contains("historial") || name.Contains("nueva"))
+                if (isMainTitle || name.Contains("historial") || name.Contains("nueva"))
                     lbl.ForeColor = theme.AccentColor;
             }
             else
@@ -85,7 +85,11 @@ public static class ThemeEngine
                 lbl.Font = FontManager.GetFont("Nunito Sans", lbl.Font.Size, FontStyle.Regular);
             }
 
-            if (lbl.BackColor != Color.Transparent)
+            if (parentName.Contains("desktop") || parentName.Contains("contenido"))
+            {
+                lbl.BackColor = Color.Transparent;
+            }
+            else if (lbl.BackColor != Color.Transparent)
             {
                 if (lbl.Parent != null) lbl.BackColor = lbl.Parent.BackColor;
                 else lbl.BackColor = theme.ContentBackground;
@@ -251,7 +255,7 @@ public static class ThemeEngine
 
         if (control is PictureBox pic)
         {
-            if (pic.Parent != null && (pic.Parent.Name.ToLower().Contains("logo") || pic.Parent.Name.ToLower().Contains("menu")))
+            if (pic.Parent != null && (pic.Parent.Name.ToLower().Contains("logo") || pic.Parent.Name.ToLower().Contains("menu") || pic.Parent.Name.ToLower().Contains("desktop")))
                 pic.BackColor = Color.Transparent;
         }
 

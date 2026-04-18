@@ -263,7 +263,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             btnCancelar.FlatAppearance.BorderSize = 0;
             btnCancelar.FlatStyle = FlatStyle.Flat;
-            btnCancelar.IconChar = FontAwesome.Sharp.IconChar.XmarkCircle;
+            btnCancelar.IconChar = FontAwesome.Sharp.IconChar.Cancel;
             btnCancelar.IconColor = Color.Black;
             btnCancelar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnCancelar.IconSize = 24;
@@ -305,9 +305,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             Name = "FrmEdicionUsuario";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Edición de Usuario";
-            Controls.SetChildIndex(panelCabecera, 0);
-            Controls.SetChildIndex(tableLayoutPanel, 0);
-            Controls.SetChildIndex(pnlAcciones, 0);
             panelCabecera.ResumeLayout(false);
             panelCabecera.PerformLayout();
             tableLayoutPanel.ResumeLayout(false);

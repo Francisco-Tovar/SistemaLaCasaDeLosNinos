@@ -17,7 +17,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             panelHerramientas = new Panel();
             btnActualizar = new FontAwesome.Sharp.IconButton();
-            btnEstado = new FontAwesome.Sharp.IconButton();
+            btnDesactivar = new FontAwesome.Sharp.IconButton();
             btnBitacora = new FontAwesome.Sharp.IconButton();
             btnEditar = new FontAwesome.Sharp.IconButton();
             btnNuevo = new FontAwesome.Sharp.IconButton();
@@ -34,7 +34,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // panelHerramientas
             // 
             panelHerramientas.Controls.Add(btnActualizar);
-            panelHerramientas.Controls.Add(btnEstado);
+            panelHerramientas.Controls.Add(btnDesactivar);
             panelHerramientas.Controls.Add(btnBitacora);
             panelHerramientas.Controls.Add(btnEditar);
             panelHerramientas.Controls.Add(btnNuevo);
@@ -62,21 +62,21 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnActualizar.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnActualizar.UseVisualStyleBackColor = true;
             // 
-            // btnEstado
+            // btnDesactivar
             // 
-            btnEstado.FlatAppearance.BorderSize = 0;
-            btnEstado.IconChar = FontAwesome.Sharp.IconChar.Cancel;
-            btnEstado.IconColor = Color.Black;
-            btnEstado.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnEstado.IconSize = 24;
-            btnEstado.Location = new Point(510, 7);
-            btnEstado.Name = "btnEstado";
-            btnEstado.Size = new Size(120, 32);
-            btnEstado.TabIndex = 5;
-            btnEstado.Text = "Desactivar";
-            btnEstado.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnEstado.UseVisualStyleBackColor = true;
-            btnEstado.Click += AlHacerClickEnCambiarEstado;
+            btnDesactivar.FlatAppearance.BorderSize = 0;
+            btnDesactivar.IconChar = FontAwesome.Sharp.IconChar.UserSlash;
+            btnDesactivar.IconColor = Color.Black;
+            btnDesactivar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnDesactivar.IconSize = 24;
+            btnDesactivar.Location = new Point(510, 7);
+            btnDesactivar.Name = "btnDesactivar";
+            btnDesactivar.Size = new Size(120, 32);
+            btnDesactivar.TabIndex = 5;
+            btnDesactivar.Text = "Desactivar";
+            btnDesactivar.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnDesactivar.UseVisualStyleBackColor = true;
+            btnDesactivar.Click += AlHacerClickEnCambiarEstado;
             // 
             // btnBitacora
             // 
@@ -97,7 +97,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // btnEditar
             // 
             btnEditar.FlatAppearance.BorderSize = 0;
-            btnEditar.IconChar = FontAwesome.Sharp.IconChar.Edit;
+            btnEditar.IconChar = FontAwesome.Sharp.IconChar.UserPen;
             btnEditar.IconColor = Color.Black;
             btnEditar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnEditar.IconSize = 24;
@@ -113,7 +113,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // btnNuevo
             // 
             btnNuevo.FlatAppearance.BorderSize = 0;
-            btnNuevo.IconChar = FontAwesome.Sharp.IconChar.Add;
+            btnNuevo.IconChar = FontAwesome.Sharp.IconChar.UserPlus;
             btnNuevo.IconColor = Color.Black;
             btnNuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnNuevo.IconSize = 24;
@@ -214,7 +214,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private FontAwesome.Sharp.IconButton btnNuevo;
         private FontAwesome.Sharp.IconButton btnEditar;
         private FontAwesome.Sharp.IconButton btnBitacora;
-        private FontAwesome.Sharp.IconButton btnEstado;
+        private FontAwesome.Sharp.IconButton btnDesactivar;
         private FontAwesome.Sharp.IconButton btnActualizar;
         private System.Windows.Forms.Panel panelInferior;
         private System.Windows.Forms.Label lblConteo;

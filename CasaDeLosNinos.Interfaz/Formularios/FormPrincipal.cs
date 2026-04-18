@@ -303,18 +303,33 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 btnUsuarios.Visible = false;
             }
 
-            // Abrir Gestión de Niños al iniciar
-            btnNinos_Click(btnNinos, EventArgs.Empty);
+            ConfigurarFondo();
         }
 
         private void ConfigurarLogotipo()
         {
             try
             {
-                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "logomin.png");
-                if (File.Exists(path))
+                string pathMin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "logomin.png");
+                if (File.Exists(pathMin))
                 {
-                    btnHome.Image = Image.FromFile(path);
+                    var img = Image.FromFile(pathMin);
+                    btnHome.Image = img;
+                    //picLogoCentral.Image = img;
+                }
+            }
+            catch { }
+        }
+
+        private void ConfigurarFondo()
+        {
+            try
+            {
+                string wallPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "walls", "CasaNinosWallHalfSat.png");
+                if (File.Exists(wallPath))
+                {
+                    panelDesktop.BackgroundImage = Image.FromFile(wallPath);
+                    panelDesktop.BackgroundImageLayout = ImageLayout.Stretch;
                 }
             }
             catch { }

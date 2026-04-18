@@ -180,9 +180,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             var nino = ObtenerNinoSeleccionado();
             if (nino == null) return;
 
-            btnEstado.Text = nino.Activo ? "Desactivar" : "Activar";
-            btnEstado.IconChar = nino.Activo ? IconChar.Ban : IconChar.Check;
-            btnEstado.IconColor = nino.Activo ? Color.FromArgb(231, 76, 60) : Color.FromArgb(46, 204, 113);
+            btnDesactivar.Text = nino.Activo ? "Desactivar" : "Activar";
+            btnDesactivar.IconChar = nino.Activo ? IconChar.UserSlash : IconChar.Check;
+            
+            btnDesactivar.BackColor = nino.Activo ? _theme.StatusError : _theme.StatusSuccess;
+            btnDesactivar.ForeColor = Color.White;
+            btnDesactivar.IconColor = Color.White;
         }
 
         private Nino? ObtenerNinoSeleccionado()
