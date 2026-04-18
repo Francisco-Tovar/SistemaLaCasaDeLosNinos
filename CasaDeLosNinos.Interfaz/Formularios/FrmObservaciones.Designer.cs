@@ -32,7 +32,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // panelEncabezado
             // 
-            this.panelEncabezado.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
             this.panelEncabezado.Controls.Add(this.btnClose);
             this.panelEncabezado.Controls.Add(this.lblTitulo);
             this.panelEncabezado.Dock = System.Windows.Forms.DockStyle.Top;
@@ -49,7 +48,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.btnClose.FlatAppearance.BorderSize = 0;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.IconChar = FontAwesome.Sharp.IconChar.Xmark;
-            this.btnClose.IconColor = System.Drawing.Color.Gainsboro;
             this.btnClose.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnClose.IconSize = 20;
             this.btnClose.Location = new System.Drawing.Point(674, 0);
@@ -63,7 +61,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.lblTitulo.AutoSize = true;
             this.lblTitulo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTitulo.ForeColor = System.Drawing.Color.Gainsboro;
             this.lblTitulo.Location = new System.Drawing.Point(12, 14);
             this.lblTitulo.Name = "lblTitulo";
             this.lblTitulo.Size = new System.Drawing.Size(264, 21);
@@ -72,7 +69,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // panelCaptura
             // 
-            this.panelCaptura.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
             this.panelCaptura.Controls.Add(this.btnGuardar);
             this.panelCaptura.Controls.Add(this.lblContador);
             this.panelCaptura.Controls.Add(this.txtNuevaObservacion);
@@ -91,9 +87,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.btnGuardar.FlatAppearance.BorderSize = 0;
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnGuardar.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnGuardar.IconChar = FontAwesome.Sharp.IconChar.PaperPlane;
-            this.btnGuardar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
             this.btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnGuardar.IconSize = 24;
             this.btnGuardar.Location = new System.Drawing.Point(520, 140);
@@ -109,7 +103,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.lblContador.AutoSize = true;
             this.lblContador.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblContador.ForeColor = System.Drawing.Color.Silver;
             this.lblContador.Location = new System.Drawing.Point(12, 140);
             this.lblContador.Name = "lblContador";
             this.lblContador.Size = new System.Drawing.Size(53, 15);
@@ -120,10 +113,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.txtNuevaObservacion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNuevaObservacion.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
             this.txtNuevaObservacion.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtNuevaObservacion.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtNuevaObservacion.ForeColor = System.Drawing.Color.Gainsboro;
             this.txtNuevaObservacion.Location = new System.Drawing.Point(12, 65);
             this.txtNuevaObservacion.MaxLength = 2000;
             this.txtNuevaObservacion.Multiline = true;
@@ -137,7 +128,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.lblAutorInfo.AutoSize = true;
             this.lblAutorInfo.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic);
-            this.lblAutorInfo.ForeColor = System.Drawing.Color.Silver;
             this.lblAutorInfo.Location = new System.Drawing.Point(12, 40);
             this.lblAutorInfo.Name = "lblAutorInfo";
             this.lblAutorInfo.Size = new System.Drawing.Size(0, 15);
@@ -147,7 +137,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.lblNueva.AutoSize = true;
             this.lblNueva.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblNueva.ForeColor = System.Drawing.Color.Gainsboro;
             this.lblNueva.Location = new System.Drawing.Point(12, 10);
             this.lblNueva.Name = "lblNueva";
             this.lblNueva.Size = new System.Drawing.Size(140, 19);
@@ -156,10 +145,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // lblHistorial
             // 
-            this.lblHistorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
             this.lblHistorial.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblHistorial.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblHistorial.ForeColor = System.Drawing.Color.Gainsboro;
             this.lblHistorial.Location = new System.Drawing.Point(0, 54);
             this.lblHistorial.Name = "lblHistorial";
             this.lblHistorial.Padding = new System.Windows.Forms.Padding(12, 10, 0, 0);
@@ -170,7 +157,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // panelHistorial
             // 
             this.panelHistorial.AutoScroll = true;
-            this.panelHistorial.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
             this.panelHistorial.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelHistorial.Location = new System.Drawing.Point(0, 84);
             this.panelHistorial.Name = "panelHistorial";
@@ -182,7 +168,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
             this.ClientSize = new System.Drawing.Size(704, 581);
             this.Controls.Add(this.panelHistorial);
             this.Controls.Add(this.lblHistorial);

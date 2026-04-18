@@ -17,13 +17,15 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private PictureBox picFoto = null!;
         private byte[]? _imagenNueva;
+        private readonly ThemeColors _theme;
 
-        public FrmEdicionNino(Nino? nino, IServicioNino servicioNino, IServicioFoto servicioFoto)
+        public FrmEdicionNino(Nino? nino, IServicioNino servicioNino, IServicioFoto servicioFoto, ThemeColors theme)
         {
             InitializeComponent();
             _ninoExistente = nino;
             _servicioNino = servicioNino;
             _servicioFoto = servicioFoto;
+            _theme = theme;
 
             this.EsRedimensionable = false;
             this.TieneBordeAcento = true;
@@ -36,18 +38,19 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 CargarDatos();
             }
 
-            ThemeEngine.ApplyTheme(this, ThemeEngine.LoadThemePreference());
+            ThemeEngine.ApplyTheme(this, _theme);
         }
 
         private void ConfigurarAreaID()
         {
-            // Panel de Tarjeta de ID (Se apila entre la cabecera y la tabla)
+            // Panel de Tarjeta de ID
             var pnlID = new Panel
             {
                 Dock = DockStyle.Top,
                 Height = 110,
-                BackColor = Color.FromArgb(40, 40, 80),
-                Padding = new Padding(15, 12, 15, 12)
+                BackColor = _theme.HeaderBackground,
+                Padding = new Padding(15, 12, 15, 12),
+                Name = "pnlID"
             };
             this.Controls.Add(pnlID);
 
@@ -61,7 +64,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 Size = new Size(86, 86),
                 SizeMode = PictureBoxSizeMode.Zoom,
-                BackColor = Color.FromArgb(30, 30, 60),
+                BackColor = _theme.SurfaceColor,
                 BorderStyle = BorderStyle.FixedSingle,
                 Location = new Point(20, 12)
             };
@@ -73,10 +76,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 Size = new Size(32, 32),
                 IconChar = FontAwesome.Sharp.IconChar.Camera,
                 IconSize = 18,
-                IconColor = Color.FromArgb(46, 204, 113),
+                IconColor = _theme.StatusSuccess,
                 FlatStyle = FlatStyle.Flat,
                 Location = new Point(115, 12),
-                Cursor = Cursors.Hand
+                Cursor = Cursors.Hand,
+                Name = "btnCapturaID"
             };
             btnCaptura.FlatAppearance.BorderSize = 0;
             btnCaptura.Click += (s, e) => AbrirCapturaCamara();
@@ -88,10 +92,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 Size = new Size(32, 32),
                 IconChar = FontAwesome.Sharp.IconChar.Upload,
                 IconSize = 18,
-                IconColor = Color.FromArgb(52, 152, 219),
+                IconColor = _theme.AccentColor,
                 FlatStyle = FlatStyle.Flat,
                 Location = new Point(115, 48),
-                Cursor = Cursors.Hand
+                Cursor = Cursors.Hand,
+                Name = "btnUploadID"
             };
             btnUpload.FlatAppearance.BorderSize = 0;
             btnUpload.Click += AlHacerClickEnSubir;
@@ -101,10 +106,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             var lblInfoID = new Label
             {
                 Text = "IDENTIFICACIÓN VISUAL",
-                ForeColor = Color.Gray,
+                ForeColor = _theme.TextSecondary,
                 Font = new Font("Segoe UI", 7F, FontStyle.Bold),
                 Location = new Point(115, 84),
-                AutoSize = true
+                AutoSize = true,
+                Name = "lblInfoID"
             };
             pnlID.Controls.Add(lblInfoID);
         }
@@ -141,7 +147,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void AbrirCapturaCamara()
         {
-            using var frm = new FrmCapturaFoto();
+            using var frm = new FrmCapturaFoto(_theme);
             if (frm.ShowDialog() == DialogResult.OK && frm.ResultadoFoto != null)
             {
                 _imagenNueva = frm.ResultadoFoto;

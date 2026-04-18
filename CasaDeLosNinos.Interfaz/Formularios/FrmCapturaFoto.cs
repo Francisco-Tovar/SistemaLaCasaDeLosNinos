@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FlashCap;
+using CasaDeLosNinos.Interfaz.Estilos;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
@@ -17,11 +18,25 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         public byte[]? ResultadoFoto { get; private set; }
 
-        public FrmCapturaFoto()
+        private readonly ThemeColors _theme;
+
+        public FrmCapturaFoto(ThemeColors theme)
         {
             InitializeComponent();
+            _theme = theme;
             this.TieneBordeAcento = true;
             this.EsRedimensionable = false;
+
+            CasaDeLosNinos.Interfaz.Estilos.ThemeEngine.ApplyTheme(this, _theme);
+            
+            // Colores específicos para botones
+            btnCapturar.IconColor = _theme.StatusSuccess;
+            btnCapturar.ForeColor = _theme.StatusSuccess;
+            btnRotar.IconColor = _theme.AccentColor;
+            
+            // Suscribir eventos manualmente para no romper el diseñador
+            panelCabecera.MouseDown += (s, e) => DragForm();
+            btnClose.Click += (s, e) => this.Close();
             
             // Iniciar cámara al abrir
             this.Load += async (s, e) => await IniciarCamara();

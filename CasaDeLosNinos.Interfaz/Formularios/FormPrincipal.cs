@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CasaDeLosNinos.Interfaz.Estilos;
 using System.IO;
+using CasaDeLosNinos.Aplicacion.Servicios;
 
 namespace CasaDeLosNinos.Interfaz.Formularios
 {
@@ -175,7 +176,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 var servicioNino = _proveedor.GetRequiredService<IServicioNino>();
                 var servicioObservacion = _proveedor.GetRequiredService<IServicioObservacion>();
                 var servicioFoto = _proveedor.GetRequiredService<IServicioFoto>();
-                OpenChildForm(new FrmGestionNinos(servicioNino, servicioObservacion, servicioFoto, _usuarioActual.Id));
+                OpenChildForm(new FrmGestionNinos(servicioNino, servicioObservacion, servicioFoto, _usuarioActual.Id, _currentTheme));
             }
             catch (Exception ex)
             {
@@ -189,11 +190,25 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             try
             {
                 var servicioAsistencia = _proveedor.GetRequiredService<IServicioAsistencia>();
-                OpenChildForm(new FrmTomaAsistencia(servicioAsistencia, _usuarioActual.Id));
+                OpenChildForm(new FrmTomaAsistencia(servicioAsistencia, _usuarioActual.Id, _currentTheme));
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al abrir el módulo de asistencia:\n{ex.Message}", "Error");
+            }
+        }
+
+        private void btnUsuarios_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender, _currentTheme.AccentColor);
+            try
+            {
+                var servicioUsuario = _proveedor.GetRequiredService<IServicioUsuario>();
+                OpenChildForm(new FrmGestionUsuarios(servicioUsuario, _usuarioActual.Id, _currentTheme));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el módulo de usuarios:\n{ex.Message}", "Error");
             }
         }
 
@@ -217,6 +232,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             var nombreOrg = _configuracion["Configuracion:NombreOrganizacion"] ?? "La Casa de los Niños";
             this.lblBienvenida.Text = $"Bienvenido, {_usuarioActual.NombreCompleto}";
             this.lblOrg.Text = nombreOrg;
+
+            // Lógica de Permisos
+            if (_usuarioActual.IdRol != 1) // Si NO es Administrador
+            {
+                btnUsuarios.Visible = false;
+            }
 
             // Abrir Gestión de Niños al iniciar
             btnNinos_Click(btnNinos, EventArgs.Empty);

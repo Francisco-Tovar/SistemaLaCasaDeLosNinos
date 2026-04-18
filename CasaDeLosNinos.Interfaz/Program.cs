@@ -78,6 +78,7 @@ internal static class Program
 
         // Servicios (Transient)
         servicios.AddTransient<IServicioAutenticacion, ServicioAutenticacion>();
+        servicios.AddTransient<IServicioUsuario,       ServicioUsuario>();
         servicios.AddTransient<IServicioNino,          ServicioNino>();
         servicios.AddTransient<IServicioAsistencia,    ServicioAsistencia>();
         servicios.AddTransient<IServicioObservacion,   ServicioObservacion>();

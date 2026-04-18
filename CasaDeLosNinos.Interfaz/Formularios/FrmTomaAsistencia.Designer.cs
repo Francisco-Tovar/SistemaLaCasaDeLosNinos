@@ -34,7 +34,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // panelFecha
             // 
-            panelFecha.BackColor = Color.FromArgb(34, 33, 74);
             panelFecha.Controls.Add(txtBuscar);
             panelFecha.Controls.Add(dtpFecha);
             panelFecha.Controls.Add(lblFecha);
@@ -50,9 +49,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // txtBuscar
             // 
-            txtBuscar.BackColor = Color.FromArgb(45, 45, 81);
             txtBuscar.BorderStyle = BorderStyle.FixedSingle;
-            txtBuscar.ForeColor = Color.Gainsboro;
             txtBuscar.Location = new Point(175, 12);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.PlaceholderText = "🔍 Buscar niña/o...";
@@ -83,9 +80,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             btnCargar.FlatAppearance.BorderSize = 0;
             btnCargar.FlatStyle = FlatStyle.Flat;
-            btnCargar.ForeColor = Color.Gainsboro;
-            btnCargar.IconChar = FontAwesome.Sharp.IconChar.SyncAlt;
-            btnCargar.IconColor = Color.FromArgb(52, 152, 219);
+            btnCargar.IconChar = FontAwesome.Sharp.IconChar.RotateRight;
             btnCargar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnCargar.IconSize = 24;
             btnCargar.ImageAlign = ContentAlignment.MiddleLeft;
@@ -103,9 +98,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             btnMarcarTodos.FlatAppearance.BorderSize = 0;
             btnMarcarTodos.FlatStyle = FlatStyle.Flat;
-            btnMarcarTodos.ForeColor = Color.Gainsboro;
             btnMarcarTodos.IconChar = FontAwesome.Sharp.IconChar.CheckDouble;
-            btnMarcarTodos.IconColor = Color.FromArgb(46, 204, 113);
             btnMarcarTodos.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnMarcarTodos.IconSize = 24;
             btnMarcarTodos.ImageAlign = ContentAlignment.MiddleLeft;
@@ -122,9 +115,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             btnDesmarcarTodos.FlatAppearance.BorderSize = 0;
             btnDesmarcarTodos.FlatStyle = FlatStyle.Flat;
-            btnDesmarcarTodos.ForeColor = Color.Gainsboro;
-            btnDesmarcarTodos.IconChar = FontAwesome.Sharp.IconChar.Square;
-            btnDesmarcarTodos.IconColor = Color.FromArgb(231, 76, 60);
+            btnDesmarcarTodos.IconChar = FontAwesome.Sharp.IconChar.Eraser;
             btnDesmarcarTodos.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnDesmarcarTodos.IconSize = 24;
             btnDesmarcarTodos.ImageAlign = ContentAlignment.MiddleLeft;
@@ -139,7 +130,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // panelInferior
             // 
-            panelInferior.BackColor = Color.FromArgb(26, 25, 62);
             panelInferior.Controls.Add(lblResumen);
             panelInferior.Controls.Add(lblEstado);
             panelInferior.Controls.Add(btnGuardar);
@@ -178,7 +168,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnGuardar.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             btnGuardar.ForeColor = Color.Gainsboro;
             btnGuardar.IconChar = FontAwesome.Sharp.IconChar.Save;
-            btnGuardar.IconColor = Color.FromArgb(172, 126, 241);
             btnGuardar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnGuardar.IconSize = 24;
             btnGuardar.ImageAlign = ContentAlignment.MiddleLeft;
@@ -195,13 +184,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             grdAsistencia.AllowUserToAddRows = false;
             grdAsistencia.AllowUserToDeleteRows = false;
-            grdAsistencia.BackgroundColor = Color.FromArgb(34, 33, 74);
             grdAsistencia.BorderStyle = BorderStyle.None;
-            grdAsistencia.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             grdAsistencia.ColumnHeadersHeight = 35;
             grdAsistencia.Dock = DockStyle.Fill;
-            grdAsistencia.EnableHeadersVisualStyles = false;
-            grdAsistencia.GridColor = Color.FromArgb(45, 45, 81);
             grdAsistencia.Location = new Point(0, 48);
             grdAsistencia.MultiSelect = false;
             grdAsistencia.Name = "grdAsistencia";
@@ -215,7 +200,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(34, 33, 74);
             ClientSize = new Size(650, 581);
             Controls.Add(grdAsistencia);
             Controls.Add(panelInferior);

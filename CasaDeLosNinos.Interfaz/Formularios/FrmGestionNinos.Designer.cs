@@ -33,14 +33,13 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // panelHerramientas
             // 
-            this.panelHerramientas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
-            this.panelHerramientas.Controls.Add(this.txtBuscar);
-            this.panelHerramientas.Controls.Add(this.chkMostrarInactivos);
-            this.panelHerramientas.Controls.Add(this.btnNuevo);
-            this.panelHerramientas.Controls.Add(this.btnEditar);
-            this.panelHerramientas.Controls.Add(this.btnBitacora);
-            this.panelHerramientas.Controls.Add(this.btnEstado);
             this.panelHerramientas.Controls.Add(this.btnActualizar);
+            this.panelHerramientas.Controls.Add(this.btnEstado);
+            this.panelHerramientas.Controls.Add(this.btnBitacora);
+            this.panelHerramientas.Controls.Add(this.btnEditar);
+            this.panelHerramientas.Controls.Add(this.btnNuevo);
+            this.panelHerramientas.Controls.Add(this.chkMostrarInactivos);
+            this.panelHerramientas.Controls.Add(this.txtBuscar);
             this.panelHerramientas.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHerramientas.Location = new System.Drawing.Point(0, 0);
             this.panelHerramientas.Name = "panelHerramientas";
@@ -50,10 +49,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // txtBuscar
             // 
-            this.txtBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
             this.txtBuscar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtBuscar.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.txtBuscar.ForeColor = System.Drawing.Color.Gainsboro;
             this.txtBuscar.Location = new System.Drawing.Point(10, 12);
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.PlaceholderText = "🔍  Buscar...";
@@ -64,7 +60,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // chkMostrarInactivos
             // 
             this.chkMostrarInactivos.AutoSize = true;
-            this.chkMostrarInactivos.ForeColor = System.Drawing.Color.Gainsboro;
             this.chkMostrarInactivos.Location = new System.Drawing.Point(200, 14);
             this.chkMostrarInactivos.Name = "chkMostrarInactivos";
             this.chkMostrarInactivos.Size = new System.Drawing.Size(78, 21);
@@ -76,9 +71,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.btnNuevo.FlatAppearance.BorderSize = 0;
             this.btnNuevo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNuevo.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnNuevo.IconChar = FontAwesome.Sharp.IconChar.Plus;
-            this.btnNuevo.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
             this.btnNuevo.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnNuevo.IconSize = 24;
             this.btnNuevo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -95,9 +88,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.btnEditar.FlatAppearance.BorderSize = 0;
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditar.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnEditar.IconChar = FontAwesome.Sharp.IconChar.PenToSquare;
-            this.btnEditar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
             this.btnEditar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEditar.IconSize = 24;
             this.btnEditar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -114,9 +105,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.btnBitacora.FlatAppearance.BorderSize = 0;
             this.btnBitacora.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBitacora.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnBitacora.IconChar = FontAwesome.Sharp.IconChar.BookOpen;
-            this.btnBitacora.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(89)))), ((int)(((byte)(182)))));
             this.btnBitacora.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnBitacora.IconSize = 24;
             this.btnBitacora.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -133,9 +122,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.btnEstado.FlatAppearance.BorderSize = 0;
             this.btnEstado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEstado.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnEstado.IconChar = FontAwesome.Sharp.IconChar.Ban;
-            this.btnEstado.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
             this.btnEstado.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnEstado.IconSize = 24;
             this.btnEstado.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -152,9 +139,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.btnActualizar.FlatAppearance.BorderSize = 0;
             this.btnActualizar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnActualizar.ForeColor = System.Drawing.Color.Gainsboro;
             this.btnActualizar.IconChar = FontAwesome.Sharp.IconChar.Rotate;
-            this.btnActualizar.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
             this.btnActualizar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnActualizar.IconSize = 24;
             this.btnActualizar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -168,7 +153,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // panelInferior
             // 
-            this.panelInferior.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(25)))), ((int)(((byte)(62)))));
             this.panelInferior.Controls.Add(this.lblConteo);
             this.panelInferior.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelInferior.Location = new System.Drawing.Point(0, 511);
@@ -181,7 +165,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.lblConteo.AutoSize = true;
             this.lblConteo.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.lblConteo.ForeColor = System.Drawing.Color.Gainsboro;
             this.lblConteo.Location = new System.Drawing.Point(10, 5);
             this.lblConteo.Name = "lblConteo";
             this.lblConteo.Size = new System.Drawing.Size(0, 15);
@@ -192,14 +175,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             this.grdNinos.AllowUserToAddRows = false;
             this.grdNinos.AllowUserToDeleteRows = false;
             this.grdNinos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.grdNinos.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
             this.grdNinos.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.grdNinos.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
             this.grdNinos.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.grdNinos.ColumnHeadersHeight = 30;
             this.grdNinos.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grdNinos.EnableHeadersVisualStyles = false;
-            this.grdNinos.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(81)))));
             this.grdNinos.Location = new System.Drawing.Point(0, 50);
             this.grdNinos.MultiSelect = false;
             this.grdNinos.Name = "grdNinos";
@@ -215,7 +195,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(33)))), ((int)(((byte)(74)))));
             this.ClientSize = new System.Drawing.Size(884, 541);
             this.Controls.Add(this.grdNinos);
             this.Controls.Add(this.panelInferior);

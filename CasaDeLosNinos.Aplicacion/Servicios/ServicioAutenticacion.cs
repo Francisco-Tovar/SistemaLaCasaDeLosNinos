@@ -49,5 +49,21 @@ public class ServicioAutenticacion : IServicioAutenticacion
 
             await _repositorioUsuario.InsertarAsync(admin);
         }
+
+        // Semilla para usuario de prueba (Funcionario)
+        var usuarioPrueba = await _repositorioUsuario.ObtenerPorNombreUsuarioAsync("usuario");
+        if (usuarioPrueba == null)
+        {
+            string hashPrueba = BCrypt.Net.BCrypt.HashPassword("password1");
+            var nUsuario = new Usuario
+            {
+                NombreCompleto = "Usuario de Pruebas",
+                NombreUsuario = "usuario",
+                ContrasenaHash = hashPrueba,
+                IdRol = 2, // Funcionario
+                Activo = true
+            };
+            await _repositorioUsuario.InsertarAsync(nUsuario);
+        }
     }
 }

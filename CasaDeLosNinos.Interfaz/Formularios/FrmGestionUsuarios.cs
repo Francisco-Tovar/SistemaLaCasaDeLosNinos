@@ -1,0 +1,149 @@
+using System;
+using System.Drawing;
+using System.Windows.Forms;
+using CasaDeLosNinos.Interfaz.Estilos;
+using CasaDeLosNinos.Dominio.Entidades;
+using CasaDeLosNinos.Aplicacion.Servicios;
+
+namespace CasaDeLosNinos.Interfaz.Formularios
+{
+    public partial class FrmGestionUsuarios : FormBase
+    {
+        private readonly IServicioUsuario _servicioUsuario;
+        private readonly int _usuarioActualId;
+        private readonly ThemeColors _theme;
+
+        public FrmGestionUsuarios(IServicioUsuario servicioUsuario, int usuarioActualId, ThemeColors theme)
+        {
+            InitializeComponent();
+            _servicioUsuario = servicioUsuario;
+            _usuarioActualId = usuarioActualId;
+            _theme = theme;
+            
+            this.Text = "Gestión de Usuarios";
+            ConfigurarColumnas();
+        }
+
+        private async void FrmGestionUsuarios_Load(object sender, EventArgs e)
+        {
+            await CargarUsuarios();
+        }
+
+        private void ConfigurarColumnas()
+        {
+            dgvUsuarios.AutoGenerateColumns = false;
+            dgvUsuarios.Columns.Clear();
+
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "NombreCompleto", HeaderText = "Nombre Completo", FillWeight = 150 });
+            dgvUsuarios.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "NombreUsuario", HeaderText = "Usuario", FillWeight = 100 });
+            
+            var colRol = new DataGridViewTextBoxColumn { HeaderText = "Rol", FillWeight = 100 };
+            colRol.Name = "ColRol";
+            dgvUsuarios.Columns.Add(colRol);
+
+            var colEstado = new DataGridViewCheckBoxColumn { DataPropertyName = "Activo", HeaderText = "Activo", Width = 70 };
+            dgvUsuarios.Columns.Add(colEstado);
+        }
+
+        private async Task CargarUsuarios()
+        {
+            try
+            {
+                var usuarios = await _servicioUsuario.ObtenerTodosAsync();
+                dgvUsuarios.DataSource = null;
+                dgvUsuarios.DataSource = usuarios;
+
+                // Mapeo manual de nombres de Roles (Simplicidad por ahora)
+                foreach (DataGridViewRow row in dgvUsuarios.Rows)
+                {
+                    var user = (Usuario)row.DataBoundItem;
+                    row.Cells["ColRol"].Value = user.IdRol == 1 ? "Administrador" : "Funcionario";
+                    
+                    if (!user.Activo)
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.Gray;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar usuarios: {ex.Message}", "Error");
+            }
+        }
+
+        private async void btnNuevo_Click(object sender, EventArgs e)
+        {
+            using var frm = new FrmEdicionUsuario(_servicioUsuario, _theme);
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                await CargarUsuarios();
+            }
+        }
+
+        private async void btnEditar_Click(object sender, EventArgs e)
+        {
+            if (dgvUsuarios.CurrentRow?.DataBoundItem is Usuario usuario)
+            {
+                using var frm = new FrmEdicionUsuario(_servicioUsuario, _theme, usuario);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    await CargarUsuarios();
+                }
+            }
+        }
+
+        private async void btnDesactivar_Click(object sender, EventArgs e)
+        {
+            if (dgvUsuarios.CurrentRow?.DataBoundItem is Usuario usuario)
+            {
+                if (usuario.Id == _usuarioActualId)
+                {
+                    MessageBox.Show("No puedes desactivarte a ti mismo.", "Aviso");
+                    return;
+                }
+
+                string accion = usuario.Activo ? "desactivar" : "activar";
+                var result = MessageBox.Show($"¿Desea {accion} al usuario {usuario.NombreUsuario}?", "Confirmar", MessageBoxButtons.YesNo);
+                
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        await _servicioUsuario.CambiarEstadoAsync(usuario.Id, !usuario.Activo);
+                        await CargarUsuarios();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Error");
+                    }
+                }
+            }
+        }
+
+        private void txtBusqueda_TextChanged(object sender, EventArgs e)
+        {
+            // Filtrado rápido local
+            string busqueda = txtBusqueda.Text.ToLower();
+            CurrencyManager currencyManager = (CurrencyManager)BindingContext[dgvUsuarios.DataSource];
+            currencyManager.SuspendBinding();
+
+            foreach (DataGridViewRow row in dgvUsuarios.Rows)
+            {
+                var user = (Usuario)row.DataBoundItem;
+                bool visible = user.NombreCompleto.ToLower().Contains(busqueda) || 
+                               user.NombreUsuario.ToLower().Contains(busqueda);
+                row.Visible = visible;
+            }
+
+            currencyManager.ResumeBinding();
+        }
+
+        private void dgvUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                btnEditar_Click(this.btnEditar, EventArgs.Empty);
+            }
+        }
+    }
+}

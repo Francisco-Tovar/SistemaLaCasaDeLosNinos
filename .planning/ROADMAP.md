@@ -6,9 +6,9 @@
 - [x] 1.3 Auditoría de borrado lógico y filtros de búsqueda.
 
 ## Fase 2: Gestión de Seguridad y Acceso
-- [ ] 2.1 Mantenimiento de Usuarios.
-- [ ] 2.2 Sistema de Permisos por Rol.
-- [ ] 2.3 Pantalla de Login con protección de credenciales.
+- [x] 2.1 Mantenimiento de Usuarios.
+- [x] 2.2 Sistema de Permisos por Rol.
+- [x] 2.3 Pantalla de Login con protección de credenciales.
 
 ## Fase 3: Gestión de Voluntarios
 - [ ] 3.1 CRUD de Voluntarios.

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CasaDeLosNinos.Interfaz.Estilos;
 using CasaDeLosNinos.Dominio.Dtos;
 using CasaDeLosNinos.Dominio.Interfaces;
 
@@ -13,13 +14,17 @@ namespace CasaDeLosNinos.Interfaz.Formularios
     {
         private readonly IServicioAsistencia _servicioAsistencia;
         private readonly int _idUsuarioSesion;
+        private readonly ThemeColors _theme;
         private List<NinoAsistenciaDto> _detalles = new();
 
-        public FrmTomaAsistencia(IServicioAsistencia servicioAsistencia, int idUsuarioSesion)
+        public FrmTomaAsistencia(IServicioAsistencia servicioAsistencia, int idUsuarioSesion, ThemeColors theme)
         {
             InitializeComponent();
             _servicioAsistencia = servicioAsistencia;
             _idUsuarioSesion = idUsuarioSesion;
+            _theme = theme;
+
+            CasaDeLosNinos.Interfaz.Estilos.ThemeEngine.ApplyTheme(this, _theme);
 
             ConfigurarEstiloGrilla();
             ConfigurarColumnasGrilla();

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CasaDeLosNinos.Interfaz.Estilos;
 using CasaDeLosNinos.Dominio.Entidades;
 using CasaDeLosNinos.Dominio.Interfaces;
 using FontAwesome.Sharp;
@@ -16,6 +17,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private readonly IServicioObservacion _servicioObservacion;
         private readonly IServicioFoto _servicioFoto;
         private readonly int _idUsuarioSesion;
+        private readonly ThemeColors _theme;
 
         private List<Nino> _todosLosNinos = new();
 
@@ -23,13 +25,17 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             IServicioNino servicioNino,
             IServicioObservacion servicioObservacion,
             IServicioFoto servicioFoto,
-            int idUsuarioSesion)
+            int idUsuarioSesion,
+            ThemeColors theme)
         {
             InitializeComponent();
             _servicioNino = servicioNino;
             _servicioObservacion = servicioObservacion;
             _servicioFoto = servicioFoto;
             _idUsuarioSesion = idUsuarioSesion;
+            _theme = theme;
+            
+            CasaDeLosNinos.Interfaz.Estilos.ThemeEngine.ApplyTheme(this, _theme);
 
             ConfigurarEstiloGrilla();
             ConfigurarColumnasGrilla();
@@ -192,7 +198,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private async void AlHacerClickEnNuevo(object sender, EventArgs e)
         {
-            using var frm = new FrmEdicionNino(null, _servicioNino, _servicioFoto);
+            using var frm = new FrmEdicionNino(null, _servicioNino, _servicioFoto, _theme);
             if (frm.ShowDialog(this) == DialogResult.OK) await CargarNinosAsync();
         }
 
@@ -201,7 +207,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             var nino = ObtenerNinoSeleccionado();
             if (nino == null) return;
 
-            using var frm = new FrmEdicionNino(nino, _servicioNino, _servicioFoto);
+            using var frm = new FrmEdicionNino(nino, _servicioNino, _servicioFoto, _theme);
             if (frm.ShowDialog(this) == DialogResult.OK) await CargarNinosAsync();
         }
 

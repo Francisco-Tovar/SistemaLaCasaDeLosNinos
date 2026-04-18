@@ -31,7 +31,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // panelSide
             // 
-            panelSide.BackColor = Color.FromArgb(26, 25, 62);
             panelSide.Controls.Add(iconLogo);
             panelSide.Dock = DockStyle.Left;
             panelSide.Location = new Point(1, 1);
@@ -88,7 +87,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // txtUsuario
             // 
-            txtUsuario.BackColor = Color.FromArgb(45, 45, 81);
             txtUsuario.BorderStyle = BorderStyle.None;
             txtUsuario.Font = new Font("Segoe UI", 11F);
             txtUsuario.ForeColor = Color.Gainsboro;
@@ -109,7 +107,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // txtContrasenera
             // 
-            txtContrasenera.BackColor = Color.FromArgb(45, 45, 81);
             txtContrasenera.BorderStyle = BorderStyle.None;
             txtContrasenera.Font = new Font("Segoe UI", 11F);
             txtContrasenera.ForeColor = Color.Gainsboro;
@@ -133,7 +130,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // btnIngresar
             // 
-            btnIngresar.BackColor = Color.FromArgb(37, 36, 81);
             btnIngresar.FlatAppearance.BorderSize = 0;
             btnIngresar.FlatStyle = FlatStyle.Flat;
             btnIngresar.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
@@ -157,7 +153,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             AcceptButton = btnIngresar;
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(34, 33, 74);
             ClientSize = new Size(600, 400);
             Controls.Add(btnClose);
             Controls.Add(btnIngresar);
