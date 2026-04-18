@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +45,34 @@ internal static class Program
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
                 .Build();
+
+            // Interceptor: Redirigir a la carpeta database de la raíz si estamos en desarrollo
+            if (AppContext.BaseDirectory.Contains("bin"))
+            {
+                var dictOverride = new Dictionary<string, string?>();
+                string proyectoRaiz = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
+                
+                if (Directory.Exists(Path.Combine(proyectoRaiz, "database")))
+                {
+                    foreach (var cs in configuracion.GetSection("ConnectionStrings").GetChildren())
+                    {
+                        if (cs.Value != null && cs.Value.Contains("database/"))
+                        {
+                            string nombreDb = cs.Value.Split('=')[1];
+                            string rutaAbsoluta = Path.Combine(proyectoRaiz, nombreDb);
+                            dictOverride[$"ConnectionStrings:{cs.Key}"] = $"Data Source={rutaAbsoluta}";
+                        }
+                    }
+                }
+
+                if (dictOverride.Count > 0)
+                {
+                    configuracion = new ConfigurationBuilder()
+                        .AddConfiguration(configuracion)
+                        .AddInMemoryCollection(dictOverride)
+                        .Build();
+                }
+            }
         }
         catch (Exception ex)
         {
@@ -138,6 +167,9 @@ internal static class Program
                 usuarioAutenticado))
             {
                 Application.Run(formPrincipal);
+                
+                // Si el usuario simplemente cerró la ventana sin marcar logout, salimos del bucle.
+                if (!formPrincipal.DeseaCerrarSesion) break;
             }
         }
     }

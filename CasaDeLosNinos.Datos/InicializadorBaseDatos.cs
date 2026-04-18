@@ -1,3 +1,4 @@
+using System.IO;
 using CasaDeLosNinos.Dominio.Interfaces;
 using Dapper;
 using Microsoft.Data.Sqlite;
@@ -26,6 +27,10 @@ public class InicializadorBaseDatos : IInicializadorBaseDatos
 
     public async Task InicializarAsync()
     {
+        // Asegurar que el directorio de las bases de datos exista
+        AsegurarDirectorioBaseDatos(_cadenaConexionPrincipal);
+        AsegurarDirectorioBaseDatos(_cadenaConexionFotos);
+
         // 1. Inicializar Base de Datos Principal
         await using (var conexion = new SqliteConnection(_cadenaConexionPrincipal))
         {
@@ -42,6 +47,26 @@ public class InicializadorBaseDatos : IInicializadorBaseDatos
             await conexion.OpenAsync();
             await CrearTablaFotosAsync(conexion);
         }
+    }
+    
+
+    private void AsegurarDirectorioBaseDatos(string cadenaConexion)
+    {
+        try
+        {
+            var builder = new SqliteConnectionStringBuilder(cadenaConexion);
+            string? dataSource = builder.DataSource;
+
+            if (!string.IsNullOrEmpty(dataSource))
+            {
+                string? directorio = Path.GetDirectoryName(dataSource);
+                if (!string.IsNullOrEmpty(directorio) && !Directory.Exists(directorio))
+                {
+                    Directory.CreateDirectory(directorio);
+                }
+            }
+        }
+        catch { /* Ignorar errores aquí */ }
     }
 
     private static async Task CrearTablaFotosAsync(SqliteConnection conexion)

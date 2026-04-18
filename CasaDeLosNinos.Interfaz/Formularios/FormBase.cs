@@ -21,6 +21,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             this.FormBorderStyle = FormBorderStyle.None;
             this.Padding = new Padding(1); // Espacio para el borde de 1px
+            this.KeyPreview = true;
+            this.KeyDown += (s, e) => { if (e.KeyCode == Keys.Escape) this.Close(); };
             _theme = Estilos.ThemeEngine.LoadThemePreference();
         }
 

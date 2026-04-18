@@ -24,6 +24,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private Form currentChildForm;
         private ThemeColors _currentTheme;
         private ContextMenuStrip _themeMenu;
+        public bool DeseaCerrarSesion { get; private set; } = false;
 
         public FormPrincipal(
             IConfiguration configuracion,
@@ -50,6 +51,21 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             _currentTheme = ThemeEngine.LoadThemePreference();
             ConfigurarMenuTemas();
             ApplyTheme();
+            this.FormClosing += FormPrincipal_FormClosing;
+        }
+
+        private void FormPrincipal_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            // Si el cierre fue provocado por el sistema o por el login inicial, no preguntamos
+            if (e.CloseReason == CloseReason.ApplicationExitCall) return;
+
+            var result = MessageBox.Show("¿Está seguro que desea salir del sistema o cerrar sesión?", "Confirmar Salida",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.No)
+            {
+                e.Cancel = true;
+            }
         }
 
         private void ConfigurarMenuTemas()
@@ -264,7 +280,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         // Botones de Control Box
         private void btnClose_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            this.DeseaCerrarSesion = false;
+            this.Close();
         }
 
         private void btnMaximize_Click(object sender, EventArgs e)
@@ -282,13 +299,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("¿Está seguro que desea cerrar sesión?", "Cerrar Sesión", 
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            
-            if (result == DialogResult.Yes)
-            {
-                this.Close();
-            }
+            this.DeseaCerrarSesion = true;
+            this.Close();
         }
 
         private void btnMinimize_Click(object sender, EventArgs e)
