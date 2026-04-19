@@ -7,9 +7,12 @@ public class Voluntario
 {
     public int Id { get; set; }
     public string NombreCompleto { get; set; } = string.Empty;
+    public string Cedula { get; set; } = string.Empty;
     public string Correo { get; set; } = string.Empty;
     public string Telefono { get; set; } = string.Empty;
     public string Especialidad { get; set; } = string.Empty;
+    public string Institucion { get; set; } = string.Empty;
+    public string ContactoSupervisor { get; set; } = string.Empty;
     public bool Activo { get; set; } = true;
     public DateTime FechaIngreso { get; set; } = DateTime.Today;
 }

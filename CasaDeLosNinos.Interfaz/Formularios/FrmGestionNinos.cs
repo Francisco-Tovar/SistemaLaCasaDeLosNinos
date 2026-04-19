@@ -49,7 +49,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             // El estilo base es manejado por ThemeEngine.
             // Aquí solo definimos comportamiento funcional.
-            grdNinos.ColumnHeadersHeight = 30;
+            grdNinos.ColumnHeadersHeight = 45;
             
             // Bloquear redimensionamiento por el usuario
             grdNinos.AllowUserToResizeColumns = false;
@@ -95,7 +95,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             });
 
             grdNinos.CellFormatting += AlFormatearCelda;
-            grdNinos.RowTemplate.Height = 32; // Altura más compacta y profesional
+            grdNinos.RowTemplate.Height = 35; // Altura estándar premium
         }
 
         private void AlFormatearCelda(object? sender, DataGridViewCellFormattingEventArgs e)

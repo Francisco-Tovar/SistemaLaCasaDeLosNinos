@@ -40,8 +40,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private void ConfigurarEstiloGrilla()
         {
             // El estilo base es manejado por ThemeEngine.
-            grdAsistencia.ColumnHeadersHeight = 30;
-            grdAsistencia.RowTemplate.Height = 32;
+            grdAsistencia.ColumnHeadersHeight = 45;
+            grdAsistencia.RowTemplate.Height = 35;
 
             // Bloquear redimensionamiento por el usuario
             grdAsistencia.AllowUserToResizeColumns = false;

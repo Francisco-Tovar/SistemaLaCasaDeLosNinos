@@ -177,6 +177,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             dgvVoluntarios.Size = new Size(898, 520);
             dgvVoluntarios.TabIndex = 0;
             dgvVoluntarios.CellFormatting += dgvVoluntarios_CellFormatting;
+            dgvVoluntarios.CellDoubleClick += dgvVoluntarios_CellDoubleClick;
+            dgvVoluntarios.SelectionChanged += dgvVoluntarios_SelectionChanged;
             // 
             // panelStatus
             // 

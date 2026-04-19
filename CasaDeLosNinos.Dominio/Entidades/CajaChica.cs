@@ -1,3 +1,4 @@
+
 namespace CasaDeLosNinos.Dominio.Entidades;
 
 /// <summary>

@@ -10,9 +10,10 @@
 - [x] 2.2 Sistema de Permisos por Rol.
 - [x] 2.3 Pantalla de Login con protección de credenciales.
 
-## Fase 3: Gestión de Voluntarios
-- [ ] 3.1 CRUD de Voluntarios.
-- [ ] 3.2 Registro de horas/actividades.
+## Fase 3: Gestión de Voluntarios (En Progreso)
+- [ ] 3.1 CRUD de Voluntarios (Modal Edición).
+- [ ] 3.2 Registro de horas/actividades por fecha.
+- [ ] 3.3 Integración en FrmGestionVoluntarios.
 
 ## Fase 4: Control Financiero (Caja Chica)
 - [ ] 4.1 Registro de ingresos y egresos.

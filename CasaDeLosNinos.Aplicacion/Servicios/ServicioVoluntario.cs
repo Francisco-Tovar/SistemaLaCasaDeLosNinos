@@ -29,10 +29,10 @@ public class ServicioVoluntario : IServicioVoluntario
         return await _repositorio.CrearAsync(voluntario);
     }
 
-    public async Task ActualizarAsync(Voluntario voluntario)
+    public async Task<bool> ActualizarAsync(Voluntario voluntario)
     {
         ValidarVoluntario(voluntario);
-        await _repositorio.ActualizarAsync(voluntario);
+        return await _repositorio.ActualizarAsync(voluntario);
     }
 
     public async Task CambiarEstadoAsync(int id, bool activo)

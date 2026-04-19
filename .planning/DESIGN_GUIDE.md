@@ -124,3 +124,4 @@ Para que el motor de temas actúe con precisión, los contenedores deben seguir 
     - Activar `DoubleBuffered = true` en el formulario principal.
     - Usar `this.SuspendLayout()` y `this.ResumeLayout()` durante el cambio de tema masivo.
 6.  **Persistencia:** La elección del usuario debe guardarse localmente y aplicarse durante el inicio de la aplicación en `Program.cs` o en el constructor del formulario principal.
+7.  **Interacción de Grillas:** Para mejorar la agilidad, todas las grillas principales deben implementar el evento `CellDoubleClick` para disparar automáticamente la acción de **Editar** del registro seleccionado.

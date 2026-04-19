@@ -51,8 +51,8 @@ public class ServicioAutenticacion : IServicioAutenticacion
         }
 
         // Semilla para usuario de prueba (Funcionario)
-        var usuarioPrueba = await _repositorioUsuario.ObtenerPorNombreUsuarioAsync("usuario");
-        if (usuarioPrueba == null)
+        bool existeUsuario = await _repositorioUsuario.NombreUsuarioExisteAsync("usuario");
+        if (!existeUsuario)
         {
             string hashPrueba = BCrypt.Net.BCrypt.HashPassword("password1");
             var nUsuario = new Usuario

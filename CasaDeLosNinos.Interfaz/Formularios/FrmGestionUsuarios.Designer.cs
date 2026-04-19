@@ -112,6 +112,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             dgvUsuarios.Size = new Size(882, 445);
             dgvUsuarios.TabIndex = 1;
             dgvUsuarios.CellDoubleClick += dgvUsuarios_CellDoubleClick;
+            dgvUsuarios.SelectionChanged += dgvUsuarios_SelectionChanged;
             // 
             // FrmGestionUsuarios
             // 

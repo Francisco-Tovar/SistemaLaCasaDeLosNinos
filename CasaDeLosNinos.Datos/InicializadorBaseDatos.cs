@@ -222,12 +222,28 @@ public class InicializadorBaseDatos : IInicializadorBaseDatos
             CREATE TABLE IF NOT EXISTS Voluntarios (
                 Id              INTEGER PRIMARY KEY AUTOINCREMENT,
                 NombreCompleto  TEXT    NOT NULL,
+                Cedula          TEXT    NOT NULL DEFAULT '',
                 Correo          TEXT    NOT NULL DEFAULT '',
                 Telefono        TEXT    NOT NULL DEFAULT '',
                 Especialidad    TEXT    NOT NULL DEFAULT '',
+                Institucion     TEXT    NOT NULL DEFAULT '',
+                ContactoSupervisor TEXT NOT NULL DEFAULT '',
                 Activo          INTEGER NOT NULL DEFAULT 1,
                 FechaIngreso    TEXT    NOT NULL DEFAULT CURRENT_DATE
             );");
+
+        // Migraciones: Agregar columnas si no existen
+        try {
+            await conexion.ExecuteAsync("ALTER TABLE Voluntarios ADD COLUMN Cedula TEXT NOT NULL DEFAULT '';");
+        } catch { }
+
+        try {
+            await conexion.ExecuteAsync("ALTER TABLE Voluntarios ADD COLUMN Institucion TEXT NOT NULL DEFAULT '';");
+        } catch { }
+
+        try {
+            await conexion.ExecuteAsync("ALTER TABLE Voluntarios ADD COLUMN ContactoSupervisor TEXT NOT NULL DEFAULT '';");
+        } catch { }
 
         // ── RegistroHoras ─────────────────────────────────────────
         await conexion.ExecuteAsync(@"

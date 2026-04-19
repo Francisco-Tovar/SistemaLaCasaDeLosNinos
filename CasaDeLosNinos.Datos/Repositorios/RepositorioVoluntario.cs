@@ -34,27 +34,31 @@ public class RepositorioVoluntario : IRepositorioVoluntario
 
     public async Task<int> CrearAsync(Voluntario voluntario)
     {
-        await using var conexion = new SqliteConnection(_cadenaConexion);
+        using var conexion = new SqliteConnection(_cadenaConexion);
         const string sql = @"
-            INSERT INTO Voluntarios (NombreCompleto, Correo, Telefono, Especialidad, Activo, FechaIngreso)
-            VALUES (@NombreCompleto, @Correo, @Telefono, @Especialidad, @Activo, @FechaIngreso);
+            INSERT INTO Voluntarios (NombreCompleto, Cedula, Correo, Telefono, Especialidad, Institucion, ContactoSupervisor, Activo, FechaIngreso)
+            VALUES (@NombreCompleto, @Cedula, @Correo, @Telefono, @Especialidad, @Institucion, @ContactoSupervisor, @Activo, @FechaIngreso);
             SELECT last_insert_rowid();";
             
         return await conexion.ExecuteScalarAsync<int>(sql, voluntario);
     }
 
-    public async Task ActualizarAsync(Voluntario voluntario)
+    public async Task<bool> ActualizarAsync(Voluntario voluntario)
     {
-        await using var conexion = new SqliteConnection(_cadenaConexion);
+        using var conexion = new SqliteConnection(_cadenaConexion);
         const string sql = @"
-            UPDATE Voluntarios SET 
-                NombreCompleto = @NombreCompleto,
+            UPDATE Voluntarios 
+            SET NombreCompleto = @NombreCompleto,
+                Cedula = @Cedula,
                 Correo = @Correo,
                 Telefono = @Telefono,
-                Especialidad = @Especialidad
-            WHERE Id = @Id;";
+                Especialidad = @Especialidad,
+                Institucion = @Institucion,
+                ContactoSupervisor = @ContactoSupervisor
+            WHERE Id = @Id";
             
-        await conexion.ExecuteAsync(sql, voluntario);
+        var afectados = await conexion.ExecuteAsync(sql, voluntario);
+        return afectados > 0;
     }
 
     public async Task CambiarEstadoAsync(int id, bool activo)

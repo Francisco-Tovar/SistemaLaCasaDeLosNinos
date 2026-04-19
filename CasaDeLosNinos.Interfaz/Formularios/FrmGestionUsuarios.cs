@@ -67,6 +67,13 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
             var colEstado = new DataGridViewCheckBoxColumn { DataPropertyName = "Activo", HeaderText = "Activo", Width = 70 };
             dgvUsuarios.Columns.Add(colEstado);
+
+            // Desactivar redimensionamiento
+            dgvUsuarios.AllowUserToResizeColumns = false;
+            dgvUsuarios.AllowUserToResizeRows = false;
+            dgvUsuarios.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvUsuarios.ColumnHeadersHeight = 45;
+            dgvUsuarios.RowTemplate.Height = 35;
         }
 
         private async Task CargarUsuarios()
@@ -155,6 +162,23 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             if (e.RowIndex >= 0)
             {
                 btnEditar_Click(this.btnEditar, EventArgs.Empty);
+            }
+        }
+
+        private void dgvUsuarios_SelectionChanged(object sender, EventArgs e)
+        {
+            ActualizarBotonesEstado();
+        }
+
+        private void ActualizarBotonesEstado()
+        {
+            if (dgvUsuarios.CurrentRow?.DataBoundItem is Usuario user)
+            {
+                btnDesactivar.Text = user.Activo ? "Desactivar" : "Activar";
+                btnDesactivar.IconChar = user.Activo ? FontAwesome.Sharp.IconChar.UserSlash : FontAwesome.Sharp.IconChar.UserCheck;
+                btnDesactivar.BackColor = user.Activo ? _theme.StatusError : _theme.StatusSuccess;
+                btnDesactivar.ForeColor = Color.White;
+                btnDesactivar.IconColor = Color.White;
             }
         }
     }
