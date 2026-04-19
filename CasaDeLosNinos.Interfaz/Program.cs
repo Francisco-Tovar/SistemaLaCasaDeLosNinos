@@ -106,6 +106,7 @@ internal static class Program
         servicios.AddTransient<IRepositorioFoto,        RepositorioFoto>();
         servicios.AddTransient<IRepositorioVoluntario,  RepositorioVoluntario>();
         servicios.AddTransient<IRepositorioRegistroHoras, RepositorioRegistroHoras>();
+        servicios.AddTransient<IRepositorioCajaChica,   RepositorioCajaChica>();
 
         // Servicios (Transient)
         servicios.AddTransient<IServicioAutenticacion, ServicioAutenticacion>();
@@ -116,6 +117,7 @@ internal static class Program
         servicios.AddTransient<IServicioFoto,          ServicioFoto>();
         servicios.AddTransient<IServicioVoluntario,    ServicioVoluntario>();
         servicios.AddTransient<IServicioRegistroHoras, ServicioRegistroHoras>();
+        servicios.AddTransient<IServicioCajaChica,     ServicioCajaChica>();
 
         // Formularios (Transient)
         servicios.AddTransient<FrmLogin>();

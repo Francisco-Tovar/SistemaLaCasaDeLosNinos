@@ -15,4 +15,6 @@ public class CajaChica
     /// <summary>Valores válidos: "Ingreso" | "Egreso"</summary>
     public string TipoMovimiento { get; set; } = string.Empty;
     public int IdUsuario { get; set; }      // FK plana — quién registró
+    public int? IdFotoRecibo { get; set; }  // Nullable, para comprobantes
 }
+

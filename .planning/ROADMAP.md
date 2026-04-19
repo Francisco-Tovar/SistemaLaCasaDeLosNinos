@@ -16,8 +16,8 @@
 - [ ] 3.3 Integración en FrmGestionVoluntarios.
 
 ## Fase 4: Control Financiero (Caja Chica)
-- [ ] 4.1 Registro de ingresos y egresos.
-- [ ] 4.2 Conciliación básica.
+- [x] 4.1 Registro de ingresos y egresos.
+- [x] 4.2 Conciliación básica.
 
 ## Fase 5: Reportes y Exportación
 - [ ] 5.1 Generación de reportes administrativos.

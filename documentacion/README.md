@@ -44,4 +44,10 @@ Este directorio contiene la documentación técnica de cada etapa de desarrollo 
 2. **Idioma:** Todos los identificadores en español.
 3. **Asincronía total:** Toda E/S usa `async/await`. Prohibido `.Result`, `.Wait()`.
 4. **Configuración externa:** Sin cadenas de conexión hardcodeadas. Todo en `appsettings.json`.
-5. **WinForms Designer:** Todo formulario debe usar archivos `.Designer.cs`. Prohibido el diseño programático.
+5. **WinForms Designer (REGLA DE ORO):** 
+   - Prohibido el diseño programático de formularios base.
+   - **NUNCA** usar expresiones lambda (`=>`) dentro de `InitializeComponent`. Esto rompe el Diseñador Visual.
+   - Todo evento del Designer debe referenciar a un método tradicional en el code-behind.
+6. **Estética Premium:** 
+   - Seguir el "Procedimiento Espejo": Usar herencia de `FormBase` y estructura de cabecera de dos niveles (Título + Sub-header informativo).
+   - El `ThemeEngine.ApplyTheme` debe ejecutarse al final de cada constructor.

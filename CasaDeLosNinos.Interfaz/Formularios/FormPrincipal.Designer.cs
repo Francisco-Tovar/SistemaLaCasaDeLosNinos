@@ -18,6 +18,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelMenu = new Panel();
             btnLogout = new FontAwesome.Sharp.IconButton();
             btnVoluntarios = new FontAwesome.Sharp.IconButton();
+            btnCajaChica = new FontAwesome.Sharp.IconButton();
             btnUsuarios = new FontAwesome.Sharp.IconButton();
             btnAsistencia = new FontAwesome.Sharp.IconButton();
             btnNinos = new FontAwesome.Sharp.IconButton();
@@ -45,6 +46,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // panelMenu
             // 
             panelMenu.Controls.Add(btnLogout);
+            panelMenu.Controls.Add(btnCajaChica);
             panelMenu.Controls.Add(btnVoluntarios);
             panelMenu.Controls.Add(btnUsuarios);
             panelMenu.Controls.Add(btnAsistencia);
@@ -99,6 +101,28 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnVoluntarios.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnVoluntarios.UseVisualStyleBackColor = true;
             btnVoluntarios.Click += btnVoluntarios_Click;
+            // 
+            // btnCajaChica
+            // 
+            btnCajaChica.Dock = DockStyle.Top;
+            btnCajaChica.FlatAppearance.BorderSize = 0;
+            btnCajaChica.FlatStyle = FlatStyle.Flat;
+            btnCajaChica.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCajaChica.IconChar = FontAwesome.Sharp.IconChar.Coins;
+            btnCajaChica.IconColor = Color.Black;
+            btnCajaChica.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnCajaChica.IconSize = 32;
+            btnCajaChica.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCajaChica.Location = new Point(0, 380);
+            btnCajaChica.Name = "btnCajaChica";
+            btnCajaChica.Padding = new Padding(10, 0, 20, 0);
+            btnCajaChica.Size = new Size(220, 60);
+            btnCajaChica.TabIndex = 6;
+            btnCajaChica.Text = "Caja Chica";
+            btnCajaChica.TextAlign = ContentAlignment.MiddleLeft;
+            btnCajaChica.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnCajaChica.UseVisualStyleBackColor = true;
+            btnCajaChica.Click += btnCajaChica_Click;
             // 
             // btnUsuarios
             // 
@@ -380,6 +404,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private System.Windows.Forms.Label lblBienvenida;
         private System.Windows.Forms.Label lblOrg;
         private FontAwesome.Sharp.IconButton btnVoluntarios;
+        private FontAwesome.Sharp.IconButton btnCajaChica;
         private FontAwesome.Sharp.IconButton btnMinimize;
         private FontAwesome.Sharp.IconButton btnMaximize;
         private FontAwesome.Sharp.IconButton btnClose;

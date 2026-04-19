@@ -265,7 +265,23 @@ public class InicializadorBaseDatos : IInicializadorBaseDatos
                 Monto           REAL    NOT NULL CHECK(Monto > 0),
                 TipoMovimiento  TEXT    NOT NULL 
                                     CHECK(TipoMovimiento IN ('Ingreso', 'Egreso')),
-                IdUsuario       INTEGER NOT NULL REFERENCES Usuarios(Id)
+                IdUsuario       INTEGER NOT NULL REFERENCES Usuarios(Id),
+                IdFotoRecibo    INTEGER NULL -- Nueva columna (referencia pseudo a casafotos.db)
+            );");
+
+        // Migración: Agregar columna IdFotoRecibo por requerimiento tardío
+        try {
+            await conexion.ExecuteAsync("ALTER TABLE CajaChica ADD COLUMN IdFotoRecibo INTEGER NULL;");
+        } catch { /* Ignora error si ya existe */ }
+
+        // ── AuditoriaCajaChica ────────────────────────────────────
+        await conexion.ExecuteAsync(@"
+            CREATE TABLE IF NOT EXISTS AuditoriaCajaChica (
+                Id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+                IdMovimiento        INTEGER NOT NULL REFERENCES CajaChica(Id),
+                IdUsuario           INTEGER NOT NULL REFERENCES Usuarios(Id),
+                FechaHoraCambio     TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                DetallesDelCambio   TEXT    NOT NULL
             );");
     }
 

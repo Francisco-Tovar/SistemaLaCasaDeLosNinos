@@ -177,8 +177,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             childForm.Show();
             lblTitleChildForm.Text = childForm.Text;
             
-            // Aplicar tema al formulario hijo
-            ThemeEngine.ApplyTheme(childForm, _currentTheme);
+            // Aplicar tema al formulario hijo respetando encapsulamiento
+            if (childForm is FormBase childBase)
+                childBase.RefreshTheme(_currentTheme);
+            else
+                ThemeEngine.ApplyTheme(childForm, _currentTheme);
         }
 
         private void Reset()
@@ -273,6 +276,21 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al abrir el módulo de voluntarios:\n{ex.Message}", "Error");
+            }
+        }
+
+        private void btnCajaChica_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender, _currentTheme.AccentColor);
+            try
+            {
+                var servicioCajaChica = _proveedor.GetRequiredService<IServicioCajaChica>();
+                var servicioFoto = _proveedor.GetRequiredService<IServicioFoto>();
+                OpenChildForm(new FrmGestionCajaChica(servicioCajaChica, servicioFoto, _usuarioActual.Id, _currentTheme));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el módulo de caja chica:\n{ex.Message}", "Error");
             }
         }
 
