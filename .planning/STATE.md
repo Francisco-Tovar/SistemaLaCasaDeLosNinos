@@ -1,19 +1,19 @@
-1: # Estado del Proyecto: Sistema La Casa de los Niños
-2: 
-3: ## Contexto Actual
-4: El proyecto ha superado con éxito las fases de beneficiarios y seguridad. Actualmente se está desarrollando la **Fase 3: Gestión de Voluntarios**. La infraestructura visual está lista, pero falta la lógica de persistencia y los modales de interacción específica.
-5: 
-6: ## Últimos Avances
-7: - [x] Finalización del Módulo de Seguridad (Usuarios y Login).
-8: - [x] Implementación visual de `FrmGestionVoluntarios`.
-9: - [x] Definición del estándar de modales basado en `FrmEdicionNino`.
-10: 
-11: ## Bloqueos / Pendientes Críticos
-12: - Implementar CRUD completo para Voluntarios (Modal `FrmEdicionVoluntario`).
-13: - Implementar Registro de Horas (Modal `FrmRegistroHoras`) con lógica de "horas por fecha".
-14: - Conectar eventos en `FrmGestionVoluntarios`.
-15: 
-16: ## Siguiente Paso Operativo
-17: - Crear `FrmEdicionVoluntario` heredando de `FormBase` y replicando la estructura de `FrmEdicionNino`.
-18: - Diseñar e implementar `FrmRegistroHoras` para entrada masiva de horas por fecha.
-19: 
+# Estado del Proyecto: Sistema La Casa de los Niños
+
+## Contexto Actual
+El proyecto ha completado todas las fases funcionales principales. La **Fase 5: Reportes y Exportación** ha sido finalizada con éxito, proporcionando herramientas de fiscalización administrativa y auditoría.
+
+## Últimos Avances
+- [x] Implementación de **Módulo de Reportes** centralizado.
+- [x] Generación de reportes PDF "Premium" usando **QuestPDF** (Asistencia, Caja Chica y Voluntarios).
+- [x] Exportación de datos a formato **CSV** para análisis externo.
+- [x] Sistema de **Respaldo Full** (Base de datos + Fotos) con API de Backup de SQLite.
+- [x] Restricción de acceso a reportes y mantenimiento solo para Administradores.
+
+## Bloqueos / Pendientes Críticos
+- Ningún bloqueo funcional detectado.
+
+## Siguiente Paso Operativo (Fase 6)
+- Revisión estética completa para asegurar consistencia total de UI.
+- Pulido de transiciones y animaciones.
+- Pruebas de carga con volumen real de datos.

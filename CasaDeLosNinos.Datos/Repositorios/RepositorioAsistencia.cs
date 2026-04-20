@@ -78,4 +78,19 @@ public class RepositorioAsistencia : IRepositorioAsistencia
             throw; 
         }
     }
+
+    public async Task<IEnumerable<Asistencia>> ObtenerPorMesAsync(int anio, int mes)
+    {
+        await using var conexion = new SqliteConnection(_cadenaConexion);
+        const string sql = @"
+            SELECT Id, IdNino, Fecha, Presente, IdUsuario, IdObservacion
+            FROM Asistencia
+            WHERE strftime('%Y', Fecha) = @Anio AND strftime('%m', Fecha) = @Mes;";
+        
+        return await conexion.QueryAsync<Asistencia>(sql, new 
+        { 
+            Anio = anio.ToString(), 
+            Mes = mes.ToString("D2") 
+        });
+    }
 }

@@ -294,6 +294,20 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             }
         }
 
+        private void btnReportes_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender, _currentTheme.AccentColor);
+            try
+            {
+                var servicioReporte = _proveedor.GetRequiredService<IServicioReporte>();
+                OpenChildForm(new FrmReportes(servicioReporte, _currentTheme));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el módulo de reportes:\n{ex.Message}", "Error");
+            }
+        }
+
         private void btnHome_Click(object sender, EventArgs e)
         {
             if (currentChildForm != null)
@@ -319,6 +333,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             if (_usuarioActual.IdRol != 1) // Si NO es Administrador
             {
                 btnUsuarios.Visible = false;
+                btnReportes.Visible = false;
             }
 
             ConfigurarFondo();

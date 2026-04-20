@@ -118,6 +118,7 @@ internal static class Program
         servicios.AddTransient<IServicioVoluntario,    ServicioVoluntario>();
         servicios.AddTransient<IServicioRegistroHoras, ServicioRegistroHoras>();
         servicios.AddTransient<IServicioCajaChica,     ServicioCajaChica>();
+        servicios.AddTransient<IServicioReporte,      ReporteService>();
 
         // Formularios (Transient)
         servicios.AddTransient<FrmLogin>();

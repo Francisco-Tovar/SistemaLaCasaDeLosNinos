@@ -19,6 +19,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnLogout = new FontAwesome.Sharp.IconButton();
             btnVoluntarios = new FontAwesome.Sharp.IconButton();
             btnCajaChica = new FontAwesome.Sharp.IconButton();
+            btnReportes = new FontAwesome.Sharp.IconButton();
             btnUsuarios = new FontAwesome.Sharp.IconButton();
             btnAsistencia = new FontAwesome.Sharp.IconButton();
             btnNinos = new FontAwesome.Sharp.IconButton();
@@ -45,7 +46,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // panelMenu
             // 
-            panelMenu.Controls.Add(btnLogout);
+            panelMenu.Controls.Add(btnReportes);
             panelMenu.Controls.Add(btnCajaChica);
             panelMenu.Controls.Add(btnVoluntarios);
             panelMenu.Controls.Add(btnUsuarios);
@@ -57,6 +58,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelMenu.Name = "panelMenu";
             panelMenu.Size = new Size(220, 619);
             panelMenu.TabIndex = 0;
+            // 
+            // btnLogout (RE-ORDERED TO BOTTOM LOCALLY)
+            // 
+            panelMenu.Controls.Add(btnLogout);
             // 
             // btnLogout
             // 
@@ -145,6 +150,28 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnUsuarios.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnUsuarios.UseVisualStyleBackColor = true;
             btnUsuarios.Click += btnUsuarios_Click;
+            // 
+            // btnReportes
+            // 
+            btnReportes.Dock = DockStyle.Top;
+            btnReportes.FlatAppearance.BorderSize = 0;
+            btnReportes.FlatStyle = FlatStyle.Flat;
+            btnReportes.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnReportes.IconChar = FontAwesome.Sharp.IconChar.ChartLine;
+            btnReportes.IconColor = Color.Black;
+            btnReportes.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnReportes.IconSize = 32;
+            btnReportes.ImageAlign = ContentAlignment.MiddleLeft;
+            btnReportes.Location = new Point(0, 440);
+            btnReportes.Name = "btnReportes";
+            btnReportes.Padding = new Padding(10, 0, 20, 0);
+            btnReportes.Size = new Size(220, 60);
+            btnReportes.TabIndex = 7;
+            btnReportes.Text = "Reportes";
+            btnReportes.TextAlign = ContentAlignment.MiddleLeft;
+            btnReportes.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnReportes.UseVisualStyleBackColor = true;
+            btnReportes.Click += btnReportes_Click;
             // 
             // btnAsistencia
             // 
@@ -405,6 +432,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private System.Windows.Forms.Label lblOrg;
         private FontAwesome.Sharp.IconButton btnVoluntarios;
         private FontAwesome.Sharp.IconButton btnCajaChica;
+        private FontAwesome.Sharp.IconButton btnReportes;
         private FontAwesome.Sharp.IconButton btnMinimize;
         private FontAwesome.Sharp.IconButton btnMaximize;
         private FontAwesome.Sharp.IconButton btnClose;

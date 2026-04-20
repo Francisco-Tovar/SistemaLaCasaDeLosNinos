@@ -20,8 +20,8 @@
 - [x] 4.2 Conciliación básica.
 
 ## Fase 5: Reportes y Exportación
-- [ ] 5.1 Generación de reportes administrativos.
-- [ ] 5.2 Exportación de Base de Datos para respaldos.
+- [x] 5.1 Generación de reportes administrativos.
+- [x] 5.2 Exportación de Base de Datos para respaldos.
 
 ## Fase 6: Pulido Final UI/UX
 - [ ] 6.1 Revisión estética completa.

@@ -22,4 +22,7 @@ public interface IRepositorioAsistencia
     /// Usa INSERT OR REPLACE para ser idempotente sobre el índice único (IdNino, Fecha).
     /// </summary>
     Task GuardarAsistenciaMasivaAsync(IEnumerable<Asistencia> registros);
+
+    /// <summary>Obtiene todos los registros de asistencia de un mes y año específicos.</summary>
+    Task<IEnumerable<Asistencia>> ObtenerPorMesAsync(int anio, int mes);
 }
