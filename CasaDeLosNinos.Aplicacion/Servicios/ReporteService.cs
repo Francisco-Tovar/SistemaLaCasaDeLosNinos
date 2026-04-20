@@ -23,6 +23,7 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
         private readonly IRepositorioVoluntario _repositorioVoluntario;
         private readonly IRepositorioRegistroHoras _repositorioRegistroHoras;
         private readonly IRepositorioNino _repositorioNino;
+        private readonly IRepositorioFoto _repositorioFoto;
         private readonly IConfiguration _configuracion;
 
         public ReporteService(
@@ -31,6 +32,7 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
             IRepositorioVoluntario repositorioVoluntario,
             IRepositorioRegistroHoras repositorioRegistroHoras,
             IRepositorioNino repositorioNino,
+            IRepositorioFoto repositorioFoto,
             IConfiguration configuracion)
         {
             _repositorioAsistencia = repositorioAsistencia;
@@ -38,6 +40,7 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
             _repositorioVoluntario = repositorioVoluntario;
             _repositorioRegistroHoras = repositorioRegistroHoras;
             _repositorioNino = repositorioNino;
+            _repositorioFoto = repositorioFoto;
             _configuracion = configuracion;
 
             // Configurar licencia de QuestPDF (TCU - Uso Comunitario)
@@ -48,7 +51,8 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
 
         public async Task<byte[]> GenerarReporteAsistenciaPdfAsync(int anio, int mes)
         {
-            var periodName = new DateTime(anio, mes, 1).ToString("MMMM yyyy").ToUpper();
+            var culture = System.Globalization.CultureInfo.GetCultureInfo("es-CR");
+            var periodName = new DateTime(anio, mes, 1).ToString("MMMM yyyy", culture).ToUpper();
             var ninos = await _repositorioNino.ObtenerTodosAsync();
             var asistencia = await _repositorioAsistencia.ObtenerPorMesAsync(anio, mes);
 
@@ -57,7 +61,10 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                 container.Page(page =>
                 {
                     page.Margin(50);
-                    ConfigurarCabecera(page, "REPORTE DE ASISTENCIA MENSUAL", periodName);
+                    ConfigurarCabecera(page, "REPORTE DE ASISTENCIA MENSUAL", periodName, new Dictionary<string, string> { 
+                        { "Tipo", "Resumido Mensual" },
+                        { "Alcance", "Todos los niños activos" }
+                    });
 
                     page.Content().PaddingVertical(10).Table(table =>
                     {
@@ -98,18 +105,35 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
             return document.GeneratePdf();
         }
 
-        public async Task<byte[]> GenerarReporteCajaChicaPdfAsync(int anio, int mes)
+        public async Task<byte[]> GenerarReporteCajaChicaPdfAsync(int anio, int mes, bool incluirImagenes)
         {
-            var periodName = new DateTime(anio, mes, 1).ToString("MMMM yyyy").ToUpper();
-            var movimientos = await _repositorioCajaChica.ObtenerPorMesAsync(anio, mes);
+            var culture = System.Globalization.CultureInfo.GetCultureInfo("es-CR");
+            var periodName = new DateTime(anio, mes, 1).ToString("MMMM yyyy", culture).ToUpper();
+            var movimientos = (await _repositorioCajaChica.ObtenerPorMesAsync(anio, mes)).OrderBy(m => m.Fecha).ToList();
             var saldo = await _repositorioCajaChica.ObtenerSaldoMensualAsync(anio, mes);
+
+            // Pre-fetch de imágenes si es necesario
+            var fotosMap = new Dictionary<int, byte[]>();
+            if (incluirImagenes)
+            {
+                var movimientosConFoto = movimientos.Where(m => m.IdFotoRecibo.HasValue).ToList();
+                foreach (var m in movimientosConFoto)
+                {
+                    var f = await _repositorioFoto.ObtenerFotoAsync(m.IdFotoRecibo!.Value);
+                    if (f != null) fotosMap[m.IdFotoRecibo.Value] = f;
+                }
+            }
 
             var document = Document.Create(container =>
             {
+                // Página Principal: Tabla de movimientos
                 container.Page(page =>
                 {
                     page.Margin(50);
-                    ConfigurarCabecera(page, "REPORTE DE FISCALIZACIÓN CAJA CHICA", periodName);
+                    ConfigurarCabecera(page, "REPORTE DE FISCALIZACIÓN CAJA CHICA", periodName, new Dictionary<string, string> {
+                        { "Saldo Período", $"₡{saldo:N2}" },
+                        { "Imágenes", incluirImagenes ? "Incluidas" : "No incluidas" }
+                    });
 
                     page.Content().PaddingVertical(10).Column(col =>
                     {
@@ -133,7 +157,7 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                                 static IContainer CellStyle(IContainer container) => container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
                             });
 
-                            foreach (var mov in movimientos.OrderBy(m => m.Fecha))
+                            foreach (var mov in movimientos)
                             {
                                 table.Cell().Element(RowStyle).Text(mov.Fecha.ToString("dd/MM/yyyy"));
                                 table.Cell().Element(RowStyle).Text(mov.Concepto);
@@ -153,6 +177,199 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
 
                     ConfigurarPiePagina(page);
                 });
+
+                // Página(s) de Anexo: Comprobantes
+                if (incluirImagenes && fotosMap.Any())
+                {
+                    container.Page(page =>
+                    {
+                        page.Margin(50);
+                        ConfigurarCabecera(page, "ANEXO DE COMPROBANTES", periodName, new Dictionary<string, string> {
+                            { "Origen", "Caja Chica" },
+                            { "Total Fotos", fotosMap.Count.ToString() }
+                        });
+
+                        page.Content().PaddingVertical(10).Column(col =>
+                        {
+                            var movsOrdenados = movimientos.Where(m => m.IdFotoRecibo.HasValue && fotosMap.ContainsKey(m.IdFotoRecibo.Value))
+                                                           .OrderBy(m => m.Fecha);
+
+                            foreach (var mov in movsOrdenados)
+                            {
+                                var foto = fotosMap[mov.IdFotoRecibo!.Value];
+                                
+                                // Bloque de información del movimiento
+                                col.Item().PaddingTop(15).Text($"{mov.Fecha:dd/MM/yyyy} - {mov.Concepto} (₡{mov.Monto:N2})").SemiBold().FontSize(10);
+                                
+                                // Bloque de la imagen (separado para permitir saltos de página)
+                                col.Item().PaddingTop(5).PaddingBottom(10).BorderBottom(1).BorderColor(Colors.Grey.Lighten3)
+                                   .MaxHeight(400) 
+                                   .AlignCenter()
+                                   .Image(foto, ImageScaling.FitArea);
+                            }
+                        });
+
+                        ConfigurarPiePagina(page);
+                    });
+                }
+            });
+
+            return document.GeneratePdf();
+        }
+
+        public async Task<Dictionary<string, byte[]>> ObtenerImagenesCajaChicaAsync(int anio, int mes)
+        {
+            var movimientos = (await _repositorioCajaChica.ObtenerPorMesAsync(anio, mes))
+                                .Where(m => m.IdFotoRecibo.HasValue)
+                                .OrderBy(m => m.Fecha);
+            
+            var dictionary = new Dictionary<string, byte[]>();
+            foreach (var mov in movimientos)
+            {
+                var foto = await _repositorioFoto.ObtenerFotoAsync(mov.IdFotoRecibo!.Value);
+                if (foto != null)
+                {
+                    string safeConcept = string.Join("_", mov.Concepto.Split(Path.GetInvalidFileNameChars())).Replace(" ", "_");
+                    if (safeConcept.Length > 30) safeConcept = safeConcept.Substring(0, 30);
+                    
+                    string fileName = $"{mov.Fecha:yyyyMMdd}_{mov.Id}_{safeConcept}.jpg";
+                    dictionary[fileName] = foto;
+                }
+            }
+            return dictionary;
+        }
+
+        public async Task<byte[]> GenerarReporteAsistenciaIndividualPdfAsync(int idNino, DateTime inicio, DateTime fin)
+        {
+            var culture = System.Globalization.CultureInfo.GetCultureInfo("es-CR");
+            var nino = await _repositorioNino.ObtenerPorIdAsync(idNino);
+            if (nino == null) throw new ArgumentException("El niño especificado no existe.");
+
+            var periodText = $"{inicio:dd/MM/yyyy} Al {fin:dd/MM/yyyy}".ToUpper();
+            var asistencia = (await _repositorioAsistencia.ObtenerPorMesAsync(inicio.Year, inicio.Month)) // Esto es limitado, deberíamos tener uno por rango
+                .Where(a => a.IdNino == idNino && a.Fecha >= inicio.Date && a.Fecha <= fin.Date)
+                .OrderBy(a => a.Fecha).ToList();
+
+            var document = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(50);
+                    ConfigurarCabecera(page, $"REPORTE DE ASISTENCIA INDIVIDUAL: {nino.NombreCompleto.ToUpper()}", "REGISTRO DE ASISTENCIA DETALLADO", new Dictionary<string, string> {
+                        { "DNI/ID", nino.Id.ToString() },
+                        { "Desde", inicio.ToString("dd/MM/yyyy") },
+                        { "Hasta", fin.ToString("dd/MM/yyyy") }
+                    });
+                    
+                    page.Content().PaddingVertical(10).Column(col =>
+                    {
+                        col.Item().Text($"Periodo: {periodText}").Italic();
+                        
+                        col.Item().PaddingTop(10).Table(table =>
+                        {
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.ConstantColumn(100);
+                                columns.RelativeColumn();
+                            });
+
+                            table.Header(header =>
+                            {
+                                header.Cell().Element(CellStyle).Text("Fecha");
+                                header.Cell().Element(CellStyle).Text("Estado");
+                                static IContainer CellStyle(IContainer container) => container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
+                            });
+
+                            foreach (var reg in asistencia)
+                            {
+                                table.Cell().Element(RowStyle).Text(reg.Fecha.ToString("dd/MM/yyyy"));
+                                table.Cell().Element(RowStyle).Text(reg.Presente ? "PRESENTE" : "AUSENTE").FontColor(reg.Presente ? Colors.Green.Medium : Colors.Red.Medium);
+                                
+                                static IContainer RowStyle(IContainer container) => container.PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten4);
+                            }
+                        });
+
+                        col.Item().PaddingTop(10).AlignRight().Text(x =>
+                        {
+                            int total = asistencia.Count;
+                            int presentes = asistencia.Count(a => a.Presente);
+                            double porcentaje = total > 0 ? (double)presentes / total * 100 : 0;
+                            
+                            x.Span($"Total Días: {total} | Presente: {presentes} | Porcentaje: ").SemiBold();
+                            x.Span($"{porcentaje:N1}%").SemiBold().FontColor(porcentaje >= 80 ? Colors.Green.Medium : Colors.Orange.Medium);
+                        });
+                    });
+
+                    ConfigurarPiePagina(page);
+                });
+            });
+
+            return document.GeneratePdf();
+        }
+
+        public async Task<byte[]> GenerarReporteActividadesVoluntarioPdfAsync(int idVoluntario, DateTime inicio, DateTime fin)
+        {
+            var culture = System.Globalization.CultureInfo.GetCultureInfo("es-CR");
+            var vol = await _repositorioVoluntario.ObtenerPorIdAsync(idVoluntario);
+            if (vol == null) throw new ArgumentException("El voluntario especificado no existe.");
+
+            var periodText = $"{inicio:dd/MM/yyyy} Al {fin:dd/MM/yyyy}".ToUpper();
+            var horas = (await _repositorioRegistroHoras.ObtenerPorVoluntarioAsync(idVoluntario))
+                .Where(h => h.Fecha >= inicio.Date && h.Fecha <= fin.Date)
+                .OrderBy(h => h.Fecha).ToList();
+
+            var document = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(50);
+                    ConfigurarCabecera(page, $"REPORTE DE ACTIVIDADES: {vol.NombreCompleto.ToUpper()}", "BITÁCORA DE VOLUNTARIADO INDIVIDUAL", new Dictionary<string, string> {
+                        { "Voluntario ID", vol.Id.ToString() },
+                        { "Desde", inicio.ToString("dd/MM/yyyy") },
+                        { "Hasta", fin.ToString("dd/MM/yyyy") }
+                    });
+                    
+                    page.Content().PaddingVertical(10).Column(col =>
+                    {
+                        col.Item().Text($"Periodo: {periodText}").Italic();
+                        
+                        col.Item().PaddingTop(10).Table(table =>
+                        {
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.ConstantColumn(80);
+                                columns.RelativeColumn();
+                                columns.ConstantColumn(60);
+                            });
+
+                            table.Header(header =>
+                            {
+                                header.Cell().Element(CellStyle).Text("Fecha");
+                                header.Cell().Element(CellStyle).Text("Actividad/Descripción");
+                                header.Cell().Element(CellStyle).AlignRight().Text("Horas");
+                                static IContainer CellStyle(IContainer container) => container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
+                            });
+
+                            foreach (var h in horas)
+                            {
+                                table.Cell().Element(RowStyle).Text(h.Fecha.ToString("dd/MM/yyyy"));
+                                table.Cell().Element(RowStyle).Text(h.Descripcion);
+                                table.Cell().Element(RowStyle).AlignRight().Text(h.HorasAportadas.ToString("N1"));
+                                
+                                static IContainer RowStyle(IContainer container) => container.PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten4);
+                            }
+                        });
+
+                        col.Item().PaddingTop(10).AlignRight().Text(x =>
+                        {
+                            double totalHoras = (double)horas.Sum(h => h.HorasAportadas);
+                            x.Span("TOTAL HORAS APORTADAS: ").SemiBold();
+                            x.Span($"{totalHoras:N1}").SemiBold().FontColor(Colors.Indigo.Medium);
+                        });
+                    });
+
+                    ConfigurarPiePagina(page);
+                });
             });
 
             return document.GeneratePdf();
@@ -160,6 +377,7 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
 
         public async Task<byte[]> GenerarReporteVoluntariosResumidoPdfAsync(DateTime inicio, DateTime fin)
         {
+            var culture = System.Globalization.CultureInfo.GetCultureInfo("es-CR");
             var periodText = $"{inicio:dd/MM/yyyy} Al {fin:dd/MM/yyyy}".ToUpper();
             var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync();
             
@@ -168,7 +386,10 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                 container.Page(page =>
                 {
                     page.Margin(50);
-                    ConfigurarCabecera(page, "REPORTE RESUMIDO DE VOLUNTARIOS", periodText);
+                    ConfigurarCabecera(page, "REPORTE RESUMIDO DE VOLUNTARIOS", periodText, new Dictionary<string, string> {
+                        { "Rango", periodText },
+                        { "Total Voluntarios", voluntarios.Count().ToString() }
+                    });
 
                     page.Content().PaddingVertical(10).Table(table =>
                     {
@@ -178,6 +399,15 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                             columns.RelativeColumn(1);
                         });
 
+                        // Pre-fetch de horas para evitar .Result
+                        var voluntariosConHoras = new List<(Voluntario Vol, double Horas)>();
+                        foreach (var vol in voluntarios)
+                        {
+                            var horas = Task.Run(() => _repositorioRegistroHoras.ObtenerPorVoluntarioAsync(vol.Id)).Result;
+                            var horasPeriodo = horas.Where(h => h.Fecha >= inicio && h.Fecha <= fin).Sum(h => h.HorasAportadas);
+                            voluntariosConHoras.Add((vol, (double)horasPeriodo));
+                        }
+
                         table.Header(header =>
                         {
                             header.Cell().Element(CellStyle).Text("Nombre del Voluntario");
@@ -186,13 +416,10 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                             static IContainer CellStyle(IContainer container) => container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
                         });
 
-                        foreach (var vol in voluntarios)
+                        foreach (var item in voluntariosConHoras)
                         {
-                            var horas = _repositorioRegistroHoras.ObtenerPorVoluntarioAsync(vol.Id).Result; // Simplificado para este ejemplo
-                            var horasPeriodo = horas.Where(h => h.Fecha >= inicio && h.Fecha <= fin).Sum(h => h.HorasAportadas);
-
-                            table.Cell().Element(RowStyle).Text(vol.NombreCompleto);
-                            table.Cell().Element(RowStyle).Text(horasPeriodo.ToString("N1"));
+                            table.Cell().Element(RowStyle).Text(item.Vol.NombreCompleto);
+                            table.Cell().Element(RowStyle).Text(item.Horas.ToString("N1"));
 
                             static IContainer RowStyle(IContainer container) => container.PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten4);
                         }
@@ -209,24 +436,31 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
         {
             var periodText = $"{inicio:dd/MM/yyyy} Al {fin:dd/MM/yyyy}".ToUpper();
             var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync();
-
+            // Pre-fetch de datos para detalle
+            var datosVoluntarios = new List<(Voluntario Vol, List<RegistroHoras> Horas)>();
             var document = Document.Create(container =>
             {
-                container.Page(page =>
+                container.Page(async page =>
                 {
                     page.Margin(50);
-                    ConfigurarCabecera(page, "REPORTE DETALLADO DE VOLUNTARIOS", periodText);
+                    ConfigurarCabecera(page, "REPORTE DETALLADO DE VOLUNTARIOS", periodText, new Dictionary<string, string> {
+                        { "Detalle", "Actividades por fecha" },
+                        { "Total con Actividad", datosVoluntarios.Count.ToString() }
+                    });
+
+                   
+                    foreach (var vol in voluntarios)
+                    {
+                        var horas = ( await _repositorioRegistroHoras.ObtenerPorVoluntarioAsync(vol.Id))
+                            .Where(h => h.Fecha >= inicio && h.Fecha <= fin).OrderBy(h => h.Fecha).ToList();
+                        if (horas.Any()) datosVoluntarios.Add((vol, horas));
+                    }
 
                     page.Content().PaddingVertical(10).Column(col =>
                     {
-                        foreach (var vol in voluntarios)
+                        foreach (var item in datosVoluntarios)
                         {
-                            var horas = _repositorioRegistroHoras.ObtenerPorVoluntarioAsync(vol.Id).Result
-                                .Where(h => h.Fecha >= inicio && h.Fecha <= fin).ToList();
-
-                            if (!horas.Any()) continue;
-
-                            col.Item().PaddingVertical(5).Text(vol.NombreCompleto).SemiBold().FontSize(12).FontColor(Colors.Indigo.Medium);
+                            col.Item().PaddingVertical(5).Text(item.Vol.NombreCompleto).SemiBold().FontSize(12).FontColor(Colors.Indigo.Medium);
                             
                             col.Item().Table(table =>
                             {
@@ -237,7 +471,7 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                                     columns.ConstantColumn(60);
                                 });
 
-                                foreach (var h in horas)
+                                foreach (var h in item.Horas)
                                 {
                                     table.Cell().Element(RowStyle).Text(h.Fecha.ToString("dd/MM/yyyy"));
                                     table.Cell().Element(RowStyle).Text(h.Descripcion);
@@ -247,7 +481,61 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                                 }
                             });
                             
-                            col.Item().PaddingBottom(10).AlignRight().Text($"Subtotal: {horas.Sum(h => h.HorasAportadas):N1} horas").FontSize(10).Italic();
+                            col.Item().PaddingBottom(10).AlignRight().Text($"Subtotal: {item.Horas.Sum(h => h.HorasAportadas):N1} horas").FontSize(10).Italic();
+                        }
+                    });
+
+                    ConfigurarPiePagina(page);
+                });
+            });
+
+            return document.GeneratePdf();
+        }
+
+        public async Task<byte[]> GenerarReporteAuditoriaCajaChicaPdfAsync(int anio, int mes)
+        {
+            var culture = System.Globalization.CultureInfo.GetCultureInfo("es-CR");
+            var periodName = new DateTime(anio, mes, 1).ToString("MMMM yyyy", culture).ToUpper();
+            var auditorias = await _repositorioCajaChica.ObtenerAuditoriasDetalladasPorMesAsync(anio, mes);
+
+            var document = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(50);
+                    ConfigurarCabecera(page, "REPORTE DE AUDITORÍA: CAJA CHICA", periodName, new Dictionary<string, string> {
+                        { "Tipo", "Rastreo de Cambios" },
+                        { "Alcance", "Movimientos modificados" }
+                    });
+
+                    page.Content().PaddingVertical(10).Table(table =>
+                    {
+                        table.ColumnsDefinition(columns =>
+                        {
+                            columns.ConstantColumn(80);
+                            columns.ConstantColumn(80);
+                            columns.RelativeColumn(2);
+                            columns.RelativeColumn(3);
+                        });
+
+                        table.Header(header =>
+                        {
+                            header.Cell().Element(CellStyle).Text("Fecha/Hora");
+                            header.Cell().Element(CellStyle).Text("Usuario");
+                            header.Cell().Element(CellStyle).Text("Referencia");
+                            header.Cell().Element(CellStyle).Text("Detalles del Cambio");
+
+                            static IContainer CellStyle(IContainer container) => container.DefaultTextStyle(x => x.SemiBold().FontSize(9)).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
+                        });
+
+                        foreach (var aud in auditorias.OrderByDescending(a => a.FechaHoraCambio))
+                        {
+                            table.Cell().Element(RowStyle).Text(aud.FechaHoraCambio.ToString("dd/MM HH:mm")).FontSize(8);
+                            table.Cell().Element(RowStyle).Text(aud.Usuario).FontSize(8);
+                            table.Cell().Element(RowStyle).Text($"ID {aud.IdMovimiento}: {aud.ConceptoOriginal}").FontSize(8);
+                            table.Cell().Element(RowStyle).Text(aud.DetallesDelCambio).FontSize(8);
+
+                            static IContainer RowStyle(IContainer container) => container.PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten4);
                         }
                     });
 
@@ -306,6 +594,20 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                 {
                     sb.AppendLine($"{vol.NombreCompleto},{h.Fecha:yyyy-MM-dd},\"{h.Descripcion.Replace("\"", "'")}\",{h.HorasAportadas}");
                 }
+            }
+
+            return sb.ToString();
+        }
+
+        public async Task<string> GenerarReporteAuditoriaCajaChicaCsvAsync(int anio, int mes)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("ID_Movimiento,FechaHoraCambio,Usuario,ConceptoOriginal,Detalles");
+
+            var auditorias = await _repositorioCajaChica.ObtenerAuditoriasDetalladasPorMesAsync(anio, mes);
+            foreach (var aud in auditorias.OrderBy(a => a.FechaHoraCambio))
+            {
+                sb.AppendLine($"{aud.IdMovimiento},{aud.FechaHoraCambio:yyyy-MM-dd HH:mm},\"{aud.Usuario}\",\"{aud.ConceptoOriginal.Replace("\"", "'")}\",\"{aud.DetallesDelCambio.Replace("\"", "'")}\"");
             }
 
             return sb.ToString();
@@ -431,7 +733,7 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
 
         #region Helpers QuestPDF
 
-        private void ConfigurarCabecera(PageDescriptor page, string titulo, string subtitulo)
+        private void ConfigurarCabecera(PageDescriptor page, string titulo, string subtitulo, Dictionary<string, string>? filtros = null)
         {
             page.Header().Row(row =>
             {
@@ -439,7 +741,19 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                 {
                     col.Item().Text(titulo).FontSize(16).SemiBold().FontColor(Colors.Indigo.Medium);
                     col.Item().Text(subtitulo).FontSize(10).FontColor(Colors.Grey.Medium);
-                    col.Item().PaddingTop(5).Text("ASOCIACIÓN LA CASA DE LOS NIÑOS").FontSize(9).Italic();
+                    col.Item().PaddingTop(2).Text("ASOCIACIÓN LA CASA DE LOS NIÑOS").FontSize(9).Italic();
+
+                    if (filtros != null && filtros.Any())
+                    {
+                        col.Item().PaddingTop(5).Text(t =>
+                        {
+                            foreach (var f in filtros)
+                            {
+                                t.Span($"{f.Key}: ").SemiBold().FontSize(8);
+                                t.Span($"{f.Value}  ").FontSize(8);
+                            }
+                        });
+                    }
                 });
 
                 row.ConstantItem(100).AlignRight().Text(DateTime.Now.ToString("dd/MM/yyyy HH:mm")).FontSize(8).FontColor(Colors.Grey.Lighten1);
@@ -525,6 +839,43 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                 }
             }
             return results;
+        }
+
+        public async Task<IEnumerable<object>> ObtenerDatosAsistenciaIndividualAsync(int idNino, DateTime inicio, DateTime fin)
+        {
+            var asistencia = (await _repositorioAsistencia.ObtenerPorMesAsync(inicio.Year, inicio.Month))
+                .Where(a => a.IdNino == idNino && a.Fecha >= inicio.Date && a.Fecha <= fin.Date)
+                .OrderBy(a => a.Fecha);
+            
+            return asistencia.Select(a => new {
+                Fecha = a.Fecha.ToString("dd/MM/yyyy"),
+                Estado = a.Presente ? "Presente" : "Ausente"
+            }).ToList();
+        }
+
+        public async Task<IEnumerable<object>> ObtenerDatosActividadesVoluntarioAsync(int idVoluntario, DateTime inicio, DateTime fin)
+        {
+            var horas = (await _repositorioRegistroHoras.ObtenerPorVoluntarioAsync(idVoluntario))
+                .Where(h => h.Fecha >= inicio.Date && h.Fecha <= fin.Date)
+                .OrderBy(h => h.Fecha);
+            
+            return horas.Select(h => new {
+                Fecha = h.Fecha.ToString("dd/MM/yyyy"),
+                Actividad = h.Descripcion,
+                Horas = h.HorasAportadas
+            }).ToList();
+        }
+
+        public async Task<IEnumerable<object>> ObtenerDatosAuditoriaCajaChicaAsync(int anio, int mes)
+        {
+            var auditorias = await _repositorioCajaChica.ObtenerAuditoriasDetalladasPorMesAsync(anio, mes);
+            return auditorias.OrderByDescending(a => a.FechaHoraCambio).Select(a => new {
+                Fecha = a.FechaHoraCambio.ToString("dd/MM HH:mm"),
+                a.Usuario,
+                Referencia = $"ID {a.IdMovimiento}",
+                a.ConceptoOriginal,
+                a.DetallesDelCambio
+            }).ToList();
         }
 
         #endregion

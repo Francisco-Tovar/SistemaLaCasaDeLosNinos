@@ -300,7 +300,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             try
             {
                 var servicioReporte = _proveedor.GetRequiredService<IServicioReporte>();
-                OpenChildForm(new FrmReportes(servicioReporte, _currentTheme));
+                var repositorioNino = _proveedor.GetRequiredService<IRepositorioNino>();
+                var repositorioVoluntario = _proveedor.GetRequiredService<IRepositorioVoluntario>();
+                OpenChildForm(new FrmReportes(servicioReporte, repositorioNino, repositorioVoluntario, _currentTheme));
             }
             catch (Exception ex)
             {

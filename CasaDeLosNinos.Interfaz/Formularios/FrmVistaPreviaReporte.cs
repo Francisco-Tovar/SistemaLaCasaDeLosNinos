@@ -8,12 +8,31 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 {
     public partial class FrmVistaPreviaReporte : FormBase
     {
-        public FrmVistaPreviaReporte(string titulo, IEnumerable<object> datos, ThemeColors theme)
+        public FrmVistaPreviaReporte(string titulo, IEnumerable<object> datos, ThemeColors theme, Dictionary<string, string>? metadata = null)
         {
             InitializeComponent();
             _theme = theme;
             lblTitulo.Text = $"Vista Previa: {titulo}";
             
+            // Estándares de diseño Premium
+            this.TieneBordeAcento = true;
+            this.MinimumSize = new System.Drawing.Size(700, 450);
+            
+            // Mostrar metadatos si vienen presentes
+            if (metadata != null && metadata.Any())
+            {
+                lblMetadata.Text = string.Join(" | ", metadata.Select(m => $"{m.Key}: {m.Value}"));
+            }
+            else
+            {
+                lblMetadata.Text = "Sin filtros adicionales aplicados.";
+            }
+
+            // Movilidad del formulario (arrastre desde el encabezado)
+            pnlHeader.MouseDown += (s, e) => { if (e.Button == MouseButtons.Left) DragForm(); };
+            lblTitulo.MouseDown += (s, e) => { if (e.Button == MouseButtons.Left) DragForm(); };
+            lblMetadata.MouseDown += (s, e) => { if (e.Button == MouseButtons.Left) DragForm(); };
+
             ThemeEngine.ApplyTheme(this, _theme);
             ConfigurarGrid();
             
@@ -30,6 +49,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             dgvPreview.ReadOnly = true;
             dgvPreview.AllowUserToAddRows = false;
             dgvPreview.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPreview.AllowUserToResizeColumns = false;
+            dgvPreview.AllowUserToResizeRows = false;
+            dgvPreview.AllowUserToOrderColumns = false;
+            dgvPreview.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             
             // Estilo específico para preview
             dgvPreview.BackgroundColor = _theme.ContentBackground;

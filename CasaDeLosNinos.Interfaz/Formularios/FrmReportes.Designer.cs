@@ -17,6 +17,9 @@ partial class FrmReportes
     private FontAwesome.Sharp.IconButton btnGenerarPdf;
     private FontAwesome.Sharp.IconButton btnGenerarCsv;
     private FontAwesome.Sharp.IconButton btnVistaPrevia;
+    private System.Windows.Forms.Label lblPersona;
+    private System.Windows.Forms.ComboBox cboPersona;
+    private System.Windows.Forms.CheckBox chkIncluirFotos;
 
     private System.Windows.Forms.Panel pnlMantenimiento;
     private System.Windows.Forms.Label lblTituloMantenimiento;
@@ -41,6 +44,9 @@ partial class FrmReportes
         btnGenerarCsv = new FontAwesome.Sharp.IconButton();
         btnGenerarPdf = new FontAwesome.Sharp.IconButton();
         pnlFiltros = new Panel();
+        chkIncluirFotos = new CheckBox();
+        cboPersona = new ComboBox();
+        lblPersona = new Label();
         dtpFin = new DateTimePicker();
         lblFiltro2 = new Label();
         dtpInicio = new DateTimePicker();
@@ -70,7 +76,7 @@ partial class FrmReportes
         pnlReportes.Controls.Add(lblTituloReporte);
         pnlReportes.Location = new Point(30, 20);
         pnlReportes.Name = "pnlReportes";
-        pnlReportes.Size = new Size(740, 197);
+        pnlReportes.Size = new Size(740, 230);
         pnlReportes.TabIndex = 0;
         // 
         // btnVistaPrevia
@@ -82,7 +88,7 @@ partial class FrmReportes
         btnVistaPrevia.IconColor = Color.Black;
         btnVistaPrevia.IconFont = FontAwesome.Sharp.IconFont.Auto;
         btnVistaPrevia.IconSize = 28;
-        btnVistaPrevia.Location = new Point(483, 135);
+        btnVistaPrevia.Location = new Point(540, 162);
         btnVistaPrevia.Name = "btnVistaPrevia";
         btnVistaPrevia.Size = new Size(170, 45);
         btnVistaPrevia.TabIndex = 5;
@@ -99,7 +105,7 @@ partial class FrmReportes
         btnGenerarCsv.IconColor = Color.Black;
         btnGenerarCsv.IconFont = FontAwesome.Sharp.IconFont.Auto;
         btnGenerarCsv.IconSize = 28;
-        btnGenerarCsv.Location = new Point(483, 33);
+        btnGenerarCsv.Location = new Point(540, 60);
         btnGenerarCsv.Name = "btnGenerarCsv";
         btnGenerarCsv.Size = new Size(170, 45);
         btnGenerarCsv.TabIndex = 4;
@@ -116,7 +122,7 @@ partial class FrmReportes
         btnGenerarPdf.IconColor = Color.Black;
         btnGenerarPdf.IconFont = FontAwesome.Sharp.IconFont.Auto;
         btnGenerarPdf.IconSize = 28;
-        btnGenerarPdf.Location = new Point(483, 84);
+        btnGenerarPdf.Location = new Point(540, 111);
         btnGenerarPdf.Name = "btnGenerarPdf";
         btnGenerarPdf.Size = new Size(170, 45);
         btnGenerarPdf.TabIndex = 3;
@@ -126,6 +132,9 @@ partial class FrmReportes
         // 
         // pnlFiltros
         // 
+        pnlFiltros.Controls.Add(chkIncluirFotos);
+        pnlFiltros.Controls.Add(cboPersona);
+        pnlFiltros.Controls.Add(lblPersona);
         pnlFiltros.Controls.Add(dtpFin);
         pnlFiltros.Controls.Add(lblFiltro2);
         pnlFiltros.Controls.Add(dtpInicio);
@@ -134,13 +143,45 @@ partial class FrmReportes
         pnlFiltros.Controls.Add(cboMes);
         pnlFiltros.Location = new Point(20, 105);
         pnlFiltros.Name = "pnlFiltros";
-        pnlFiltros.Size = new Size(457, 75);
+        pnlFiltros.Size = new Size(514, 101);
         pnlFiltros.TabIndex = 2;
+        // 
+        // chkIncluirFotos
+        // 
+        chkIncluirFotos.AutoSize = true;
+        chkIncluirFotos.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+        chkIncluirFotos.Location = new Point(11, 72);
+        chkIncluirFotos.Name = "chkIncluirFotos";
+        chkIncluirFotos.Size = new Size(131, 19);
+        chkIncluirFotos.TabIndex = 6;
+        chkIncluirFotos.Text = "Adjuntar Imágenes";
+        chkIncluirFotos.UseVisualStyleBackColor = true;
+        chkIncluirFotos.Visible = false;
+        // 
+        // cboPersona
+        // 
+        cboPersona.DropDownStyle = ComboBoxStyle.DropDownList;
+        cboPersona.Location = new Point(11, 35);
+        cboPersona.Name = "cboPersona";
+        cboPersona.Size = new Size(234, 23);
+        cboPersona.TabIndex = 7;
+        cboPersona.Visible = false;
+        // 
+        // lblPersona
+        // 
+        lblPersona.AutoSize = true;
+        lblPersona.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+        lblPersona.Location = new Point(11, 12);
+        lblPersona.Name = "lblPersona";
+        lblPersona.Size = new Size(70, 15);
+        lblPersona.TabIndex = 6;
+        lblPersona.Text = "Seleccione:";
+        lblPersona.Visible = false;
         // 
         // dtpFin
         // 
         dtpFin.Format = DateTimePickerFormat.Short;
-        dtpFin.Location = new Point(320, 35);
+        dtpFin.Location = new Point(387, 35);
         dtpFin.Name = "dtpFin";
         dtpFin.Size = new Size(120, 23);
         dtpFin.TabIndex = 5;
@@ -150,7 +191,7 @@ partial class FrmReportes
         // 
         lblFiltro2.AutoSize = true;
         lblFiltro2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-        lblFiltro2.Location = new Point(320, 12);
+        lblFiltro2.Location = new Point(387, 12);
         lblFiltro2.Name = "lblFiltro2";
         lblFiltro2.Size = new Size(41, 15);
         lblFiltro2.TabIndex = 4;
@@ -160,7 +201,7 @@ partial class FrmReportes
         // dtpInicio
         // 
         dtpInicio.Format = DateTimePickerFormat.Short;
-        dtpInicio.Location = new Point(160, 35);
+        dtpInicio.Location = new Point(261, 35);
         dtpInicio.Name = "dtpInicio";
         dtpInicio.Size = new Size(120, 23);
         dtpInicio.TabIndex = 3;
@@ -170,7 +211,7 @@ partial class FrmReportes
         // 
         lblFiltro1.AutoSize = true;
         lblFiltro1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-        lblFiltro1.Location = new Point(10, 12);
+        lblFiltro1.Location = new Point(11, 12);
         lblFiltro1.Name = "lblFiltro1";
         lblFiltro1.Size = new Size(53, 15);
         lblFiltro1.TabIndex = 2;
@@ -179,7 +220,7 @@ partial class FrmReportes
         // cboAnio
         // 
         cboAnio.DropDownStyle = ComboBoxStyle.DropDownList;
-        cboAnio.Location = new Point(150, 35);
+        cboAnio.Location = new Point(160, 35);
         cboAnio.Name = "cboAnio";
         cboAnio.Size = new Size(85, 23);
         cboAnio.TabIndex = 1;
@@ -219,7 +260,7 @@ partial class FrmReportes
         pnlMantenimiento.Controls.Add(lblInfoImportar);
         pnlMantenimiento.Controls.Add(btnRespaldo);
         pnlMantenimiento.Controls.Add(btnImportar);
-        pnlMantenimiento.Location = new Point(30, 223);
+        pnlMantenimiento.Location = new Point(30, 256);
         pnlMantenimiento.Name = "pnlMantenimiento";
         pnlMantenimiento.Size = new Size(740, 218);
         pnlMantenimiento.TabIndex = 1;
@@ -250,7 +291,7 @@ partial class FrmReportes
         lblInfoImportar.Name = "lblInfoImportar";
         lblInfoImportar.Size = new Size(460, 80);
         lblInfoImportar.TabIndex = 4;
-        lblInfoImportar.Text = "La restauración SOBREESCRIBE todos los datos actuales con la información contenida en el archivo de respaldo seleccionado. Use esta opción únicamente para recuperar el sistema ante una falla.";
+        lblInfoImportar.Text = "La restauración SOBREESCRIE todos los datos actuales con la información contenida en el archivo de respaldo seleccionado. Use esta opción únicamente para recuperar el sistema ante una falla.";
         // 
         // btnRespaldo
         // 

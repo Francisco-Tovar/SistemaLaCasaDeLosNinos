@@ -5,6 +5,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Panel pnlHeader;
         private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.Label lblMetadata;
         private System.Windows.Forms.DataGridView dgvPreview;
         private System.Windows.Forms.Panel pnlFooter;
         private FontAwesome.Sharp.IconButton btnCerrar;
@@ -21,13 +22,14 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            pnlHeader = new System.Windows.Forms.Panel();
-            lblTitulo = new System.Windows.Forms.Label();
-            dgvPreview = new System.Windows.Forms.DataGridView();
-            pnlFooter = new System.Windows.Forms.Panel();
-            lblRegistros = new System.Windows.Forms.Label();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            pnlHeader = new Panel();
+            lblMetadata = new Label();
+            lblTitulo = new Label();
             btnCerrar = new FontAwesome.Sharp.IconButton();
+            dgvPreview = new DataGridView();
+            pnlFooter = new Panel();
+            lblRegistros = new Label();
             pnlHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvPreview).BeginInit();
             pnlFooter.SuspendLayout();
@@ -35,88 +37,99 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // pnlHeader
             // 
+            pnlHeader.Controls.Add(lblMetadata);
             pnlHeader.Controls.Add(lblTitulo);
-            pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            pnlHeader.Location = new System.Drawing.Point(0, 0);
+            pnlHeader.Controls.Add(btnCerrar);
+            pnlHeader.Dock = DockStyle.Top;
+            pnlHeader.Location = new Point(1, 1);
             pnlHeader.Name = "pnlHeader";
-            pnlHeader.Size = new System.Drawing.Size(900, 60);
+            pnlHeader.Size = new Size(898, 85);
             pnlHeader.TabIndex = 0;
+            // 
+            // lblMetadata
+            // 
+            lblMetadata.AutoSize = true;
+            lblMetadata.Font = new Font("Segoe UI", 9F);
+            lblMetadata.ForeColor = Color.Gray;
+            lblMetadata.Location = new Point(20, 52);
+            lblMetadata.Name = "lblMetadata";
+            lblMetadata.Size = new Size(107, 15);
+            lblMetadata.TabIndex = 1;
+            lblMetadata.Text = "Filtros aplicados: ...";
             // 
             // lblTitulo
             // 
             lblTitulo.AutoSize = true;
-            lblTitulo.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            lblTitulo.Location = new System.Drawing.Point(20, 15);
+            lblTitulo.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTitulo.Location = new Point(20, 0);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new System.Drawing.Size(232, 25);
+            lblTitulo.Size = new Size(224, 25);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "Vista Previa del Reporte";
+            // 
+            // btnCerrar
+            // 
+            btnCerrar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnCerrar.FlatAppearance.BorderSize = 0;
+            btnCerrar.FlatStyle = FlatStyle.Flat;
+            btnCerrar.IconChar = FontAwesome.Sharp.IconChar.Close;
+            btnCerrar.IconColor = Color.Black;
+            btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnCerrar.IconSize = 24;
+            btnCerrar.Location = new Point(844, 10);
+            btnCerrar.Name = "btnCerrar";
+            btnCerrar.Size = new Size(41, 40);
+            btnCerrar.TabIndex = 0;
+            btnCerrar.TextImageRelation = TextImageRelation.TextBeforeImage;
+            btnCerrar.UseVisualStyleBackColor = true;
             // 
             // dgvPreview
             // 
             dgvPreview.AllowUserToAddRows = false;
             dgvPreview.AllowUserToDeleteRows = false;
-            dgvPreview.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dgvPreview.BackgroundColor = System.Drawing.Color.White;
-            dgvPreview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            dgvPreview.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvPreview.BackgroundColor = Color.White;
+            dgvPreview.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Window;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
             dgvPreview.DefaultCellStyle = dataGridViewCellStyle1;
-            dgvPreview.Dock = System.Windows.Forms.DockStyle.Fill;
-            dgvPreview.Location = new System.Drawing.Point(0, 60);
+            dgvPreview.Dock = DockStyle.Fill;
+            dgvPreview.Location = new Point(1, 86);
             dgvPreview.Name = "dgvPreview";
             dgvPreview.ReadOnly = true;
             dgvPreview.RowHeadersVisible = false;
-            dgvPreview.Size = new System.Drawing.Size(900, 440);
+            dgvPreview.Size = new Size(898, 413);
             dgvPreview.TabIndex = 1;
             // 
             // pnlFooter
             // 
             pnlFooter.Controls.Add(lblRegistros);
-            pnlFooter.Controls.Add(btnCerrar);
-            pnlFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            pnlFooter.Location = new System.Drawing.Point(0, 500);
+            pnlFooter.Dock = DockStyle.Bottom;
+            pnlFooter.Location = new Point(1, 499);
             pnlFooter.Name = "pnlFooter";
-            pnlFooter.Size = new System.Drawing.Size(900, 60);
+            pnlFooter.Size = new Size(898, 60);
             pnlFooter.TabIndex = 2;
             // 
             // lblRegistros
             // 
             lblRegistros.AutoSize = true;
-            lblRegistros.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
-            lblRegistros.Location = new System.Drawing.Point(20, 22);
+            lblRegistros.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+            lblRegistros.Location = new Point(20, 22);
             lblRegistros.Name = "lblRegistros";
-            lblRegistros.Size = new System.Drawing.Size(126, 15);
+            lblRegistros.Size = new Size(133, 15);
             lblRegistros.TabIndex = 1;
             lblRegistros.Text = "Registros encontrados: 0";
             // 
-            // btnCerrar
-            // 
-            btnCerrar.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            btnCerrar.FlatAppearance.BorderSize = 0;
-            btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btnCerrar.IconChar = FontAwesome.Sharp.IconChar.Times;
-            btnCerrar.IconColor = System.Drawing.Color.Black;
-            btnCerrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnCerrar.IconSize = 24;
-            btnCerrar.Location = new System.Drawing.Point(760, 10);
-            btnCerrar.Name = "btnCerrar";
-            btnCerrar.Size = new System.Drawing.Size(120, 40);
-            btnCerrar.TabIndex = 0;
-            btnCerrar.Text = "Cerrar";
-            btnCerrar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            btnCerrar.UseVisualStyleBackColor = true;
-            // 
             // FrmVistaPreviaReporte
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(900, 560);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(900, 560);
             Controls.Add(dgvPreview);
             Controls.Add(pnlFooter);
             Controls.Add(pnlHeader);
