@@ -1,7 +1,0 @@
-{
-  "project_name": "Sistema La Casa de los Niños",
-  "version": "1.0.0",
-  "workflow_mode": "balanced",
-  "conventions_link": ".planning/codebase/CONVENTIONS.md",
-  "stack": "WinForms, .NET 8, SQLite, Dapper"
-}
