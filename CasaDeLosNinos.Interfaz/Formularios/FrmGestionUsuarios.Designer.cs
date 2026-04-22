@@ -20,6 +20,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnEditar = new FontAwesome.Sharp.IconButton();
             txtBusqueda = new TextBox();
             btnNuevo = new FontAwesome.Sharp.IconButton();
+            btnPermisos = new FontAwesome.Sharp.IconButton();
             dgvUsuarios = new DataGridView();
             panelHeader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
@@ -31,6 +32,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelHeader.Controls.Add(btnEditar);
             panelHeader.Controls.Add(txtBusqueda);
             panelHeader.Controls.Add(btnNuevo);
+            panelHeader.Controls.Add(btnPermisos);
             panelHeader.Dock = DockStyle.Top;
             panelHeader.Location = new Point(1, 1);
             panelHeader.Name = "panelHeader";
@@ -43,7 +45,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnDesactivar.IconColor = Color.Black;
             btnDesactivar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnDesactivar.IconSize = 24;
-            btnDesactivar.Location = new Point(406, 7);
+            btnDesactivar.Location = new Point(548, 7);
             btnDesactivar.Name = "btnDesactivar";
             btnDesactivar.Size = new Size(130, 32);
             btnDesactivar.TabIndex = 4;
@@ -93,6 +95,21 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnNuevo.UseVisualStyleBackColor = true;
             btnNuevo.Click += btnNuevo_Click;
             // 
+            // btnPermisos
+            // 
+            btnPermisos.IconChar = FontAwesome.Sharp.IconChar.ShieldHalved;
+            btnPermisos.IconColor = Color.Black;
+            btnPermisos.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnPermisos.IconSize = 24;
+            btnPermisos.Location = new Point(406, 7);
+            btnPermisos.Name = "btnPermisos";
+            btnPermisos.Size = new Size(135, 32);
+            btnPermisos.TabIndex = 5;
+            btnPermisos.Text = "Permisos";
+            btnPermisos.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnPermisos.UseVisualStyleBackColor = true;
+            btnPermisos.Click += btnPermisos_Click;
+            // 
             // dgvUsuarios
             // 
             dgvUsuarios.AllowUserToAddRows = false;
@@ -135,6 +152,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private FontAwesome.Sharp.IconButton btnNuevo;
         private FontAwesome.Sharp.IconButton btnEditar;
         private FontAwesome.Sharp.IconButton btnDesactivar;
+        private FontAwesome.Sharp.IconButton btnPermisos;
         private TextBox txtBusqueda;
     }
 }

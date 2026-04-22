@@ -75,7 +75,10 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 // 2. Limpiar usuarios EXCEPTO el admin con Id 1 o NombreUsuario 'admin'
                 await conexion.ExecuteAsync("DELETE FROM Usuarios WHERE Id > 1 AND NombreUsuario <> 'admin';", null, transaction);
 
-                // 3. Resetear auto-incrementos (opcional pero limpio)
+                // 3. Limpiar permisos extra (conservar los del admin maestro)
+                await conexion.ExecuteAsync("DELETE FROM PermisosModulo WHERE IdUsuario > 1;", null, transaction);
+
+                // 4. Resetear auto-incrementos (opcional pero limpio)
                 string[] tablas = { "Asistencia", "Observaciones", "Ninos", "RegistroHoras", "Voluntarios", "CajaChica", "AuditoriaCajaChica", "Usuarios" };
                 foreach (var tabla in tablas)
                 {
@@ -345,6 +348,16 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 FechaHoraCambio     TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 DetallesDelCambio   TEXT    NOT NULL
             );");
+        // ── PermisosModulo ────────────────────────────────────────────────
+        // Los 5 módulos configurables: Ninos, Asistencia, Voluntarios, CajaChica, Reportes.
+        // GestionUsuarios y Mantenimiento son exclusivos del rol y no se almacenan aquí.
+        await conexion.ExecuteAsync(@"
+            CREATE TABLE IF NOT EXISTS PermisosModulo (
+                Id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                IdUsuario       INTEGER NOT NULL REFERENCES Usuarios(Id),
+                NombreModulo    TEXT    NOT NULL,
+                UNIQUE(IdUsuario, NombreModulo)
+            );");
     }
 
     // ══════════════════════════════════════════════════════════════
@@ -381,6 +394,59 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 ('Administrador', 'Acceso total al sistema'),
                 ('Funcionario',   'Registro de asistencia y observaciones');");
         }
+
+        // Permisos del administrador maestro (Id=1) — todos los módulos configurables
+        // Se insertan cada vez usando INSERT OR IGNORE para que sea idempotente en migraciones
+        var adminExiste = await conexion.ExecuteScalarAsync<int>(
+            "SELECT COUNT(*) FROM Usuarios WHERE Id = 1;");
+
+        if (adminExiste > 0)
+        {
+            await conexion.ExecuteAsync(@"
+                INSERT OR IGNORE INTO PermisosModulo (IdUsuario, NombreModulo) VALUES
+                (1, 'Ninos'),
+                (1, 'Asistencia'),
+                (1, 'Voluntarios'),
+                (1, 'CajaChica'),
+                (1, 'Reportes');");
+        }
+
+        // ── Migración de permisos para usuarios existentes ───────────────────
+        // Para cada usuario sin ningún permiso registrado, otorgar los permisos
+        // por defecto según su rol:
+        //   - Administrador (IdRol=1): todos los 5 módulos
+        //   - Funcionario   (IdRol=2): Niños + Asistencia
+        // Usa INSERT OR IGNORE para ser idempotente y no pisar permisos ya configurados.
+        var usuariosSinPermisos = await conexion.QueryAsync<(int Id, int IdRol)>(@"
+            SELECT u.Id, u.IdRol
+            FROM Usuarios u
+            WHERE NOT EXISTS (
+                SELECT 1 FROM PermisosModulo p WHERE p.IdUsuario = u.Id
+            );");
+
+        foreach (var (id, idRol) in usuariosSinPermisos)
+        {
+            if (idRol == 1)
+            {
+                // Administrador: acceso completo
+                await conexion.ExecuteAsync(@"
+                    INSERT OR IGNORE INTO PermisosModulo (IdUsuario, NombreModulo) VALUES
+                    (@id, 'Ninos'),
+                    (@id, 'Asistencia'),
+                    (@id, 'Voluntarios'),
+                    (@id, 'CajaChica'),
+                    (@id, 'Reportes');", new { id });
+            }
+            else
+            {
+                // Funcionario: solo Niños y Asistencia por defecto
+                await conexion.ExecuteAsync(@"
+                    INSERT OR IGNORE INTO PermisosModulo (IdUsuario, NombreModulo) VALUES
+                    (@id, 'Ninos'),
+                    (@id, 'Asistencia');", new { id });
+            }
+        }
+
 
 #if DEBUG
         // Si no hay niños, poblamos con datos de prueba realistas de Abril 2026

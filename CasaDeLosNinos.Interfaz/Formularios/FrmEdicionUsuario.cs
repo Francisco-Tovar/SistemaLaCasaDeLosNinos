@@ -11,13 +11,15 @@ namespace CasaDeLosNinos.Interfaz.Formularios
     {
         private readonly IServicioUsuario _servicioUsuario;
         private readonly Usuario? _usuarioEdicion;
+        private readonly int _usuarioActualId;
 
 
-        public FrmEdicionUsuario(IServicioUsuario servicioUsuario, ThemeColors theme, Usuario? usuario = null)
+        public FrmEdicionUsuario(IServicioUsuario servicioUsuario, ThemeColors theme, Usuario? usuario = null, int usuarioActualId = 0)
         {
             InitializeComponent();
             _servicioUsuario = servicioUsuario;
             _usuarioEdicion = usuario;
+            _usuarioActualId = usuarioActualId;
             _theme = theme;
 
             this.TieneBordeAcento = true;
@@ -37,10 +39,35 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 lblTitulo.Text = "👤  Editar Usuario";
                 CargarDatos();
+                BloquearRolSiCorresponde();
             }
             else
             {
                 lblTitulo.Text = "👤  Nuevo Usuario";
+            }
+        }
+
+        /// <summary>
+        /// Deshabilita el combo de Rol cuando el cambio de rol no está permitido:
+        /// - Editando al admin maestro (Id=1): nadie puede cambiarle el rol.
+        /// - Un admin editándose a sí mismo: no puede degradarse.
+        /// </summary>
+        private void BloquearRolSiCorresponde()
+        {
+            if (_usuarioEdicion == null) return;
+
+            bool esMaestro = (_usuarioEdicion.Id == 1);
+            bool esAdminEditandoseSiMismo = (_usuarioActualId != 0
+                && _usuarioActualId == _usuarioEdicion.Id
+                && _usuarioEdicion.IdRol == 1);
+
+            if (esMaestro || esAdminEditandoseSiMismo)
+            {
+                cmbRol.Enabled = false;
+                string razon = esMaestro
+                    ? "El rol del administrador maestro no puede modificarse."
+                    : "Un administrador no puede cambiar su propio rol.";
+                cmbRol.Tag = razon; // Guardamos para mostrar si intentan hacer click
             }
         }
 
@@ -85,7 +112,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 }
                 else
                 {
-                    await _servicioUsuario.ActualizarAsync(usuario, password);
+                    await _servicioUsuario.ActualizarAsync(usuario, password, _usuarioActualId);
                 }
 
                 this.DialogResult = DialogResult.OK;

@@ -19,6 +19,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private readonly IConfiguration _configuracion;
         private readonly IServiceProvider _proveedor;
         private readonly Usuario _usuarioActual;
+        private readonly IServicioUsuario _servicioUsuario;
         private IconButton currentBtn;
         private Panel leftBorderBtn;
         private Form currentChildForm;
@@ -35,6 +36,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             _configuracion = configuracion;
             _proveedor = proveedor;
             _usuarioActual = usuarioActual;
+            _servicioUsuario = proveedor.GetRequiredService<IServicioUsuario>();
             ConfigurarLogotipo();
 
             leftBorderBtn = new Panel();
@@ -340,21 +342,41 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             DragForm();
         }
 
-        private void FormPrincipal_Load(object sender, EventArgs e)
+        private async void FormPrincipal_Load(object sender, EventArgs e)
         {
             var nombreOrg = _configuracion["Configuracion:NombreOrganizacion"] ?? "La Casa de los Niños";
             this.lblBienvenida.Text = $"Bienvenido, {_usuarioActual.NombreCompleto}";
             this.lblOrg.Text = nombreOrg;
 
-            // Lógica de Permisos
-            if (_usuarioActual.IdRol != 1) // Si NO es Administrador
+            // Lógica de Permisos — basada en tabla PermisosModulo
+            try
             {
-                btnUsuarios.Visible = false;
-                btnReportes.Visible = false;
-                btnMantenimiento.Visible = false;
+                var permisos = (await _servicioUsuario.ObtenerPermisosAsync(_usuarioActual.Id)).ToHashSet();
+                ConfigurarVisibilidadModulos(permisos);
+            }
+            catch
+            {
+                // Si falla la carga de permisos, aplicar restricción máxima por seguridad
+                ConfigurarVisibilidadModulos(new HashSet<string>());
             }
 
             ConfigurarFondo();
+        }
+
+        private void ConfigurarVisibilidadModulos(IReadOnlySet<string> permisos)
+        {
+            bool esAdmin = _usuarioActual.IdRol == 1;
+
+            // Módulos configurables — visibles solo si tiene el permiso en la tabla
+            btnNinos.Visible      = permisos.Contains("Ninos");
+            btnAsistencia.Visible = permisos.Contains("Asistencia");
+            btnVoluntarios.Visible = permisos.Contains("Voluntarios");
+            btnCajaChica.Visible  = permisos.Contains("CajaChica");
+            btnReportes.Visible   = permisos.Contains("Reportes");
+
+            // Módulos exclusivos de rol Administrador — nunca configurables por permisos
+            btnUsuarios.Visible      = esAdmin;
+            btnMantenimiento.Visible = esAdmin;
         }
 
         private void ConfigurarLogotipo()

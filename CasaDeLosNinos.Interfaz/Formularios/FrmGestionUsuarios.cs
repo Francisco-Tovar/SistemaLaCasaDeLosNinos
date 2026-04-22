@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using CasaDeLosNinos.Interfaz.Estilos;
@@ -92,7 +93,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private async void btnNuevo_Click(object sender, EventArgs e)
         {
-            using var frm = new FrmEdicionUsuario(_servicioUsuario, _theme);
+            using var frm = new FrmEdicionUsuario(_servicioUsuario, _theme, null, _usuarioActualId);
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 await CargarUsuarios();
@@ -103,7 +104,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             if (dgvUsuarios.CurrentRow?.DataBoundItem is Usuario usuario)
             {
-                using var frm = new FrmEdicionUsuario(_servicioUsuario, _theme, usuario);
+                using var frm = new FrmEdicionUsuario(_servicioUsuario, _theme, usuario, _usuarioActualId);
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     await CargarUsuarios();
@@ -157,6 +158,33 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             currencyManager.ResumeBinding();
         }
 
+        private async void btnPermisos_Click(object sender, EventArgs e)
+        {
+            if (dgvUsuarios.CurrentRow?.DataBoundItem is Usuario usuario)
+            {
+                if (usuario.Id == 1)
+                {
+                    MessageBox.Show(
+                        "Los permisos del administrador maestro no pueden modificarse.",
+                        "Operación no permitida",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                using var frm = new FrmPermisosUsuario(_servicioUsuario, usuario, _theme);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    // Permisos actualizados — no es necesario recargar la lista completa
+                    MessageBox.Show(
+                        $"Permisos de '{usuario.NombreCompleto}' actualizados correctamente.",
+                        "Permisos Guardados",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            }
+        }
+
         private void dgvUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -174,11 +202,32 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             if (dgvUsuarios.CurrentRow?.DataBoundItem is Usuario user)
             {
-                btnDesactivar.Text = user.Activo ? "Desactivar" : "Activar";
-                btnDesactivar.IconChar = user.Activo ? FontAwesome.Sharp.IconChar.UserSlash : FontAwesome.Sharp.IconChar.UserCheck;
-                btnDesactivar.BackColor = user.Activo ? _theme.StatusError : _theme.StatusSuccess;
-                btnDesactivar.ForeColor = Color.White;
-                btnDesactivar.IconColor = Color.White;
+                bool esMaestro = (user.Id == 1);
+
+                // Botón Desactivar
+                btnDesactivar.Enabled = !esMaestro;
+                if (!esMaestro)
+                {
+                    btnDesactivar.Text = user.Activo ? "Desactivar" : "Activar";
+                    btnDesactivar.IconChar = user.Activo ? FontAwesome.Sharp.IconChar.UserSlash : FontAwesome.Sharp.IconChar.UserCheck;
+                    btnDesactivar.BackColor = user.Activo ? _theme.StatusError : _theme.StatusSuccess;
+                    btnDesactivar.ForeColor = Color.White;
+                    btnDesactivar.IconColor = Color.White;
+                }
+                else
+                {
+                    btnDesactivar.Text = "Desactivar";
+                    btnDesactivar.IconChar = FontAwesome.Sharp.IconChar.UserSlash;
+                    btnDesactivar.BackColor = Color.Gray;
+                    btnDesactivar.ForeColor = Color.White;
+                    btnDesactivar.IconColor = Color.White;
+                }
+
+                // Botón Permisos — deshabilitado para el admin maestro
+                btnPermisos.Enabled = !esMaestro;
+                btnPermisos.BackColor = esMaestro ? Color.Gray : _theme.AccentColor;
+                btnPermisos.ForeColor = Color.White;
+                btnPermisos.IconColor = Color.White;
             }
         }
     }

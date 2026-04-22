@@ -114,6 +114,7 @@ internal static class Program
         servicios.AddTransient<IRepositorioVoluntario,  RepositorioVoluntario>();
         servicios.AddTransient<IRepositorioRegistroHoras, RepositorioRegistroHoras>();
         servicios.AddTransient<IRepositorioCajaChica,   RepositorioCajaChica>();
+        servicios.AddTransient<IRepositorioPermisos,    RepositorioPermisos>();
 
         // Servicios (Transient)
         servicios.AddTransient<IServicioAutenticacion, ServicioAutenticacion>();
