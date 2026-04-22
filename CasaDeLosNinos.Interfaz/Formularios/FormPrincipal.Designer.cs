@@ -16,16 +16,17 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private void InitializeComponent()
         {
             panelMenu = new Panel();
-            btnLogout = new FontAwesome.Sharp.IconButton();
-            btnVoluntarios = new FontAwesome.Sharp.IconButton();
-            btnCajaChica = new FontAwesome.Sharp.IconButton();
+            btnMantenimiento = new FontAwesome.Sharp.IconButton();
             btnReportes = new FontAwesome.Sharp.IconButton();
+            btnCajaChica = new FontAwesome.Sharp.IconButton();
+            btnVoluntarios = new FontAwesome.Sharp.IconButton();
             btnUsuarios = new FontAwesome.Sharp.IconButton();
             btnAsistencia = new FontAwesome.Sharp.IconButton();
             btnNinos = new FontAwesome.Sharp.IconButton();
             panelLogo = new Panel();
             lblOrg = new Label();
             btnHome = new PictureBox();
+            btnLogout = new FontAwesome.Sharp.IconButton();
             panelTitleBar = new Panel();
             btnTheme = new FontAwesome.Sharp.IconButton();
             btnMinimize = new FontAwesome.Sharp.IconButton();
@@ -46,6 +47,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // 
             // panelMenu
             // 
+            panelMenu.Controls.Add(btnMantenimiento);
             panelMenu.Controls.Add(btnReportes);
             panelMenu.Controls.Add(btnCajaChica);
             panelMenu.Controls.Add(btnVoluntarios);
@@ -53,59 +55,56 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelMenu.Controls.Add(btnAsistencia);
             panelMenu.Controls.Add(btnNinos);
             panelMenu.Controls.Add(panelLogo);
+            panelMenu.Controls.Add(btnLogout);
             panelMenu.Dock = DockStyle.Left;
             panelMenu.Location = new Point(1, 1);
             panelMenu.Name = "panelMenu";
             panelMenu.Size = new Size(220, 619);
             panelMenu.TabIndex = 0;
             // 
-            // btnLogout (RE-ORDERED TO BOTTOM LOCALLY)
+            // btnMantenimiento
             // 
-            panelMenu.Controls.Add(btnLogout);
+            btnMantenimiento.Dock = DockStyle.Top;
+            btnMantenimiento.FlatAppearance.BorderSize = 0;
+            btnMantenimiento.FlatStyle = FlatStyle.Flat;
+            btnMantenimiento.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMantenimiento.IconChar = FontAwesome.Sharp.IconChar.Tools;
+            btnMantenimiento.IconColor = Color.Black;
+            btnMantenimiento.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnMantenimiento.IconSize = 32;
+            btnMantenimiento.ImageAlign = ContentAlignment.MiddleLeft;
+            btnMantenimiento.Location = new Point(0, 500);
+            btnMantenimiento.Name = "btnMantenimiento";
+            btnMantenimiento.Padding = new Padding(10, 0, 20, 0);
+            btnMantenimiento.Size = new Size(220, 60);
+            btnMantenimiento.TabIndex = 8;
+            btnMantenimiento.Text = "Mantenimiento";
+            btnMantenimiento.TextAlign = ContentAlignment.MiddleLeft;
+            btnMantenimiento.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnMantenimiento.UseVisualStyleBackColor = true;
+            btnMantenimiento.Click += btnMantenimiento_Click;
             // 
-            // btnLogout
+            // btnReportes
             // 
-            btnLogout.Dock = DockStyle.Bottom;
-            btnLogout.FlatAppearance.BorderSize = 0;
-            btnLogout.FlatStyle = FlatStyle.Flat;
-            btnLogout.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            btnLogout.IconChar = FontAwesome.Sharp.IconChar.SignOutAlt;
-            btnLogout.IconColor = Color.Black;
-            btnLogout.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnLogout.IconSize = 32;
-            btnLogout.ImageAlign = ContentAlignment.MiddleLeft;
-            btnLogout.Location = new Point(0, 559);
-            btnLogout.Name = "btnLogout";
-            btnLogout.Padding = new Padding(10, 0, 20, 0);
-            btnLogout.Size = new Size(220, 60);
-            btnLogout.TabIndex = 4;
-            btnLogout.Text = "Cerrar Sesión";
-            btnLogout.TextAlign = ContentAlignment.MiddleLeft;
-            btnLogout.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnLogout.UseVisualStyleBackColor = true;
-            btnLogout.Click += btnLogout_Click;
-            // 
-            // btnVoluntarios
-            // 
-            btnVoluntarios.Dock = DockStyle.Top;
-            btnVoluntarios.FlatAppearance.BorderSize = 0;
-            btnVoluntarios.FlatStyle = FlatStyle.Flat;
-            btnVoluntarios.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnVoluntarios.IconChar = FontAwesome.Sharp.IconChar.HandsHelping;
-            btnVoluntarios.IconColor = Color.Black;
-            btnVoluntarios.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnVoluntarios.IconSize = 32;
-            btnVoluntarios.ImageAlign = ContentAlignment.MiddleLeft;
-            btnVoluntarios.Location = new Point(0, 320);
-            btnVoluntarios.Name = "btnVoluntarios";
-            btnVoluntarios.Padding = new Padding(10, 0, 20, 0);
-            btnVoluntarios.Size = new Size(220, 60);
-            btnVoluntarios.TabIndex = 5;
-            btnVoluntarios.Text = "Voluntarios";
-            btnVoluntarios.TextAlign = ContentAlignment.MiddleLeft;
-            btnVoluntarios.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnVoluntarios.UseVisualStyleBackColor = true;
-            btnVoluntarios.Click += btnVoluntarios_Click;
+            btnReportes.Dock = DockStyle.Top;
+            btnReportes.FlatAppearance.BorderSize = 0;
+            btnReportes.FlatStyle = FlatStyle.Flat;
+            btnReportes.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnReportes.IconChar = FontAwesome.Sharp.IconChar.ChartLine;
+            btnReportes.IconColor = Color.Black;
+            btnReportes.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnReportes.IconSize = 32;
+            btnReportes.ImageAlign = ContentAlignment.MiddleLeft;
+            btnReportes.Location = new Point(0, 440);
+            btnReportes.Name = "btnReportes";
+            btnReportes.Padding = new Padding(10, 0, 20, 0);
+            btnReportes.Size = new Size(220, 60);
+            btnReportes.TabIndex = 7;
+            btnReportes.Text = "Reportes";
+            btnReportes.TextAlign = ContentAlignment.MiddleLeft;
+            btnReportes.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnReportes.UseVisualStyleBackColor = true;
+            btnReportes.Click += btnReportes_Click;
             // 
             // btnCajaChica
             // 
@@ -129,6 +128,28 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnCajaChica.UseVisualStyleBackColor = true;
             btnCajaChica.Click += btnCajaChica_Click;
             // 
+            // btnVoluntarios
+            // 
+            btnVoluntarios.Dock = DockStyle.Top;
+            btnVoluntarios.FlatAppearance.BorderSize = 0;
+            btnVoluntarios.FlatStyle = FlatStyle.Flat;
+            btnVoluntarios.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnVoluntarios.IconChar = FontAwesome.Sharp.IconChar.HandsHelping;
+            btnVoluntarios.IconColor = Color.Black;
+            btnVoluntarios.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnVoluntarios.IconSize = 32;
+            btnVoluntarios.ImageAlign = ContentAlignment.MiddleLeft;
+            btnVoluntarios.Location = new Point(0, 320);
+            btnVoluntarios.Name = "btnVoluntarios";
+            btnVoluntarios.Padding = new Padding(10, 0, 20, 0);
+            btnVoluntarios.Size = new Size(220, 60);
+            btnVoluntarios.TabIndex = 5;
+            btnVoluntarios.Text = "Voluntarios";
+            btnVoluntarios.TextAlign = ContentAlignment.MiddleLeft;
+            btnVoluntarios.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnVoluntarios.UseVisualStyleBackColor = true;
+            btnVoluntarios.Click += btnVoluntarios_Click;
+            // 
             // btnUsuarios
             // 
             btnUsuarios.Dock = DockStyle.Top;
@@ -150,28 +171,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnUsuarios.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnUsuarios.UseVisualStyleBackColor = true;
             btnUsuarios.Click += btnUsuarios_Click;
-            // 
-            // btnReportes
-            // 
-            btnReportes.Dock = DockStyle.Top;
-            btnReportes.FlatAppearance.BorderSize = 0;
-            btnReportes.FlatStyle = FlatStyle.Flat;
-            btnReportes.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnReportes.IconChar = FontAwesome.Sharp.IconChar.ChartLine;
-            btnReportes.IconColor = Color.Black;
-            btnReportes.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            btnReportes.IconSize = 32;
-            btnReportes.ImageAlign = ContentAlignment.MiddleLeft;
-            btnReportes.Location = new Point(0, 440);
-            btnReportes.Name = "btnReportes";
-            btnReportes.Padding = new Padding(10, 0, 20, 0);
-            btnReportes.Size = new Size(220, 60);
-            btnReportes.TabIndex = 7;
-            btnReportes.Text = "Reportes";
-            btnReportes.TextAlign = ContentAlignment.MiddleLeft;
-            btnReportes.TextImageRelation = TextImageRelation.ImageBeforeText;
-            btnReportes.UseVisualStyleBackColor = true;
-            btnReportes.Click += btnReportes_Click;
             // 
             // btnAsistencia
             // 
@@ -250,6 +249,28 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnHome.TabIndex = 0;
             btnHome.TabStop = false;
             btnHome.Click += btnHome_Click;
+            // 
+            // btnLogout
+            // 
+            btnLogout.Dock = DockStyle.Bottom;
+            btnLogout.FlatAppearance.BorderSize = 0;
+            btnLogout.FlatStyle = FlatStyle.Flat;
+            btnLogout.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnLogout.IconChar = FontAwesome.Sharp.IconChar.SignOutAlt;
+            btnLogout.IconColor = Color.Black;
+            btnLogout.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnLogout.IconSize = 32;
+            btnLogout.ImageAlign = ContentAlignment.MiddleLeft;
+            btnLogout.Location = new Point(0, 559);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Padding = new Padding(10, 0, 20, 0);
+            btnLogout.Size = new Size(220, 60);
+            btnLogout.TabIndex = 4;
+            btnLogout.Text = "Cerrar Sesión";
+            btnLogout.TextAlign = ContentAlignment.MiddleLeft;
+            btnLogout.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnLogout.UseVisualStyleBackColor = true;
+            btnLogout.Click += btnLogout_Click;
             // 
             // panelTitleBar
             // 
@@ -399,7 +420,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             Controls.Add(panelMenu);
             DoubleBuffered = true;
             Font = new Font("Segoe UI", 9.75F);
-            MinimumSize = new Size(1150, 600);
+            MinimumSize = new Size(1150, 621);
             Name = "FormPrincipal";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "La Casa de los Niños";
@@ -438,5 +459,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private FontAwesome.Sharp.IconButton btnClose;
         private FontAwesome.Sharp.IconButton btnTheme;
         private FontAwesome.Sharp.IconButton btnLogout;
+        private FontAwesome.Sharp.IconButton btnMantenimiento;
     }
 }

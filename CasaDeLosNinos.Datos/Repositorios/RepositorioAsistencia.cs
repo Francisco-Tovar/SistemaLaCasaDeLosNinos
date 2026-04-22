@@ -93,4 +93,19 @@ public class RepositorioAsistencia : IRepositorioAsistencia
             Mes = mes.ToString("D2") 
         });
     }
+
+    public async Task<IEnumerable<Asistencia>> ObtenerPorRangoAsync(DateTime inicio, DateTime fin)
+    {
+        await using var conexion = new SqliteConnection(_cadenaConexion);
+        const string sql = @"
+            SELECT Id, IdNino, Fecha, Presente, IdUsuario, IdObservacion
+            FROM Asistencia
+            WHERE Fecha >= @Inicio AND Fecha <= @Fin;";
+
+        return await conexion.QueryAsync<Asistencia>(sql, new
+        {
+            Inicio = inicio.ToString("yyyy-MM-dd"),
+            Fin    = fin.ToString("yyyy-MM-dd")
+        });
+    }
 }

@@ -16,4 +16,6 @@ public class Nino
     public DateTime FechaIngreso { get; set; } = DateTime.Today;
     public bool Activo { get; set; } = true;
     public DateTime FechaCreacion { get; set; } = DateTime.Now;
+    /// <summary>Fecha en que el niño fue desactivado. Null si está activo.</summary>
+    public DateTime? FechaBaja { get; set; }
 }

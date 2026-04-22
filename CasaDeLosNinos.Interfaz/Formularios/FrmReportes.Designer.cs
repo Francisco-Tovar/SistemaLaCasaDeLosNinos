@@ -21,13 +21,6 @@ partial class FrmReportes
     private System.Windows.Forms.ComboBox cboPersona;
     private System.Windows.Forms.CheckBox chkIncluirFotos;
 
-    private System.Windows.Forms.Panel pnlMantenimiento;
-    private System.Windows.Forms.Label lblTituloMantenimiento;
-    private FontAwesome.Sharp.IconButton btnRespaldo;
-    private FontAwesome.Sharp.IconButton btnImportar;
-    private System.Windows.Forms.Label lblInfoRespaldo;
-    private System.Windows.Forms.Label lblInfoImportar;
-
     protected override void Dispose(bool disposing)
     {
         if (disposing && (components != null))
@@ -55,15 +48,8 @@ partial class FrmReportes
         cboMes = new ComboBox();
         cboTipoReporte = new ComboBox();
         lblTituloReporte = new Label();
-        pnlMantenimiento = new Panel();
-        lblTituloMantenimiento = new Label();
-        lblInfoRespaldo = new Label();
-        lblInfoImportar = new Label();
-        btnRespaldo = new FontAwesome.Sharp.IconButton();
-        btnImportar = new FontAwesome.Sharp.IconButton();
         pnlReportes.SuspendLayout();
         pnlFiltros.SuspendLayout();
-        pnlMantenimiento.SuspendLayout();
         SuspendLayout();
         // 
         // pnlReportes
@@ -76,7 +62,7 @@ partial class FrmReportes
         pnlReportes.Controls.Add(lblTituloReporte);
         pnlReportes.Location = new Point(30, 20);
         pnlReportes.Name = "pnlReportes";
-        pnlReportes.Size = new Size(740, 230);
+        pnlReportes.Size = new Size(740, 319);
         pnlReportes.TabIndex = 0;
         // 
         // btnVistaPrevia
@@ -88,7 +74,7 @@ partial class FrmReportes
         btnVistaPrevia.IconColor = Color.Black;
         btnVistaPrevia.IconFont = FontAwesome.Sharp.IconFont.Auto;
         btnVistaPrevia.IconSize = 28;
-        btnVistaPrevia.Location = new Point(540, 162);
+        btnVistaPrevia.Location = new Point(20, 226);
         btnVistaPrevia.Name = "btnVistaPrevia";
         btnVistaPrevia.Size = new Size(170, 45);
         btnVistaPrevia.TabIndex = 5;
@@ -105,7 +91,7 @@ partial class FrmReportes
         btnGenerarCsv.IconColor = Color.Black;
         btnGenerarCsv.IconFont = FontAwesome.Sharp.IconFont.Auto;
         btnGenerarCsv.IconSize = 28;
-        btnGenerarCsv.Location = new Point(540, 60);
+        btnGenerarCsv.Location = new Point(372, 226);
         btnGenerarCsv.Name = "btnGenerarCsv";
         btnGenerarCsv.Size = new Size(170, 45);
         btnGenerarCsv.TabIndex = 4;
@@ -122,7 +108,7 @@ partial class FrmReportes
         btnGenerarPdf.IconColor = Color.Black;
         btnGenerarPdf.IconFont = FontAwesome.Sharp.IconFont.Auto;
         btnGenerarPdf.IconSize = 28;
-        btnGenerarPdf.Location = new Point(540, 111);
+        btnGenerarPdf.Location = new Point(196, 226);
         btnGenerarPdf.Name = "btnGenerarPdf";
         btnGenerarPdf.Size = new Size(170, 45);
         btnGenerarPdf.TabIndex = 3;
@@ -143,7 +129,7 @@ partial class FrmReportes
         pnlFiltros.Controls.Add(cboMes);
         pnlFiltros.Location = new Point(20, 105);
         pnlFiltros.Name = "pnlFiltros";
-        pnlFiltros.Size = new Size(514, 101);
+        pnlFiltros.Size = new Size(548, 101);
         pnlFiltros.TabIndex = 2;
         // 
         // chkIncluirFotos
@@ -253,84 +239,9 @@ partial class FrmReportes
         lblTituloReporte.TabIndex = 0;
         lblTituloReporte.Text = "Seleccione el reporte";
         // 
-        // pnlMantenimiento
-        // 
-        pnlMantenimiento.Controls.Add(lblTituloMantenimiento);
-        pnlMantenimiento.Controls.Add(lblInfoRespaldo);
-        pnlMantenimiento.Controls.Add(lblInfoImportar);
-        pnlMantenimiento.Controls.Add(btnRespaldo);
-        pnlMantenimiento.Controls.Add(btnImportar);
-        pnlMantenimiento.Location = new Point(30, 256);
-        pnlMantenimiento.Name = "pnlMantenimiento";
-        pnlMantenimiento.Size = new Size(740, 218);
-        pnlMantenimiento.TabIndex = 1;
-        // 
-        // lblTituloMantenimiento
-        // 
-        lblTituloMantenimiento.AutoSize = true;
-        lblTituloMantenimiento.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-        lblTituloMantenimiento.Location = new Point(15, 10);
-        lblTituloMantenimiento.Name = "lblTituloMantenimiento";
-        lblTituloMantenimiento.Size = new Size(224, 21);
-        lblTituloMantenimiento.TabIndex = 3;
-        lblTituloMantenimiento.Text = "Mantenimiento y Seguridad";
-        // 
-        // lblInfoRespaldo
-        // 
-        lblInfoRespaldo.Font = new Font("Segoe UI", 10F, FontStyle.Italic);
-        lblInfoRespaldo.Location = new Point(250, 75);
-        lblInfoRespaldo.Name = "lblInfoRespaldo";
-        lblInfoRespaldo.Size = new Size(460, 60);
-        lblInfoRespaldo.TabIndex = 1;
-        lblInfoRespaldo.Text = "El respaldo genera un archivo comprimido (.zip) con la base de datos y todos los archivos del sistema.";
-        // 
-        // lblInfoImportar
-        // 
-        lblInfoImportar.Font = new Font("Segoe UI", 10F, FontStyle.Italic);
-        lblInfoImportar.Location = new Point(250, 135);
-        lblInfoImportar.Name = "lblInfoImportar";
-        lblInfoImportar.Size = new Size(460, 80);
-        lblInfoImportar.TabIndex = 4;
-        lblInfoImportar.Text = "La restauración SOBREESCRIE todos los datos actuales con la información contenida en el archivo de respaldo seleccionado. Use esta opción únicamente para recuperar el sistema ante una falla.";
-        // 
-        // btnRespaldo
-        // 
-        btnRespaldo.FlatAppearance.BorderSize = 0;
-        btnRespaldo.FlatStyle = FlatStyle.Flat;
-        btnRespaldo.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        btnRespaldo.IconChar = FontAwesome.Sharp.IconChar.Database;
-        btnRespaldo.IconColor = Color.Black;
-        btnRespaldo.IconFont = FontAwesome.Sharp.IconFont.Auto;
-        btnRespaldo.IconSize = 28;
-        btnRespaldo.Location = new Point(20, 75);
-        btnRespaldo.Name = "btnRespaldo";
-        btnRespaldo.Size = new Size(220, 50);
-        btnRespaldo.TabIndex = 0;
-        btnRespaldo.Text = "Respaldar Base de Datos";
-        btnRespaldo.TextImageRelation = TextImageRelation.ImageBeforeText;
-        btnRespaldo.UseVisualStyleBackColor = true;
-        // 
-        // btnImportar
-        // 
-        btnImportar.FlatAppearance.BorderSize = 0;
-        btnImportar.FlatStyle = FlatStyle.Flat;
-        btnImportar.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-        btnImportar.IconChar = FontAwesome.Sharp.IconChar.FileUpload;
-        btnImportar.IconColor = Color.Black;
-        btnImportar.IconFont = FontAwesome.Sharp.IconFont.Auto;
-        btnImportar.IconSize = 28;
-        btnImportar.Location = new Point(20, 135);
-        btnImportar.Name = "btnImportar";
-        btnImportar.Size = new Size(220, 50);
-        btnImportar.TabIndex = 2;
-        btnImportar.Text = "Importar Respaldo";
-        btnImportar.TextImageRelation = TextImageRelation.ImageBeforeText;
-        btnImportar.UseVisualStyleBackColor = true;
-        // 
         // FrmReportes
         // 
-        ClientSize = new Size(800, 540);
-        Controls.Add(pnlMantenimiento);
+        ClientSize = new Size(800, 393);
         Controls.Add(pnlReportes);
         Name = "FrmReportes";
         Text = "Reportes y Mantenimiento";
@@ -338,8 +249,6 @@ partial class FrmReportes
         pnlReportes.PerformLayout();
         pnlFiltros.ResumeLayout(false);
         pnlFiltros.PerformLayout();
-        pnlMantenimiento.ResumeLayout(false);
-        pnlMantenimiento.PerformLayout();
         ResumeLayout(false);
     }
 }

@@ -20,6 +20,10 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
         Task<byte[]> GenerarReporteVoluntariosDetalladoPdfAsync(DateTime inicio, DateTime fin);
         Task<string> GenerarReporteVoluntariosCsvAsync(DateTime inicio, DateTime fin);
 
+        // Nuevo: Altas y Bajas de Niños
+        Task<byte[]> GenerarReporteFlujoBeneficiariosPdfAsync(DateTime inicio, DateTime fin);
+        Task<string> GenerarReporteFlujoBeneficiariosCsvAsync(DateTime inicio, DateTime fin);
+
         Task RespaldarSistemaFullAsync(string rutaDestino);
         Task RestaurarSistemaFullAsync(string rutaZip);
 
@@ -30,6 +34,7 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
         Task<IEnumerable<object>> ObtenerDatosVoluntariosDetalladoAsync(DateTime inicio, DateTime fin);
         Task<IEnumerable<object>> ObtenerDatosAsistenciaIndividualAsync(int idNino, DateTime inicio, DateTime fin);
         Task<IEnumerable<object>> ObtenerDatosActividadesVoluntarioAsync(int idVoluntario, DateTime inicio, DateTime fin);
+        Task<IEnumerable<object>> ObtenerDatosFlujoBeneficiariosAsync(DateTime inicio, DateTime fin);
         
         // Métodos de Auditoría
         Task<byte[]> GenerarReporteAuditoriaCajaChicaPdfAsync(int anio, int mes);

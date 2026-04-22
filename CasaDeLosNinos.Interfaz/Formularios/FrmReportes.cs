@@ -16,7 +16,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private readonly IRepositorioNino _repositorioNino;
         private readonly IRepositorioVoluntario _repositorioVoluntario;
 
-        public FrmReportes(IServicioReporte servicioReporte, 
+        public FrmReportes(IServicioReporte servicioReporte,
             IRepositorioNino repositorioNino,
             IRepositorioVoluntario repositorioVoluntario,
             ThemeColors theme)
@@ -42,6 +42,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             cboTipoReporte.Items.Add("Voluntarios (Detallado)");
             cboTipoReporte.Items.Add("Actividades Individual (Voluntario)");
             cboTipoReporte.Items.Add("Auditoría Caja Chica");
+            cboTipoReporte.Items.Add("Altas y Bajas (Niños)");
             cboTipoReporte.SelectedIndex = 0;
 
             var meses = new[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
@@ -63,8 +64,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnGenerarPdf.Click += async (s, e) => await GenerarReporteAsync("PDF");
             btnGenerarCsv.Click += async (s, e) => await GenerarReporteAsync("CSV");
             btnVistaPrevia.Click += async (s, e) => await MostrarVistaPreviaAsync();
-            btnRespaldo.Click += async (s, e) => await RealizarRespaldoAsync();
-            btnImportar.Click += async (s, e) => await RealizarRestauracionAsync();
         }
 
         private async void AlCambiarTipoReporte(object? sender, EventArgs e)
@@ -74,14 +73,17 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             bool esIndividual = tipo.Contains("Individual");
             bool esCajaChica = tipo == "Fiscalización Caja Chica";
             bool esAuditoria = tipo == "Auditoría Caja Chica";
+            bool esAltasBajas = tipo == "Altas y Bajas (Niños)";
 
             // Visibilidad de controles de periodo
-            lblFiltro1.Text = (esVoluntarioGeneral || esIndividual) ? "Desde:" : "Periodo:";
-            cboMes.Visible = !esVoluntarioGeneral && !esIndividual;
-            cboAnio.Visible = !esVoluntarioGeneral && !esIndividual;
-            dtpInicio.Visible = esVoluntarioGeneral || esIndividual;
-            lblFiltro2.Visible = esVoluntarioGeneral || esIndividual;
-            dtpFin.Visible = esVoluntarioGeneral || esIndividual;
+            // Altas y Bajas y Voluntarios usan rango fecha libre; Asistencia y Caja Chica usan Mes/Año
+            bool usaRangoFecha = esVoluntarioGeneral || esIndividual || esAltasBajas;
+            lblFiltro1.Text = usaRangoFecha ? "Desde:" : "Periodo:";
+            cboMes.Visible = !usaRangoFecha;
+            cboAnio.Visible = !usaRangoFecha;
+            dtpInicio.Visible = usaRangoFecha;
+            lblFiltro2.Visible = usaRangoFecha;
+            dtpFin.Visible = usaRangoFecha;
 
             // Persona ComboBox
             lblPersona.Visible = esIndividual;
@@ -96,7 +98,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             }
 
             // Ajuste de posiciones
-            lblFiltro1.Location = (esVoluntarioGeneral || esIndividual) ? new System.Drawing.Point(261, 12) : new System.Drawing.Point(10, 12);
+            lblFiltro1.Location = usaRangoFecha ? new System.Drawing.Point(261, 12) : new System.Drawing.Point(10, 12);
         }
 
         private async Task CargarPersonasAsync(bool esNino)
@@ -161,6 +163,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                         contenidoPdf = await _servicioReporte.GenerarReporteActividadesVoluntarioPdfAsync(ObtenerIdPersonaSeleccionada(), inicio, fin);
                     else if (titulo == "Auditoría Caja Chica")
                         contenidoPdf = await _servicioReporte.GenerarReporteAuditoriaCajaChicaPdfAsync(anio, mes);
+                    else if (titulo == "Altas y Bajas (Niños)")
+                        contenidoPdf = await _servicioReporte.GenerarReporteFlujoBeneficiariosPdfAsync(inicio, fin);
 
                     if (contenidoPdf != null)
                         await File.WriteAllBytesAsync(sfd.FileName, contenidoPdf);
@@ -194,6 +198,10 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                     {
                         contenidoCsv = await _servicioReporte.GenerarReporteAuditoriaCajaChicaCsvAsync(anio, mes);
                     }
+                    else if (titulo == "Altas y Bajas (Niños)")
+                    {
+                        contenidoCsv = await _servicioReporte.GenerarReporteFlujoBeneficiariosCsvAsync(inicio, fin);
+                    }
 
                     if (contenidoCsv != null)
                         await File.WriteAllTextAsync(sfd.FileName, contenidoCsv, System.Text.Encoding.UTF8);
@@ -216,8 +224,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // Forzar iconos con el color de acento del tema activo
             btnGenerarPdf.IconColor = theme.AccentColor;
             btnGenerarCsv.IconColor = theme.AccentColor;
-            btnRespaldo.IconColor = theme.AccentColor;
-            btnImportar.IconColor = theme.AccentColor;
             btnVistaPrevia.IconColor = theme.AccentColor;
         }
 
@@ -249,6 +255,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                     datos = await _servicioReporte.ObtenerDatosActividadesVoluntarioAsync(ObtenerIdPersonaSeleccionada(), inicio, fin);
                 else if (titulo == "Auditoría Caja Chica")
                     datos = await _servicioReporte.ObtenerDatosAuditoriaCajaChicaAsync(anio, mes);
+                else if (titulo == "Altas y Bajas (Niños)")
+                    datos = await _servicioReporte.ObtenerDatosFlujoBeneficiariosAsync(inicio, fin);
 
                 // Preparar metadatos para la vista previa
                 var metadata = new Dictionary<string, string>();
@@ -281,55 +289,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 Cursor = Cursors.Default;
                 MessageBox.Show($"Error al cargar vista previa: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async Task RealizarRespaldoAsync()
-        {
-            using var fbd = new FolderBrowserDialog();
-            fbd.Description = "Seleccione la carpeta donde desea guardar el respaldo.";
-
-            if (fbd.ShowDialog() != DialogResult.OK) return;
-
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                await _servicioReporte.RespaldarSistemaFullAsync(fbd.SelectedPath);
-                Cursor = Cursors.Default;
-
-                MessageBox.Show("Respaldo completado exitosamente.\n\nSe ha generado un archivo .zip con la base de datos y archivos críticos.", "Respaldo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                Cursor = Cursors.Default;
-                MessageBox.Show($"Error al realizar el respaldo: {ex.Message}", "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private async Task RealizarRestauracionAsync()
-        {
-            var confirm = MessageBox.Show("¡ADVERTENCIA CRÍTICA!\n\nAl importar un respaldo se SOBREESCRIBIRÁN todos los datos actuales del sistema. Esta acción no se puede deshacer.\n\n¿Desea continuar?", "Advertencia de Seguridad", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
-
-            if (confirm != DialogResult.Yes) return;
-
-            using var ofd = new OpenFileDialog();
-            ofd.Title = "Seleccionar archivo de respaldo (.zip)";
-            ofd.Filter = "Respaldo del Sistema (*.zip)|*.zip";
-
-            if (ofd.ShowDialog() != DialogResult.OK) return;
-
-            try
-            {
-                Cursor = Cursors.WaitCursor;
-                await _servicioReporte.RestaurarSistemaFullAsync(ofd.FileName);
-                Cursor = Cursors.Default;
-
-                MessageBox.Show("Restauración completada.\n\nEl sistema se ha restablecido a partir del respaldo seleccionado. Se recomienda reiniciar la aplicación para asegurar la integridad de las conexiones activas.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                Cursor = Cursors.Default;
-                MessageBox.Show($"Error al restaurar el respaldo: {ex.Message}\n\nAsegúrese de que el archivo ZIP sea un respaldo legítimo generado por este sistema.", "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -386,7 +345,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             // Limpiar tipo
             string nombreLimpio = tipo.Replace(" ", "").Replace("(", "").Replace(")", "").Replace("á", "a").Replace("é", "e").Replace("í", "i").Replace("ó", "o").Replace("ú", "u");
-            
+
             // Si es individual, limpiar y agregar nombre de persona
             string partePersona = "";
             if (!string.IsNullOrEmpty(persona))
@@ -398,7 +357,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // Formato de periodo - numérico para mejor orden
             string periodo = "";
             bool esIndividual = tipo.Contains("Individual") || tipo.Contains("Voluntarios");
-            
+
             if (esIndividual)
             {
                 periodo = $"{inicio:yyyy-MM-dd}_al_{fin:yyyy-MM-dd}";

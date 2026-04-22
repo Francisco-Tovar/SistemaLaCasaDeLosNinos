@@ -11,4 +11,9 @@ public interface IInicializadorBaseDatos
     /// Crea todas las tablas si no existen y registra la versión inicial del esquema.
     /// </summary>
     Task InicializarAsync();
+
+    /// <summary>
+    /// Borra todos los datos de la base de datos excepto el administrador inicial y roles.
+    /// </summary>
+    Task ReiniciarBaseDatosAsync();
 }

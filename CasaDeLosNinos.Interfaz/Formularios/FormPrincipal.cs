@@ -310,6 +310,21 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             }
         }
 
+        private void btnMantenimiento_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender, _currentTheme.AccentColor);
+            try
+            {
+                var inicializador = _proveedor.GetRequiredService<IInicializadorBaseDatos>();
+                var servicioReporte = _proveedor.GetRequiredService<IServicioReporte>();
+                OpenChildForm(new FrmMantenimiento(inicializador, servicioReporte, _currentTheme));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el módulo de mantenimiento:\n{ex.Message}", "Error");
+            }
+        }
+
         private void btnHome_Click(object sender, EventArgs e)
         {
             if (currentChildForm != null)
@@ -336,6 +351,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 btnUsuarios.Visible = false;
                 btnReportes.Visible = false;
+                btnMantenimiento.Visible = false;
             }
 
             ConfigurarFondo();

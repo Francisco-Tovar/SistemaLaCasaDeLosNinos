@@ -11,7 +11,7 @@ namespace CasaDeLosNinos.Datos;
 /// (IF NOT EXISTS) y registrando la versión si es la primera ejecución.
 /// Solo la capa Datos tiene acceso directo a SQLite y Dapper.
 /// </summary>
-public class InicializadorBaseDatos : IInicializadorBaseDatos
+public partial class InicializadorBaseDatos : IInicializadorBaseDatos
 {
     private readonly string _cadenaConexionPrincipal;
     private readonly string _cadenaConexionFotos;
@@ -46,6 +46,56 @@ public class InicializadorBaseDatos : IInicializadorBaseDatos
         {
             await conexion.OpenAsync();
             await CrearTablaFotosAsync(conexion);
+        }
+    }
+
+    public async Task ReiniciarBaseDatosAsync()
+    {
+        await using (var conexion = new SqliteConnection(_cadenaConexionPrincipal))
+        await using (var conexionFotos = new SqliteConnection(_cadenaConexionFotos))
+        {
+            await conexion.OpenAsync();
+            await conexionFotos.OpenAsync();
+
+            using var transaction = conexion.BeginTransaction();
+            try
+            {
+                // Desactivar FK para limpieza masiva
+                await conexion.ExecuteAsync("PRAGMA foreign_keys = OFF;", null, transaction);
+
+                // 1. Limpiar todas las tablas de negocio
+                await conexion.ExecuteAsync("DELETE FROM Asistencia;", null, transaction);
+                await conexion.ExecuteAsync("DELETE FROM Observaciones;", null, transaction);
+                await conexion.ExecuteAsync("DELETE FROM Ninos;", null, transaction);
+                await conexion.ExecuteAsync("DELETE FROM RegistroHoras;", null, transaction);
+                await conexion.ExecuteAsync("DELETE FROM Voluntarios;", null, transaction);
+                await conexion.ExecuteAsync("DELETE FROM AuditoriaCajaChica;", null, transaction);
+                await conexion.ExecuteAsync("DELETE FROM CajaChica;", null, transaction);
+
+                // 2. Limpiar usuarios EXCEPTO el admin con Id 1 o NombreUsuario 'admin'
+                await conexion.ExecuteAsync("DELETE FROM Usuarios WHERE Id > 1 AND NombreUsuario <> 'admin';", null, transaction);
+
+                // 3. Resetear auto-incrementos (opcional pero limpio)
+                string[] tablas = { "Asistencia", "Observaciones", "Ninos", "RegistroHoras", "Voluntarios", "CajaChica", "AuditoriaCajaChica", "Usuarios" };
+                foreach (var tabla in tablas)
+                {
+                    await conexion.ExecuteAsync($"DELETE FROM sqlite_sequence WHERE name = '{tabla}';", null, transaction);
+                }
+
+                // 4. Limpiar fotos
+                await conexionFotos.ExecuteAsync("DELETE FROM FotosBeneficiarios;");
+
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+            finally
+            {
+                await conexion.ExecuteAsync("PRAGMA foreign_keys = ON;");
+            }
         }
     }
     
@@ -171,7 +221,7 @@ public class InicializadorBaseDatos : IInicializadorBaseDatos
                 FechaCreacion   TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP
             );");
 
-        // ── Ninos ─────────────────────────────────────────────────
+        // ── Ninos ─────────────────────────────────────────────
         await conexion.ExecuteAsync(@"
             CREATE TABLE IF NOT EXISTS Ninos (
                 Id                  INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -183,8 +233,14 @@ public class InicializadorBaseDatos : IInicializadorBaseDatos
                 TelefonoEncargado   TEXT    NOT NULL DEFAULT '',
                 FechaIngreso        TEXT    NOT NULL DEFAULT CURRENT_DATE,
                 Activo              INTEGER NOT NULL DEFAULT 1,
-                FechaCreacion       TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP
+                FechaCreacion       TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                FechaBaja           TEXT    NULL
             );");
+
+        // Migración: Agregar columna FechaBaja si no existe (para DBs existentes)
+        try {
+            await conexion.ExecuteAsync("ALTER TABLE Ninos ADD COLUMN FechaBaja TEXT NULL;");
+        } catch { /* Ignorar si ya existe */ }
 
         // ── Asistencia ────────────────────────────────────────────
         await conexion.ExecuteAsync(@"
@@ -229,8 +285,14 @@ public class InicializadorBaseDatos : IInicializadorBaseDatos
                 Institucion     TEXT    NOT NULL DEFAULT '',
                 ContactoSupervisor TEXT NOT NULL DEFAULT '',
                 Activo          INTEGER NOT NULL DEFAULT 1,
-                FechaIngreso    TEXT    NOT NULL DEFAULT CURRENT_DATE
+                FechaIngreso    TEXT    NOT NULL DEFAULT CURRENT_DATE,
+                FechaBaja       TEXT    NULL
             );");
+
+        // Migración: Agregar columna FechaBaja a Voluntarios si no existe (para DBs existentes)
+        try {
+            await conexion.ExecuteAsync("ALTER TABLE Voluntarios ADD COLUMN FechaBaja TEXT NULL;");
+        } catch { /* Ignorar si ya existe */ }
 
         // Migraciones: Agregar columnas si no existen
         try {
@@ -319,5 +381,14 @@ public class InicializadorBaseDatos : IInicializadorBaseDatos
                 ('Administrador', 'Acceso total al sistema'),
                 ('Funcionario',   'Registro de asistencia y observaciones');");
         }
+
+#if DEBUG
+        // Si no hay niños, poblamos con datos de prueba realistas de Abril 2026
+        var ninosExistentes = await conexion.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM Ninos;");
+        if (ninosExistentes == 0)
+        {
+            await PopularDatosDePruebaMasivosAsync(conexion);
+        }
+#endif
     }
 }

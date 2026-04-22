@@ -25,4 +25,7 @@ public interface IRepositorioAsistencia
 
     /// <summary>Obtiene todos los registros de asistencia de un mes y año específicos.</summary>
     Task<IEnumerable<Asistencia>> ObtenerPorMesAsync(int anio, int mes);
+
+    /// <summary>Obtiene registros de asistencia dentro de un rango de fechas (inclusivo).</summary>
+    Task<IEnumerable<Asistencia>> ObtenerPorRangoAsync(DateTime inicio, DateTime fin);
 }

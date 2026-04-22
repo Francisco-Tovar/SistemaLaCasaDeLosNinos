@@ -15,4 +15,6 @@ public class Voluntario
     public string ContactoSupervisor { get; set; } = string.Empty;
     public bool Activo { get; set; } = true;
     public DateTime FechaIngreso { get; set; } = DateTime.Today;
+    /// <summary>Fecha en que el voluntario fue desactivado. Null si está activo.</summary>
+    public DateTime? FechaBaja { get; set; }
 }

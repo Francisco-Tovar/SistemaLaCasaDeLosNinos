@@ -82,7 +82,16 @@ public class RepositorioNino : IRepositorioNino
     public async Task CambiarEstadoAsync(int id, bool activo)
     {
         await using var conexion = new SqliteConnection(_cadenaConexion);
-        const string sql = "UPDATE Ninos SET Activo = @Activo WHERE Id = @Id;";
-        await conexion.ExecuteAsync(sql, new { Activo = activo ? 1 : 0, Id = id });
+        const string sql = @"
+            UPDATE Ninos 
+            SET Activo    = @Activo,
+                FechaBaja = @FechaBaja
+            WHERE Id = @Id;";
+        await conexion.ExecuteAsync(sql, new
+        {
+            Activo    = activo ? 1 : 0,
+            FechaBaja = activo ? (string?)null : DateTime.Today.ToString("yyyy-MM-dd"),
+            Id        = id
+        });
     }
 }

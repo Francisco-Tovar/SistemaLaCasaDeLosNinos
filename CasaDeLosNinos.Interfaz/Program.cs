@@ -23,6 +23,13 @@ internal static class Program
     [STAThread]
     static void Main()
     {
+        // Forzar cultura en español (Costa Rica) para formatos y diálogos
+        var cultura = new System.Globalization.CultureInfo("es-CR");
+        System.Globalization.CultureInfo.DefaultThreadCurrentCulture = cultura;
+        System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = cultura;
+        System.Threading.Thread.CurrentThread.CurrentCulture = cultura;
+        System.Threading.Thread.CurrentThread.CurrentUICulture = cultura;
+
         // ──────────────────────────────────────────────
         // 1. MANEJADORES GLOBALES DE EXCEPCIONES
         // ──────────────────────────────────────────────

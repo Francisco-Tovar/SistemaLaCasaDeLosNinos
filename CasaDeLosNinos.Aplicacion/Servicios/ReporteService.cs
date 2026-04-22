@@ -53,8 +53,12 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
         {
             var culture = System.Globalization.CultureInfo.GetCultureInfo("es-CR");
             var periodName = new DateTime(anio, mes, 1).ToString("MMMM yyyy", culture).ToUpper();
-            var ninos = await _repositorioNino.ObtenerTodosAsync();
             var asistencia = await _repositorioAsistencia.ObtenerPorMesAsync(anio, mes);
+
+            // Solo mostrar niños que tuvieron al menos un registro en el periodo
+            var idsConRegistro = asistencia.Select(a => a.IdNino).Distinct().ToHashSet();
+            var todosNinos = await _repositorioNino.ObtenerTodosAsync();
+            var ninos = todosNinos.Where(n => n.Activo || idsConRegistro.Contains(n.Id));
 
             var document = Document.Create(container =>
             {
@@ -246,8 +250,9 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
             if (nino == null) throw new ArgumentException("El niño especificado no existe.");
 
             var periodText = $"{inicio:dd/MM/yyyy} Al {fin:dd/MM/yyyy}".ToUpper();
-            var asistencia = (await _repositorioAsistencia.ObtenerPorMesAsync(inicio.Year, inicio.Month)) // Esto es limitado, deberíamos tener uno por rango
-                .Where(a => a.IdNino == idNino && a.Fecha >= inicio.Date && a.Fecha <= fin.Date)
+            // Usamos ObtenerPorRangoAsync para soportar correctamente rangos multi-mes
+            var asistencia = (await _repositorioAsistencia.ObtenerPorRangoAsync(inicio.Date, fin.Date))
+                .Where(a => a.IdNino == idNino)
                 .OrderBy(a => a.Fecha).ToList();
 
             var document = Document.Create(container =>
@@ -375,11 +380,98 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
             return document.GeneratePdf();
         }
 
+        public async Task<byte[]> GenerarReporteFlujoBeneficiariosPdfAsync(DateTime inicio, DateTime fin)
+        {
+            var culture = System.Globalization.CultureInfo.GetCultureInfo("es-CR");
+            var periodText = $"{inicio:dd/MM/yyyy} Al {fin:dd/MM/yyyy}".ToUpper();
+            var todosNinos = await _repositorioNino.ObtenerTodosAsync();
+
+            // Altas: niños cuya FechaIngreso cae dentro del periodo
+            var altas = todosNinos
+                .Where(n => n.FechaIngreso >= inicio.Date && n.FechaIngreso <= fin.Date)
+                .OrderBy(n => n.FechaIngreso).ToList();
+
+            // Bajas: niños cuya FechaBaja cae dentro del periodo
+            var bajas = todosNinos
+                .Where(n => n.FechaBaja.HasValue && n.FechaBaja.Value >= inicio.Date && n.FechaBaja.Value <= fin.Date)
+                .OrderBy(n => n.FechaBaja).ToList();
+
+            var document = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(50);
+                    ConfigurarCabecera(page, "REPORTE DE ALTAS Y BAJAS DE BENEFICIARIOS", periodText, new Dictionary<string, string> {
+                        { "Altas en el periodo", altas.Count.ToString() },
+                        { "Bajas en el periodo", bajas.Count.ToString() }
+                    });
+
+                    page.Content().PaddingVertical(10).Column(col =>
+                    {
+                        col.Item().Text("ALTAS (Nuevos Ingresos)").SemiBold().FontSize(12).FontColor(Colors.Green.Darken2);
+                        col.Item().PaddingTop(5).Table(table =>
+                        {
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn(3);
+                                columns.ConstantColumn(100);
+                                columns.ConstantColumn(70);
+                            });
+                            table.Header(header =>
+                            {
+                                header.Cell().Element(CellStyle).Text("Nombre");
+                                header.Cell().Element(CellStyle).Text("Fecha Ingreso");
+                                header.Cell().Element(CellStyle).Text("Estado");
+                                static IContainer CellStyle(IContainer c) => c.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
+                            });
+                            foreach (var n in altas)
+                            {
+                                table.Cell().Element(RowStyle).Text(n.NombreCompleto);
+                                table.Cell().Element(RowStyle).Text(n.FechaIngreso.ToString("dd/MM/yyyy"));
+                                table.Cell().Element(RowStyle).Text(n.Activo ? "Activo" : "Inactivo").FontColor(n.Activo ? Colors.Green.Medium : Colors.Grey.Medium);
+                                static IContainer RowStyle(IContainer c) => c.PaddingVertical(4).BorderBottom(1).BorderColor(Colors.Grey.Lighten4);
+                            }
+                        });
+
+                        col.Item().PaddingTop(20).Text("BAJAS (Desactivaciones)").SemiBold().FontSize(12).FontColor(Colors.Red.Darken2);
+                        col.Item().PaddingTop(5).Table(table =>
+                        {
+                            table.ColumnsDefinition(columns =>
+                            {
+                                columns.RelativeColumn(3);
+                                columns.ConstantColumn(100);
+                                columns.ConstantColumn(100);
+                            });
+                            table.Header(header =>
+                            {
+                                header.Cell().Element(CellStyle).Text("Nombre");
+                                header.Cell().Element(CellStyle).Text("Fecha Ingreso");
+                                header.Cell().Element(CellStyle).Text("Fecha Baja");
+                                static IContainer CellStyle(IContainer c) => c.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Grey.Lighten2);
+                            });
+                            foreach (var n in bajas)
+                            {
+                                table.Cell().Element(RowStyle).Text(n.NombreCompleto);
+                                table.Cell().Element(RowStyle).Text(n.FechaIngreso.ToString("dd/MM/yyyy"));
+                                table.Cell().Element(RowStyle).Text(n.FechaBaja!.Value.ToString("dd/MM/yyyy"));
+                                static IContainer RowStyle(IContainer c) => c.PaddingVertical(4).BorderBottom(1).BorderColor(Colors.Grey.Lighten4);
+                            }
+                        });
+                    });
+
+                    ConfigurarPiePagina(page);
+                });
+            });
+
+            return document.GeneratePdf();
+        }
+
         public async Task<byte[]> GenerarReporteVoluntariosResumidoPdfAsync(DateTime inicio, DateTime fin)
         {
             var culture = System.Globalization.CultureInfo.GetCultureInfo("es-CR");
             var periodText = $"{inicio:dd/MM/yyyy} Al {fin:dd/MM/yyyy}".ToUpper();
-            var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync();
+            // Incluir inactivos: un voluntario que participó en el periodo debe aparecer
+            var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync(incluirInactivos: true);
             
             var document = Document.Create(container =>
             {
@@ -435,7 +527,8 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
         public async Task<byte[]> GenerarReporteVoluntariosDetalladoPdfAsync(DateTime inicio, DateTime fin)
         {
             var periodText = $"{inicio:dd/MM/yyyy} Al {fin:dd/MM/yyyy}".ToUpper();
-            var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync();
+            // Incluir inactivos: un voluntario que participó en el periodo debe aparecer
+            var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync(incluirInactivos: true);
             // Pre-fetch de datos para detalle
             var datosVoluntarios = new List<(Voluntario Vol, List<RegistroHoras> Horas)>();
             var document = Document.Create(container =>
@@ -553,15 +646,18 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
         public async Task<string> GenerarReporteAsistenciaCsvAsync(int anio, int mes)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("Beneficiario,Presentes,Ausentes");
-            
-            var ninos = await _repositorioNino.ObtenerTodosAsync();
+            sb.AppendLine("Beneficiario,Estado,Presentes,Ausentes");
+
             var asistencia = await _repositorioAsistencia.ObtenerPorMesAsync(anio, mes);
+            var idsConRegistro = asistencia.Select(a => a.IdNino).Distinct().ToHashSet();
+            var todosNinos = await _repositorioNino.ObtenerTodosAsync();
+            var ninos = todosNinos.Where(n => n.Activo || idsConRegistro.Contains(n.Id));
 
             foreach (var nino in ninos.OrderBy(n => n.NombreCompleto))
             {
                 var registros = asistencia.Where(a => a.IdNino == nino.Id).ToList();
-                sb.AppendLine($"{nino.NombreCompleto},{registros.Count(a => a.Presente)},{registros.Count(a => !a.Presente)}");
+                var estado = nino.Activo ? "Activo" : "Inactivo";
+                sb.AppendLine($"{nino.NombreCompleto},{estado},{registros.Count(a => a.Presente)},{registros.Count(a => !a.Presente)}");
             }
 
             return sb.ToString();
@@ -581,18 +677,37 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
             return sb.ToString();
         }
 
+        public async Task<string> GenerarReporteFlujoBeneficiariosCsvAsync(DateTime inicio, DateTime fin)
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Tipo,Nombre,FechaIngreso,FechaBaja,EstadoActual");
+
+            var todosNinos = await _repositorioNino.ObtenerTodosAsync();
+
+            var altas = todosNinos.Where(n => n.FechaIngreso >= inicio.Date && n.FechaIngreso <= fin.Date);
+            foreach (var n in altas.OrderBy(n => n.FechaIngreso))
+                sb.AppendLine($"Alta,{n.NombreCompleto},{n.FechaIngreso:yyyy-MM-dd},,{(n.Activo ? "Activo" : "Inactivo")}");
+
+            var bajas = todosNinos.Where(n => n.FechaBaja.HasValue && n.FechaBaja.Value >= inicio.Date && n.FechaBaja.Value <= fin.Date);
+            foreach (var n in bajas.OrderBy(n => n.FechaBaja))
+                sb.AppendLine($"Baja,{n.NombreCompleto},{n.FechaIngreso:yyyy-MM-dd},{n.FechaBaja!.Value:yyyy-MM-dd},Inactivo");
+
+            return sb.ToString();
+        }
+
         public async Task<string> GenerarReporteVoluntariosCsvAsync(DateTime inicio, DateTime fin)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("Voluntario,Fecha,Actividad,Horas");
+            sb.AppendLine("Voluntario,Estado,Fecha,Actividad,Horas");
 
-            var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync();
+            // Incluir inactivos: un voluntario con horas en el periodo debe aparecer
+            var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync(incluirInactivos: true);
             foreach (var vol in voluntarios)
             {
                 var horas = await _repositorioRegistroHoras.ObtenerPorVoluntarioAsync(vol.Id);
                 foreach (var h in horas.Where(h => h.Fecha >= inicio && h.Fecha <= fin))
                 {
-                    sb.AppendLine($"{vol.NombreCompleto},{h.Fecha:yyyy-MM-dd},\"{h.Descripcion.Replace("\"", "'")}\",{h.HorasAportadas}");
+                    sb.AppendLine($"{vol.NombreCompleto},{(vol.Activo ? "Activo" : "Inactivo")},{h.Fecha:yyyy-MM-dd},\"{h.Descripcion.Replace("\"", "'")}\",{h.HorasAportadas}");
                 }
             }
 
@@ -777,15 +892,18 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
         
         public async Task<IEnumerable<object>> ObtenerDatosAsistenciaAsync(int anio, int mes)
         {
-            var ninos = await _repositorioNino.ObtenerTodosAsync();
             var asistencia = await _repositorioAsistencia.ObtenerPorMesAsync(anio, mes);
+            var idsConRegistro = asistencia.Select(a => a.IdNino).Distinct().ToHashSet();
+            var todosNinos = await _repositorioNino.ObtenerTodosAsync();
+            var ninos = todosNinos.Where(n => n.Activo || idsConRegistro.Contains(n.Id));
 
             return ninos.OrderBy(n => n.NombreCompleto).Select(n => {
                 var registros = asistencia.Where(a => a.IdNino == n.Id).ToList();
-                return new {
+                return (object)new {
                     Beneficiario = n.NombreCompleto,
-                    Presentes = registros.Count(a => a.Presente),
-                    Ausentes = registros.Count(a => !a.Presente),
+                    Estado       = n.Activo ? "Activo" : "Inactivo",
+                    Presentes    = registros.Count(a => a.Presente),
+                    Ausentes     = registros.Count(a => !a.Presente),
                     TotalRegistros = registros.Count
                 };
             }).ToList();
@@ -802,27 +920,47 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
             }).ToList();
         }
 
+        public async Task<IEnumerable<object>> ObtenerDatosFlujoBeneficiariosAsync(DateTime inicio, DateTime fin)
+        {
+            var todosNinos = await _repositorioNino.ObtenerTodosAsync();
+            var results = new List<object>();
+
+            var altas = todosNinos.Where(n => n.FechaIngreso >= inicio.Date && n.FechaIngreso <= fin.Date);
+            foreach (var n in altas.OrderBy(x => x.FechaIngreso))
+                results.Add(new { Tipo = "Alta", n.NombreCompleto, FechaEvento = n.FechaIngreso.ToString("dd/MM/yyyy"), EstadoActual = n.Activo ? "Activo" : "Inactivo" });
+
+            var bajas = todosNinos.Where(n => n.FechaBaja.HasValue && n.FechaBaja.Value >= inicio.Date && n.FechaBaja.Value <= fin.Date);
+            foreach (var n in bajas.OrderBy(x => x.FechaBaja))
+                results.Add(new { Tipo = "Baja", n.NombreCompleto, FechaEvento = n.FechaBaja!.Value.ToString("dd/MM/yyyy"), EstadoActual = "Inactivo" });
+
+            return results;
+        }
+
         public async Task<IEnumerable<object>> ObtenerDatosVoluntariosResumidoAsync(DateTime inicio, DateTime fin)
         {
-            var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync();
+            // Incluir inactivos: un voluntario con horas en el periodo debe aparecer
+            var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync(incluirInactivos: true);
             var results = new List<object>();
 
             foreach (var vol in voluntarios)
             {
                 var horas = await _repositorioRegistroHoras.ObtenerPorVoluntarioAsync(vol.Id);
                 var horasPeriodo = horas.Where(h => h.Fecha >= inicio && h.Fecha <= fin).Sum(h => h.HorasAportadas);
-                
-                results.Add(new {
-                    Voluntario = vol.NombreCompleto,
-                    TotalHoras = horasPeriodo
-                });
+                // Solo incluir en el resumen si tuvo horas o si está activo
+                if (horasPeriodo > 0 || vol.Activo)
+                    results.Add(new {
+                        Voluntario = vol.NombreCompleto,
+                        Estado     = vol.Activo ? "Activo" : "Inactivo",
+                        TotalHoras = horasPeriodo
+                    });
             }
             return results;
         }
 
         public async Task<IEnumerable<object>> ObtenerDatosVoluntariosDetalladoAsync(DateTime inicio, DateTime fin)
         {
-            var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync();
+            // Incluir inactivos: un voluntario que trabajó en el periodo debe aparecer
+            var voluntarios = await _repositorioVoluntario.ObtenerTodosAsync(incluirInactivos: true);
             var results = new List<object>();
 
             foreach (var vol in voluntarios)
@@ -832,9 +970,10 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                 {
                     results.Add(new {
                         Voluntario = vol.NombreCompleto,
+                        Estado     = vol.Activo ? "Activo" : "Inactivo",
                         h.Fecha,
-                        Actividad = h.Descripcion,
-                        Horas = h.HorasAportadas
+                        Actividad  = h.Descripcion,
+                        Horas      = h.HorasAportadas
                     });
                 }
             }
@@ -843,12 +982,13 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
 
         public async Task<IEnumerable<object>> ObtenerDatosAsistenciaIndividualAsync(int idNino, DateTime inicio, DateTime fin)
         {
-            var asistencia = (await _repositorioAsistencia.ObtenerPorMesAsync(inicio.Year, inicio.Month))
-                .Where(a => a.IdNino == idNino && a.Fecha >= inicio.Date && a.Fecha <= fin.Date)
+            // Usar rango real para soportar consultas multi-mes
+            var asistencia = (await _repositorioAsistencia.ObtenerPorRangoAsync(inicio.Date, fin.Date))
+                .Where(a => a.IdNino == idNino)
                 .OrderBy(a => a.Fecha);
-            
-            return asistencia.Select(a => new {
-                Fecha = a.Fecha.ToString("dd/MM/yyyy"),
+
+            return asistencia.Select(a => (object)new {
+                Fecha  = a.Fecha.ToString("dd/MM/yyyy"),
                 Estado = a.Presente ? "Presente" : "Ausente"
             }).ToList();
         }
