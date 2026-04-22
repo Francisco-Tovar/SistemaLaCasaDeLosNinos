@@ -39,9 +39,10 @@ Al ejecutarse, el sistema le pedirá sus credenciales para proteger la privacida
 
 ### 3.2 Interfaz de Usuario e Interacción General
 Al entrar, verá una pantalla dividida en dos secciones clave:
-- **Menú Lateral Oscuro:** Es su panel de navegación principal. En la parte inferior, este menú incluye un botón con forma de "luna" o "sol" que le permitirá **cambiar los colores** de toda la aplicación entre un Modo Claro (ideal para el día o mucha iluminación) y un Modo Oscuro (ideal para descansar la vista).
+- **Menú Lateral Oscuro:** Es su panel de navegación principal. En la parte inferior, este menú incluye un botón con forma de "luna" o "sol" que le permitirá **cambiar los colores** de toda la aplicación entre un Modo Claro (ideal para el día o mucha iluminación) y un Modo Oscuro (ideal para descansar la vista). El sistema recordará su preferencia automáticamente.
 - **Área de Trabajo Central:** La zona blanca (o gris oscuro) donde cargan las listas y formularios.
-- **Reglas de las Tablas (Grillas):** Todas las listas tienen un formato estándar. **Doble clic** sobre el nombre de una persona en cualquier lista siempre le abrirá la ventana para editar su información. Haga un **solo clic** si desea seleccionarlo para apretar otros botones como "Desactivar".
+- **Reglas de las Tablas (Grillas):** Todas las listas tienen un formato estándar "Solid" (sin líneas verticales para mejor lectura). **Doble clic** sobre el nombre de una persona en cualquier lista siempre le abrirá la ventana para editar su información. Haga un **solo clic** si desea seleccionarlo para apretar otros botones como "Desactivar".
+- **Diseño Premium:** Las ventanas no son redimensionables para garantizar que la interfaz siempre se vea perfecta.
 
 ---
 
@@ -66,53 +67,52 @@ Este es el corazón del programa. Le muestra un registro de todos los niños mat
 4. **Estado:** En la esquina superior derecha, notará botones para **Activar** o **Desactivar** al niño según su matricula vigente.
 
 **Observaciones Históricas:**
-Para no saturar la pantalla principal, cada niño tiene un botón independiente de "Observaciones". Ahí puede escribir notas sobre incidentes, reuniones de padres o comportamiento. Cada nota guardará automáticamente su nombre (como el usuario que la escribió) y la fecha, creando un historial impecable imposible de borrar por error.
+Para no saturar la pantalla principal, cada niño tiene un botón independiente de "Observaciones". Ahí puede escribir notas sobre incidentes, reuniones de padres o comportamiento. Cada nota guardará automáticamente su nombre (como el usuario que la escribió) y la fecha, creando un historial impecable **imposible de borrar o editar**.
 
 ### 4.2 Módulo: Control de Asistencia
 Diseñado para la eficiencia. Su propósito es marcar quiénes llegaron hoy en segundos.
 
 **Procedimiento de pase de lista:**
 1. Arriba a la derecha verá un selector de calendario. Escoja la fecha. **Nota:** El sistema tiene una regla estricta: *no le permitirá seleccionar días en el futuro*, solo el día de hoy o días pasados que quiera corregir.
-2. El sistema cargará automáticamente a todos los niños que tengan el estatus **Activo**. (Los inactivos no estorbarán en esta lista).
+2. El sistema cargará automáticamente a todos los niños que tengan el estatus **Activo**. Use el **Buscador** si la lista es muy larga.
 3. Puede hacer clic en el cuadrito de **"Presente"** uno por uno, o puede usar el botón verde gigante de **"Marcar Todos"** para ahorrar tiempo y luego solo despintar a los que faltaron.
 4. Hay una columna llamada **Observación**. Si un niño se enfermó, haga doble clic en ese espacio, escriba "enfermo" o "tarde", y presione Enter.
-5. **Paso Final Vital:** Nada de esto se guarda hasta que presione el botón azul de **"Guardar Asistencia"**. El sistema le confirmará con un mensaje cuando el proceso sea exitoso.
+5. **Paso Final Vital:** Nada de esto se guarda hasta que presione el botón azul de **"Guardar Asistencia"**.
 
 ### 4.3 Módulo: Gestión de Voluntarios
 Registra a toda persona externa, practicante o pasante que preste sus servicios. 
-Aplica las mismas reglas de búsqueda y doble clic que la gestión de niños, pero los datos que recopila son distintos:
 
 **Datos Requeridos del Voluntariado:**
-- **Información de Control:** El formulario le exigirá escribir la "Especialidad" (Ej. Psicología), la "Institución" de la que proviene (Ej. Universidad de Costa Rica) y el nombre de su "Supervisor".
-- **Verificación de Cédula (CR/DIMEX):** El programa tiene validaciones de seguridad gubernamental. Si usted elige Documento Nacional, el sistema le obligará a escribir 9 números intactos. Si elige DIMEX (extranjero), le obligará a ingresar los 12 dígitos. No le dejará guardar la ficha si faltan números.
-- **Métrica de Horas:** En la pantalla principal notará una columna de "Horas". Esto está preparado para sumar y contabilizar todo el tiempo que el voluntario ofrezca en futuras actualizaciones ligadas al control de ingreso/salida.
+- **Información de Control:** El formulario le exigirá escribir la "Especialidad", la "Institución" y el nombre de su "Supervisor".
+- **Verificación de Cédula (CR/DIMEX):** El programa tiene validaciones de seguridad. Si elige Documento Nacional (9 dígitos) o DIMEX (12 dígitos), el sistema le obligará a ingresar el formato correcto.
+- **Registro de Horas:** Use el botón de "Horas" para contabilizar el tiempo que el voluntario ofrece a la institución.
+- **Estatus Histórico:** El sistema guarda automáticamente la fecha de baja cuando se desactiva un voluntario para reportes de fin de año.
 
-### 4.4 Módulo: Gestión de Usuarios
-Pantalla restringida normalmente a la dirección o coordinación técnica. Permite manejar bajo llave quién tiene acceso a este mismo sistema.
+### 4.4 Módulo: Gestión de Usuarios y Permisos
+Pantalla restringida a la dirección. Permite manejar quién tiene acceso al sistema.
 
-- **Diferencia de Roles:** Al agregar un nuevo empleado, usted decide si darle rol de "Funcionario" (puede ingresar niños y tomar lista) o "Administrador" (control total sobre otros usuarios).
-- **Control de Acceso:** Use el botón "Desactivar" sobre un usuario que ha dejado la institución. Su cuenta perderá efecto al instante y no podrá volver a loguearse.
-- **Protección del Sistema:** Como medida de seguridad obligatoria, el sistema no le permite desactivarse o bloquearse a sí mismo si está registrado con esa cuenta, para evitar dejar a la institución sin un administrador principal.
+- **Permisos Granulares:** Al agregar o editar un usuario, usted puede marcar individualmente a qué módulos tiene acceso (Niños, Asistencia, Caja Chica, etc.).
+- **Control de Acceso:** Use el botón "Desactivar" sobre un usuario que ha dejado la institución.
+- **Protección del Sistema:** El Administrador principal (Id: 1) no puede ser desactivado para evitar bloqueos accidentales.
 
 ---
 
-## 5. Próximas Funcionalidades (Roadmap)
-
-La aplicación tiene cimientos preparados para integrar nuevos procesos vitales de gestión que se liberarán más adelante:
+## 5. Módulos de Gestión Avanzada
 
 ### 5.1 Control Financiero (Caja Chica)
-*(PRÓXIMAMENTE)*
-Este módulo habilitará una interfaz de contabilidad básica para la dirección. Eliminará los apuntes en cuaderno, permitiendo:
-- Ingresar "Entradas" (donaciones, fondos asignados).
-- Registrar "Salidas" (comprobantes de supermercado, materiales didácticos, mantenimiento).
-- Calcular balances en tiempo real para evitar descuadres a fin de mes.
+Este módulo habilita una interfaz de contabilidad para la dirección, eliminando los apuntes en cuaderno:
+- **Ingresos y Egresos:** Registre donaciones o gastos con un par de clics.
+- **Balances:** Calcula saldos en tiempo real según el mes seleccionado.
+- **Auditoría de Movimientos:** Cada registro permite ver quién lo creó y qué cambios ha sufrido, garantizando transparencia total.
 
-### 5.2 Central de Reportes
-*(PRÓXIMAMENTE)*
-Dado que el programa ahora captura asistencias diarias e historial, esta pestaña le permitirá apretar un par de botones y generar:
-- PDF con porcentajes de ausencias de un niño.
-- Constancias de horas exactas para entregar a los voluntarios.
-- Listas consolidadas para el PANI o el IMAS en los formatos que exija el gobierno.
+### 5.2 Central de Reportes y Vista Previa
+Permite generar documentos administrativos oficiales:
+- **Vista Previa:** Antes de exportar, puede ver los datos en pantalla para asegurarse de que la información es correcta.
+- **Exportación:** Genere archivos PDF o Excel de Asistencias, Voluntarios o resúmenes de Altas y Bajas.
+
+### 5.3 Mantenimiento y Auditoría de Sistema
+- **Respaldos:** Permite crear copias de seguridad de toda la base de datos para prevenir pérdida de información.
+- **Bitácora Universal:** Un registro de CADA acción realizada en el sistema (quién entró, qué borró, qué editó) visible solo para la dirección en el menú de Seguridad.
 
 ---
-*Fin del Documento - Sistema La Casa de los Niños - División Técnica*
+*Fin del Documento - Sistema La Casa de los Niños - Versión 2.0 (Abril 2026)*

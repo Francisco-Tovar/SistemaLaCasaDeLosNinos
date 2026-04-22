@@ -29,16 +29,20 @@ Para apilar componentes `Dock.Top` correctamente arriba del `Dock.Fill`:
 2. `panelInformacion.BringToFront();` (Queda debajo de la cabecera).
 3. `grdDatos.BringToFront();` (Ocupa todo el resto del formulario).
 
-## 3. Semántica Visual y Formatos
+## 3. Semántica Visual y Estándares "Premium"
 
+### Solid Design (Grillas)
+Para un aspecto profesional "limpio", las grillas deben seguir estas directrices:
+- **Sin Líneas Verticales**: `CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal`.
+- **Cabeceras Planas**: `ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None` y `EnableHeadersVisualStyles = false`.
+- **Selección Legible**: El color de selección debe ser `AccentColor` con texto contrastante (Blanco en Dark/Negro en Light).
+
+### Icon Sync (Botones)
+- **Unidad Visual**: El color del icono (`IconColor`) **DEBE** ser siempre idéntico al color del texto (`ForeColor`) en todos los `IconButton`.
+- **Sincronización Automática**: El `ThemeEngine` maneja esto globalmente, pero cualquier personalización manual en el code-behind debe respetar esta regla.
+
+## 4. Formatos y Moneda
 - **Moneda**: Utilizar siempre el símbolo de Colón Costarricense "**₡**" con dos decimales (`"N2"`).
-- **Fechas**:
-  - Grillas: `"dd/MMM/yyyy"` o `"dd/MM HH:mm"` para logs rápidos.
-  - Etiquetas: `"FISCALIZACIÓN DEL PERÍODO: MM/yyyy"`.
-- **Botones de Acción**:
-  - **Ingreso**: Fondo `StatusSuccess` (Verde esmeralda).
-  - **Egreso**: Fondo `Color.IndianRed` (Rojo suave), ignorando temas globales para máxima visibilidad de alerta.
-- **Tipografía**: Segoe UI (estándar moderno de Windows).
 
 ## 4. Auditoría y Trazabilidad
 
