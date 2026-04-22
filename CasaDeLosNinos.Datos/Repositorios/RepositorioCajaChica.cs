@@ -1,5 +1,6 @@
 using System.Data;
 using CasaDeLosNinos.Dominio.Entidades;
+using CasaDeLosNinos.Dominio.Dtos;
 using CasaDeLosNinos.Dominio.Interfaces;
 using Dapper;
 using Microsoft.Data.Sqlite;

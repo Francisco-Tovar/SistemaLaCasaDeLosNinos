@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using CasaDeLosNinos.Interfaz.Estilos;
 using CasaDeLosNinos.Dominio.Entidades;
+using CasaDeLosNinos.Dominio.Dtos;
 using CasaDeLosNinos.Aplicacion.Servicios;
 
 namespace CasaDeLosNinos.Interfaz.Formularios

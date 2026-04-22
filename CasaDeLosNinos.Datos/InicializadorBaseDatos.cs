@@ -57,13 +57,13 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
             await conexion.OpenAsync();
             await conexionFotos.OpenAsync();
 
+            // 1. Desactivar FK antes de la transacción (SQLite requiere esto fuera de transacciones abiertas)
+            await conexion.ExecuteAsync("PRAGMA foreign_keys = OFF;");
+
             using var transaction = conexion.BeginTransaction();
             try
             {
-                // Desactivar FK para limpieza masiva
-                await conexion.ExecuteAsync("PRAGMA foreign_keys = OFF;", null, transaction);
-
-                // 1. Limpiar todas las tablas de negocio
+                // 2. Limpiar todas las tablas de negocio
                 await conexion.ExecuteAsync("DELETE FROM Asistencia;", null, transaction);
                 await conexion.ExecuteAsync("DELETE FROM Observaciones;", null, transaction);
                 await conexion.ExecuteAsync("DELETE FROM Ninos;", null, transaction);
@@ -73,20 +73,20 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 await conexion.ExecuteAsync("DELETE FROM CajaChica;", null, transaction);
                 await conexion.ExecuteAsync("DELETE FROM AuditoriaSistema;", null, transaction);
 
-                // 2. Limpiar usuarios EXCEPTO el admin con Id 1 o NombreUsuario 'admin'
-                await conexion.ExecuteAsync("DELETE FROM Usuarios WHERE Id > 1 AND NombreUsuario <> 'admin';", null, transaction);
-
-                // 3. Limpiar permisos extra (conservar los del admin maestro)
+                // 3. Limpiar permisos extra PRIMERO (para evitar violación de FK si no se desactivó correctamente)
                 await conexion.ExecuteAsync("DELETE FROM PermisosModulo WHERE IdUsuario > 1;", null, transaction);
 
-                // 4. Resetear auto-incrementos (opcional pero limpio)
-                string[] tablas = { "Asistencia", "Observaciones", "Ninos", "RegistroHoras", "Voluntarios", "CajaChica", "AuditoriaCajaChica", "Usuarios", "AuditoriaSistema" };
+                // 4. Limpiar usuarios EXCEPTO el admin maestro
+                await conexion.ExecuteAsync("DELETE FROM Usuarios WHERE Id > 1 AND NombreUsuario <> 'admin';", null, transaction);
+
+                // 5. Resetear auto-incrementos
+                string[] tablas = { "Asistencia", "Observaciones", "Ninos", "RegistroHoras", "Voluntarios", "CajaChica", "AuditoriaCajaChica", "Usuarios", "AuditoriaSistema", "PermisosModulo" };
                 foreach (var tabla in tablas)
                 {
                     await conexion.ExecuteAsync($"DELETE FROM sqlite_sequence WHERE name = '{tabla}';", null, transaction);
                 }
 
-                // 4. Limpiar fotos
+                // 6. Limpiar fotos (Base de datos separada)
                 await conexionFotos.ExecuteAsync("DELETE FROM FotosBeneficiarios;");
 
                 transaction.Commit();
@@ -98,6 +98,7 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
             }
             finally
             {
+                // 7. Reactivar siempre al terminar
                 await conexion.ExecuteAsync("PRAGMA foreign_keys = ON;");
             }
         }
@@ -465,13 +466,5 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
         }
 
 
-#if DEBUG
-        // Si no hay niños, poblamos con datos de prueba realistas de Abril 2026
-        var ninosExistentes = await conexion.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM Ninos;");
-        if (ninosExistentes == 0)
-        {
-            await PopularDatosDePruebaMasivosAsync(conexion);
-        }
-#endif
     }
 }

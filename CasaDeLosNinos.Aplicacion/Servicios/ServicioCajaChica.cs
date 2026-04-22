@@ -1,5 +1,6 @@
 using System.Text;
 using CasaDeLosNinos.Dominio.Entidades;
+using CasaDeLosNinos.Dominio.Dtos;
 using CasaDeLosNinos.Dominio.Interfaces;
 
 namespace CasaDeLosNinos.Aplicacion.Servicios;

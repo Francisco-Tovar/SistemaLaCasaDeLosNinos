@@ -1,4 +1,5 @@
 using CasaDeLosNinos.Dominio.Entidades;
+using CasaDeLosNinos.Dominio.Dtos;
 
 namespace CasaDeLosNinos.Aplicacion.Servicios;
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace CasaDeLosNinos.Dominio.Entidades
+namespace CasaDeLosNinos.Dominio.Dtos
 {
     public class AuditoriaDetalleDTO
     {
