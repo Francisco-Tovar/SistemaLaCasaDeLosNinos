@@ -13,14 +13,12 @@ namespace CasaDeLosNinos.Interfaz.Formularios
     {
         private readonly IInicializadorBaseDatos _inicializador;
         private readonly IServicioReporte _servicioReporte;
-        private readonly ThemeColors _theme;
 
         public FrmMantenimiento(IInicializadorBaseDatos inicializador, IServicioReporte servicioReporte, ThemeColors theme)
         {
             InitializeComponent();
             _inicializador = inicializador;
             _servicioReporte = servicioReporte;
-            _theme = theme;
             this.Text = "Mantenimiento y Seguridad";
             this.EsRedimensionable = false;
             RefreshTheme(theme);

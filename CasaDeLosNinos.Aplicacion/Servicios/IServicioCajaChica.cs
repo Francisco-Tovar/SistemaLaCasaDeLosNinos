@@ -9,7 +9,7 @@ public interface IServicioCajaChica
     Task<CajaChica?> ObtenerPorIdAsync(int id);
     
     // Registrar la creación original
-    Task<int> RegistrarMovimientoAsync(CajaChica movimiento);
+    Task<int> RegistrarMovimientoAsync(CajaChica movimiento, int idUsuario);
     
     // Actualizar movimiento generando log inmutable
     Task<(bool Exito, string Mensaje)> ModificarMovimientoAsync(CajaChica movimientoEditado, int idUsuarioQueEdita);

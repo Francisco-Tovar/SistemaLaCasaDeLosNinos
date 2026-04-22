@@ -104,7 +104,7 @@ public class ServicioAsistencia : IServicioAsistencia
             else if (idObs.HasValue)
             {
                 // Si el texto se vació completamente, eliminamos la observación
-                await _servicioObservacion.EliminarAsync(idObs.Value);
+                await _servicioObservacion.EliminarAsync(idObs.Value, idUsuarioActual);
                 idObs = null;
             }
 

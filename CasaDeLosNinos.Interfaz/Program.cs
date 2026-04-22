@@ -20,6 +20,8 @@ namespace CasaDeLosNinos.Interfaz;
 /// </summary>
 internal static class Program
 {
+    private static IServiceProvider? _proveedor;
+
     [STAThread]
     static void Main()
     {
@@ -115,6 +117,7 @@ internal static class Program
         servicios.AddTransient<IRepositorioRegistroHoras, RepositorioRegistroHoras>();
         servicios.AddTransient<IRepositorioCajaChica,   RepositorioCajaChica>();
         servicios.AddTransient<IRepositorioPermisos,    RepositorioPermisos>();
+        servicios.AddTransient<IRepositorioAuditoria,   RepositorioAuditoria>();
 
         // Servicios (Transient)
         servicios.AddTransient<IServicioAutenticacion, ServicioAutenticacion>();
@@ -127,11 +130,13 @@ internal static class Program
         servicios.AddTransient<IServicioRegistroHoras, ServicioRegistroHoras>();
         servicios.AddTransient<IServicioCajaChica,     ServicioCajaChica>();
         servicios.AddTransient<IServicioReporte,      ReporteService>();
+        servicios.AddTransient<IServicioAuditoria,    ServicioAuditoria>();
 
         // Formularios (Transient)
         servicios.AddTransient<FrmLogin>();
 
         var proveedor = servicios.BuildServiceProvider();
+        _proveedor = proveedor;
 
         // ──────────────────────────────────────────────
         // 4. INICIALIZACIÓN DE BASE DE DATOS
@@ -152,7 +157,7 @@ internal static class Program
         }
         catch (Exception ex)
         {
-            RegistrarErrorEnArchivo(ex);
+            RegistrarError(ex);
             MessageBox.Show(
                 "No se pudo inicializar la base de datos o la seguridad.\n\n" +
                 $"Detalle: {ex.Message}",
@@ -199,7 +204,7 @@ internal static class Program
     /// </summary>
     private static void AlManejarExcepcionDeHilo(object sender, System.Threading.ThreadExceptionEventArgs e)
     {
-        RegistrarErrorEnArchivo(e.Exception);
+        RegistrarError(e.Exception);
         MessageBox.Show(
             "Ha ocurrido un error inesperado.\n\n" +
             "El problema ha sido registrado. Si el error persiste,\n" +
@@ -217,7 +222,7 @@ internal static class Program
     {
         if (e.ExceptionObject is Exception excepcion)
         {
-            RegistrarErrorEnArchivo(excepcion);
+            RegistrarError(excepcion);
             MessageBox.Show(
                 "Ha ocurrido un error crítico en un proceso secundario.\n\n" +
                 "El problema ha sido registrado. La aplicación intentará continuar.",
@@ -228,11 +233,11 @@ internal static class Program
     }
 
     /// <summary>
-    /// Registra la excepción en un archivo de texto plano dentro de la carpeta logs/.
-    /// Nunca lanza excepciones — si el log falla, se ignora silenciosamente.
+    /// Registra la excepción tanto en archivo local como en la bitácora de la base de datos.
     /// </summary>
-    private static void RegistrarErrorEnArchivo(Exception excepcion)
+    private static void RegistrarError(Exception excepcion)
     {
+        // 1. Archivo Local (Fallback)
         try
         {
             var rutaLogs = Path.Combine(AppContext.BaseDirectory, "logs");
@@ -247,9 +252,18 @@ internal static class Program
 
             File.AppendAllText(rutaArchivo, entrada);
         }
-        catch
+        catch { }
+
+        // 2. Base de Datos (Auditoría)
+        try
         {
-            // Nunca fallar dentro del manejador de errores
+            if (_proveedor != null)
+            {
+                var auditoria = _proveedor.GetService<IServicioAuditoria>();
+                // Usamos GetAwaiter().GetResult() porque estamos en un contexto síncrono de manejo de excepciones
+                auditoria?.RegistrarErrorAsync(excepcion, modulo: "Global").GetAwaiter().GetResult();
+            }
         }
+        catch { }
     }
 }

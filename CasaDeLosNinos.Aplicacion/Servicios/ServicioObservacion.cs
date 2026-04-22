@@ -13,10 +13,12 @@ namespace CasaDeLosNinos.Aplicacion.Servicios;
 public class ServicioObservacion : IServicioObservacion
 {
     private readonly IRepositorioObservacion _repositorio;
+    private readonly IServicioAuditoria _servicioAuditoria;
 
-    public ServicioObservacion(IRepositorioObservacion repositorio)
+    public ServicioObservacion(IRepositorioObservacion repositorio, IServicioAuditoria servicioAuditoria)
     {
         _repositorio = repositorio;
+        _servicioAuditoria = servicioAuditoria;
     }
 
     /// <inheritdoc/>
@@ -50,7 +52,12 @@ public class ServicioObservacion : IServicioObservacion
             Contenido = texto
         };
 
-        return await _repositorio.InsertarAsync(observacion);
+        int nuevoId = await _repositorio.InsertarAsync(observacion);
+        
+        await _servicioAuditoria.RegistrarAccionAsync(idUsuarioSesion, "Niños", "Observación", 
+            $"Se registró una nota en el expediente del niño ID: {idNino}");
+            
+        return nuevoId;
     }
 
     /// <inheritdoc/>
@@ -67,9 +74,12 @@ public class ServicioObservacion : IServicioObservacion
     }
 
     /// <inheritdoc/>
-    public async Task EliminarAsync(int id)
+    public async Task EliminarAsync(int id, int idUsuarioSesion)
     {
         if (id <= 0) return;
         await _repositorio.EliminarAsync(id);
+        
+        await _servicioAuditoria.RegistrarAccionAsync(idUsuarioSesion, "Niños", "Baja Observación", 
+            $"Se eliminó una nota del historial (ID: {id})");
     }
 }

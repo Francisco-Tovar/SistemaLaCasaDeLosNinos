@@ -16,10 +16,9 @@ public interface IServicioNino
 
     /// <summary>
     /// Guarda un niño (insertar si Id == 0, actualizar si Id > 0).
-    /// Retorna (true, "") si fue exitoso o (false, "mensaje de error") si hay validación fallida.
     /// </summary>
-    Task<(bool Exito, string Mensaje)> GuardarAsync(Nino nino);
+    Task<(bool Exito, string Mensaje)> GuardarAsync(Nino nino, int idUsuario);
 
     /// <summary>Activa o desactiva un niño (borrado lógico reversible).</summary>
-    Task CambiarEstadoAsync(int id, bool activo);
+    Task CambiarEstadoAsync(int id, bool activo, int idUsuario);
 }

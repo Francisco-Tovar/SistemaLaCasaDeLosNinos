@@ -195,7 +195,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             {
                 try
                 {
-                    await _servicioObservacion.EliminarAsync(id);
+                    await _servicioObservacion.EliminarAsync(id, _idUsuarioSesion);
                     await CargarHistorialAsync();
                 }
                 catch (Exception ex)

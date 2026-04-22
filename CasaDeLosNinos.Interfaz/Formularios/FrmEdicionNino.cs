@@ -14,17 +14,19 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private readonly Nino? _ninoExistente;
         private readonly IServicioNino _servicioNino;
         private readonly IServicioFoto _servicioFoto;
+        private readonly int _idUsuarioSesion;
 
         private PictureBox picFoto = null!;
         private byte[]? _imagenNueva;
 
 
-        public FrmEdicionNino(Nino? nino, IServicioNino servicioNino, IServicioFoto servicioFoto, ThemeColors theme)
+        public FrmEdicionNino(Nino? nino, IServicioNino servicioNino, IServicioFoto servicioFoto, int idUsuarioSesion, ThemeColors theme)
         {
             InitializeComponent();
             _ninoExistente = nino;
             _servicioNino = servicioNino;
             _servicioFoto = servicioFoto;
+            _idUsuarioSesion = idUsuarioSesion;
             _theme = theme;
             this.EsRedimensionable = false;
             this.TieneBordeAcento = true;
@@ -190,7 +192,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 nino.FechaNacimiento = chkTieneFechaNacimiento.Checked ? dtpNacimiento.Value.Date : null;
                 nino.Genero = cboGenero.Text switch { "Masculino" => "M", "Femenino" => "F", _ => "X" };
 
-                var (exito, mensaje) = await _servicioNino.GuardarAsync(nino);
+                var (exito, mensaje) = await _servicioNino.GuardarAsync(nino, _idUsuarioSesion);
                 if (exito)
                 {
                     if (_imagenNueva != null)

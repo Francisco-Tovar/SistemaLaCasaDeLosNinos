@@ -12,12 +12,14 @@ namespace CasaDeLosNinos.Interfaz.Formularios
     {
         private readonly Voluntario? _voluntarioExistente;
         private readonly IServicioVoluntario _servicioVoluntario;
+        private readonly int _idUsuarioSesion;
 
-        public FrmEdicionVoluntario(Voluntario? voluntario, IServicioVoluntario servicioVoluntario, ThemeColors theme)
+        public FrmEdicionVoluntario(Voluntario? voluntario, IServicioVoluntario servicioVoluntario, int idUsuarioSesion, ThemeColors theme)
         {
             InitializeComponent();
             _voluntarioExistente = voluntario;
             _servicioVoluntario = servicioVoluntario;
+            _idUsuarioSesion = idUsuarioSesion;
             _theme = theme;
             
             this.EsRedimensionable = false;
@@ -165,11 +167,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
                 if (voluntario.Id == 0)
                 {
-                    await _servicioVoluntario.CrearAsync(voluntario);
+                    await _servicioVoluntario.CrearAsync(voluntario, _idUsuarioSesion);
                 }
                 else
                 {
-                    await _servicioVoluntario.ActualizarAsync(voluntario);
+                    await _servicioVoluntario.ActualizarAsync(voluntario, _idUsuarioSesion);
                 }
 
                 this.DialogResult = DialogResult.OK;

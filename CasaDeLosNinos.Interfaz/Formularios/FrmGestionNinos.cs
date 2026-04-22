@@ -201,7 +201,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private async void AlHacerClickEnNuevo(object sender, EventArgs e)
         {
-            using var frm = new FrmEdicionNino(null, _servicioNino, _servicioFoto, _theme);
+            using var frm = new FrmEdicionNino(null, _servicioNino, _servicioFoto, _idUsuarioSesion, _theme);
             if (frm.ShowDialog(this) == DialogResult.OK) await CargarNinosAsync();
         }
 
@@ -210,7 +210,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             var nino = ObtenerNinoSeleccionado();
             if (nino == null) return;
 
-            using var frm = new FrmEdicionNino(nino, _servicioNino, _servicioFoto, _theme);
+            using var frm = new FrmEdicionNino(nino, _servicioNino, _servicioFoto, _idUsuarioSesion, _theme);
             if (frm.ShowDialog(this) == DialogResult.OK) await CargarNinosAsync();
         }
 
@@ -222,7 +222,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             string accion = nino.Activo ? "desactivar" : "activar";
             if (MessageBox.Show($"¿Desea {accion} a {nino.NombreCompleto}?", "Confirmar", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                await _servicioNino.CambiarEstadoAsync(nino.Id, !nino.Activo);
+                await _servicioNino.CambiarEstadoAsync(nino.Id, !nino.Activo, _idUsuarioSesion);
                 await CargarNinosAsync();
             }
         }

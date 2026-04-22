@@ -327,6 +327,20 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             }
         }
 
+        private void btnBitacora_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender, _currentTheme.AccentColor);
+            try
+            {
+                var servicioAuditoria = _proveedor.GetRequiredService<IServicioAuditoria>();
+                OpenChildForm(new FrmBitacoraSistema(servicioAuditoria, _currentTheme));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir la bitácora:\n{ex.Message}", "Error");
+            }
+        }
+
         private void btnHome_Click(object sender, EventArgs e)
         {
             if (currentChildForm != null)
@@ -377,6 +391,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // Módulos exclusivos de rol Administrador — nunca configurables por permisos
             btnUsuarios.Visible      = esAdmin;
             btnMantenimiento.Visible = esAdmin;
+            btnBitacora.Visible      = esAdmin;
         }
 
         private void ConfigurarLogotipo()

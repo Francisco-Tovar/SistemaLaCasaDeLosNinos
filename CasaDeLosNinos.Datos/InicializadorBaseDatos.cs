@@ -71,6 +71,7 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 await conexion.ExecuteAsync("DELETE FROM Voluntarios;", null, transaction);
                 await conexion.ExecuteAsync("DELETE FROM AuditoriaCajaChica;", null, transaction);
                 await conexion.ExecuteAsync("DELETE FROM CajaChica;", null, transaction);
+                await conexion.ExecuteAsync("DELETE FROM AuditoriaSistema;", null, transaction);
 
                 // 2. Limpiar usuarios EXCEPTO el admin con Id 1 o NombreUsuario 'admin'
                 await conexion.ExecuteAsync("DELETE FROM Usuarios WHERE Id > 1 AND NombreUsuario <> 'admin';", null, transaction);
@@ -79,7 +80,7 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 await conexion.ExecuteAsync("DELETE FROM PermisosModulo WHERE IdUsuario > 1;", null, transaction);
 
                 // 4. Resetear auto-incrementos (opcional pero limpio)
-                string[] tablas = { "Asistencia", "Observaciones", "Ninos", "RegistroHoras", "Voluntarios", "CajaChica", "AuditoriaCajaChica", "Usuarios" };
+                string[] tablas = { "Asistencia", "Observaciones", "Ninos", "RegistroHoras", "Voluntarios", "CajaChica", "AuditoriaCajaChica", "Usuarios", "AuditoriaSistema" };
                 foreach (var tabla in tablas)
                 {
                     await conexion.ExecuteAsync($"DELETE FROM sqlite_sequence WHERE name = '{tabla}';", null, transaction);
@@ -358,6 +359,22 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 NombreModulo    TEXT    NOT NULL,
                 UNIQUE(IdUsuario, NombreModulo)
             );");
+
+        // ── AuditoriaSistema ─────────────────────────────────────────────
+        await conexion.ExecuteAsync(@"
+            CREATE TABLE IF NOT EXISTS AuditoriaSistema (
+                Id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                FechaHora       TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                IdUsuario       INTEGER NULL,
+                NombreUsuario   TEXT    NOT NULL DEFAULT 'Sistema',
+                Modulo          TEXT    NOT NULL,
+                Accion          TEXT    NOT NULL,
+                Detalle         TEXT    NOT NULL
+            );");
+
+        // Índice para búsquedas rápidas por fecha
+        await conexion.ExecuteAsync(@"
+            CREATE INDEX IF NOT EXISTS idx_auditoria_fechahora ON AuditoriaSistema(FechaHora);");
     }
 
     // ══════════════════════════════════════════════════════════════

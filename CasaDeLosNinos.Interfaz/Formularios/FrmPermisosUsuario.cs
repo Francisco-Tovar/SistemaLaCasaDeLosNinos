@@ -21,11 +21,14 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         // Mapa: nombre de módulo en BD → checkbox correspondiente
         private Dictionary<string, CheckBox> _mapaModulos = null!;
 
-        public FrmPermisosUsuario(IServicioUsuario servicioUsuario, Usuario usuario, ThemeColors theme)
+        private readonly int _idEditorActual;
+
+        public FrmPermisosUsuario(IServicioUsuario servicioUsuario, Usuario usuario, int idEditorActual, ThemeColors theme)
         {
             InitializeComponent();
             _servicioUsuario = servicioUsuario;
             _usuario = usuario;
+            _idEditorActual = idEditorActual;
             _theme = theme;
 
             this.TieneBordeAcento = true;
@@ -76,9 +79,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 foreach (var entrada in _mapaModulos)
                 {
                     if (entrada.Value.Checked)
-                        await _servicioUsuario.OtorgarPermisoAsync(_usuario.Id, entrada.Key);
+                        await _servicioUsuario.OtorgarPermisoAsync(_usuario.Id, entrada.Key, _idEditorActual);
                     else
-                        await _servicioUsuario.RevocarPermisoAsync(_usuario.Id, entrada.Key);
+                        await _servicioUsuario.RevocarPermisoAsync(_usuario.Id, entrada.Key, _idEditorActual);
                 }
 
                 this.DialogResult = DialogResult.OK;

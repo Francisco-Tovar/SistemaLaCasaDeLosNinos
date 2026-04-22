@@ -129,7 +129,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 {
                     try
                     {
-                        await _servicioUsuario.CambiarEstadoAsync(usuario.Id, !usuario.Activo);
+                        await _servicioUsuario.CambiarEstadoAsync(usuario.Id, !usuario.Activo, _usuarioActualId);
                         await CargarUsuarios();
                     }
                     catch (Exception ex)
@@ -172,7 +172,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                     return;
                 }
 
-                using var frm = new FrmPermisosUsuario(_servicioUsuario, usuario, _theme);
+                using var frm = new FrmPermisosUsuario(_servicioUsuario, usuario, _usuarioActualId, _theme);
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     // Permisos actualizados — no es necesario recargar la lista completa

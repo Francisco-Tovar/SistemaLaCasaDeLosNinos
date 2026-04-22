@@ -21,6 +21,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnCajaChica = new FontAwesome.Sharp.IconButton();
             btnVoluntarios = new FontAwesome.Sharp.IconButton();
             btnUsuarios = new FontAwesome.Sharp.IconButton();
+            btnBitacora = new FontAwesome.Sharp.IconButton();
             btnAsistencia = new FontAwesome.Sharp.IconButton();
             btnNinos = new FontAwesome.Sharp.IconButton();
             panelLogo = new Panel();
@@ -48,6 +49,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             // panelMenu
             // 
             panelMenu.Controls.Add(btnMantenimiento);
+            panelMenu.Controls.Add(btnBitacora);
             panelMenu.Controls.Add(btnReportes);
             panelMenu.Controls.Add(btnCajaChica);
             panelMenu.Controls.Add(btnVoluntarios);
@@ -59,7 +61,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelMenu.Dock = DockStyle.Left;
             panelMenu.Location = new Point(1, 1);
             panelMenu.Name = "panelMenu";
-            panelMenu.Size = new Size(220, 619);
+            panelMenu.Size = new Size(220, 698);
             panelMenu.TabIndex = 0;
             // 
             // btnMantenimiento
@@ -73,7 +75,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnMantenimiento.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnMantenimiento.IconSize = 32;
             btnMantenimiento.ImageAlign = ContentAlignment.MiddleLeft;
-            btnMantenimiento.Location = new Point(0, 500);
+            btnMantenimiento.Location = new Point(0, 560);
             btnMantenimiento.Name = "btnMantenimiento";
             btnMantenimiento.Padding = new Padding(10, 0, 20, 0);
             btnMantenimiento.Size = new Size(220, 60);
@@ -172,6 +174,28 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnUsuarios.UseVisualStyleBackColor = true;
             btnUsuarios.Click += btnUsuarios_Click;
             // 
+            // btnBitacora
+            // 
+            btnBitacora.Dock = DockStyle.Top;
+            btnBitacora.FlatAppearance.BorderSize = 0;
+            btnBitacora.FlatStyle = FlatStyle.Flat;
+            btnBitacora.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBitacora.IconChar = FontAwesome.Sharp.IconChar.ListAlt;
+            btnBitacora.IconColor = Color.Black;
+            btnBitacora.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            btnBitacora.IconSize = 32;
+            btnBitacora.ImageAlign = ContentAlignment.MiddleLeft;
+            btnBitacora.Location = new Point(0, 500);
+            btnBitacora.Name = "btnBitacora";
+            btnBitacora.Padding = new Padding(10, 0, 20, 0);
+            btnBitacora.Size = new Size(220, 60);
+            btnBitacora.TabIndex = 9;
+            btnBitacora.Text = "Bitácora";
+            btnBitacora.TextAlign = ContentAlignment.MiddleLeft;
+            btnBitacora.TextImageRelation = TextImageRelation.ImageBeforeText;
+            btnBitacora.UseVisualStyleBackColor = true;
+            btnBitacora.Click += btnBitacora_Click;
+            // 
             // btnAsistencia
             // 
             btnAsistencia.Dock = DockStyle.Top;
@@ -233,7 +257,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             lblOrg.BackColor = Color.Transparent;
             lblOrg.Font = new Font("Segoe UI", 11F);
             lblOrg.ForeColor = Color.LightGray;
-            lblOrg.Location = new Point(8, 112);
+            lblOrg.Location = new Point(5, 107);
             lblOrg.Name = "lblOrg";
             lblOrg.Size = new Size(145, 20);
             lblOrg.TabIndex = 1;
@@ -261,7 +285,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnLogout.IconFont = FontAwesome.Sharp.IconFont.Auto;
             btnLogout.IconSize = 32;
             btnLogout.ImageAlign = ContentAlignment.MiddleLeft;
-            btnLogout.Location = new Point(0, 559);
+            btnLogout.Location = new Point(0, 638);
             btnLogout.Name = "btnLogout";
             btnLogout.Padding = new Padding(10, 0, 20, 0);
             btnLogout.Size = new Size(220, 60);
@@ -394,7 +418,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelShadow.Dock = DockStyle.Top;
             panelShadow.Location = new Point(221, 76);
             panelShadow.Name = "panelShadow";
-            panelShadow.Size = new Size(928, 9);
+            panelShadow.Size = new Size(928, 10);
             panelShadow.TabIndex = 2;
             // 
             // panelDesktop
@@ -403,16 +427,16 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             panelDesktop.BackgroundImageLayout = ImageLayout.Zoom;
             panelDesktop.Controls.Add(lblBienvenida);
             panelDesktop.Dock = DockStyle.Fill;
-            panelDesktop.Location = new Point(221, 85);
+            panelDesktop.Location = new Point(221, 86);
             panelDesktop.Name = "panelDesktop";
-            panelDesktop.Size = new Size(928, 535);
+            panelDesktop.Size = new Size(928, 613);
             panelDesktop.TabIndex = 3;
             // 
             // FormPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1150, 621);
+            ClientSize = new Size(1150, 700);
             ControlBox = false;
             Controls.Add(panelDesktop);
             Controls.Add(panelShadow);
@@ -420,7 +444,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             Controls.Add(panelMenu);
             DoubleBuffered = true;
             Font = new Font("Segoe UI", 9.75F);
-            MinimumSize = new Size(1150, 621);
+            MinimumSize = new Size(1150, 700);
             Name = "FormPrincipal";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "La Casa de los Niños";
@@ -460,5 +484,6 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private FontAwesome.Sharp.IconButton btnTheme;
         private FontAwesome.Sharp.IconButton btnLogout;
         private FontAwesome.Sharp.IconButton btnMantenimiento;
+        private FontAwesome.Sharp.IconButton btnBitacora;
     }
 }

@@ -110,7 +110,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 var res = MessageBox.Show("¿Desea eliminar este registro de horas?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (res == DialogResult.Yes)
                 {
-                    await _servicioHoras.EliminarAsync(reg.Id);
+                    await _servicioHoras.EliminarAsync(reg.Id, _idUsuarioSesion);
                     await CargarDatos();
                 }
             }

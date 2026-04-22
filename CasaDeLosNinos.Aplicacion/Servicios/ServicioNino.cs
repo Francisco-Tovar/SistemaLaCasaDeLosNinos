@@ -10,10 +10,12 @@ namespace CasaDeLosNinos.Aplicacion.Servicios;
 public class ServicioNino : IServicioNino
 {
     private readonly IRepositorioNino _repositorioNino;
+    private readonly IServicioAuditoria _servicioAuditoria;
 
-    public ServicioNino(IRepositorioNino repositorioNino)
+    public ServicioNino(IRepositorioNino repositorioNino, IServicioAuditoria servicioAuditoria)
     {
         _repositorioNino = repositorioNino;
+        _servicioAuditoria = servicioAuditoria;
     }
 
     public async Task<IEnumerable<Nino>> ObtenerTodosAsync()
@@ -22,7 +24,7 @@ public class ServicioNino : IServicioNino
     public async Task<IEnumerable<Nino>> ObtenerActivosAsync()
         => await _repositorioNino.ObtenerActivosAsync();
 
-    public async Task<(bool Exito, string Mensaje)> GuardarAsync(Nino nino)
+    public async Task<(bool Exito, string Mensaje)> GuardarAsync(Nino nino, int idUsuario)
     {
         // ── Validaciones de negocio ──────────────────────────────────
         if (string.IsNullOrWhiteSpace(nino.NombreCompleto))
@@ -45,16 +47,31 @@ public class ServicioNino : IServicioNino
             nino.FechaIngreso  = DateTime.Today;
             nino.Activo        = true;
             await _repositorioNino.InsertarAsync(nino);
+            
+            await _servicioAuditoria.RegistrarAccionAsync(idUsuario, "Niños", "Creación", 
+                $"Se registró al niño: {nino.NombreCompleto}");
         }
         else
         {
             // Actualizar existente
             await _repositorioNino.ActualizarAsync(nino);
+            
+            await _servicioAuditoria.RegistrarAccionAsync(idUsuario, "Niños", "Modificación", 
+                $"Se actualizaron los datos de: {nino.NombreCompleto}");
         }
 
         return (true, string.Empty);
     }
 
-    public async Task CambiarEstadoAsync(int id, bool activo)
-        => await _repositorioNino.CambiarEstadoAsync(id, activo);
+    public async Task CambiarEstadoAsync(int id, bool activo, int idUsuario)
+    {
+        var nino = (await _repositorioNino.ObtenerTodosAsync()).FirstOrDefault(n => n.Id == id);
+        string nombre = nino?.NombreCompleto ?? $"ID {id}";
+        
+        await _repositorioNino.CambiarEstadoAsync(id, activo);
+        
+        string accion = activo ? "Activación" : "Desactivación";
+        await _servicioAuditoria.RegistrarAccionAsync(idUsuario, "Niños", accion, 
+            $"Se cambió el estado de {nombre} a {(activo ? "Activo" : "Inactivo")}");
+    }
 }

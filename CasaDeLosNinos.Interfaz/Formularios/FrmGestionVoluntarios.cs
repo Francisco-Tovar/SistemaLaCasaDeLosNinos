@@ -187,7 +187,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
 
         private async void btnNuevo_Click(object sender, EventArgs e)
         {
-            using var frm = new FrmEdicionVoluntario(null, _servicioVoluntario, _theme);
+            using var frm = new FrmEdicionVoluntario(null, _servicioVoluntario, _idUsuarioSesion, _theme);
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 await CargarDatos();
@@ -198,7 +198,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             if (dgvVoluntarios.CurrentRow?.DataBoundItem is Voluntario vol)
             {
-                using var frm = new FrmEdicionVoluntario(vol, _servicioVoluntario, _theme);
+                using var frm = new FrmEdicionVoluntario(vol, _servicioVoluntario, _idUsuarioSesion, _theme);
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     await CargarDatos();
@@ -216,7 +216,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 
                 if (res == DialogResult.Yes)
                 {
-                    await _servicioVoluntario.CambiarEstadoAsync(vol.Id, !vol.Activo);
+                    await _servicioVoluntario.CambiarEstadoAsync(vol.Id, !vol.Activo, _idUsuarioSesion);
                     await CargarDatos();
                 }
             }

@@ -108,6 +108,7 @@ public static class ThemeEngine
                 : theme.AccentColor ;
             
             btn.ForeColor = theme.TextPrimary;
+            btn.IconColor = btn.ForeColor; // Sincronización base obligatoria
 
             string name = btn.Name.ToLower();
             string parentName = btn.Parent?.Name.ToLower() ?? "";

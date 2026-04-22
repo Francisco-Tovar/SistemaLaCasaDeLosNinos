@@ -8,11 +8,13 @@ public class ServicioUsuario : IServicioUsuario
 {
     private readonly IRepositorioUsuario _repositorioUsuario;
     private readonly IRepositorioPermisos _repositorioPermisos;
+    private readonly IServicioAuditoria _servicioAuditoria;
 
-    public ServicioUsuario(IRepositorioUsuario repositorioUsuario, IRepositorioPermisos repositorioPermisos)
+    public ServicioUsuario(IRepositorioUsuario repositorioUsuario, IRepositorioPermisos repositorioPermisos, IServicioAuditoria servicioAuditoria)
     {
         _repositorioUsuario = repositorioUsuario;
         _repositorioPermisos = repositorioPermisos;
+        _servicioAuditoria = servicioAuditoria;
     }
 
     public async Task<IEnumerable<Usuario>> ObtenerTodosAsync()
@@ -42,6 +44,9 @@ public class ServicioUsuario : IServicioUsuario
 
         // Otorgar permisos por defecto: Niños y Asistencia
         await _repositorioPermisos.InsertarPermisosDefaultAsync(nuevoId);
+
+        await _servicioAuditoria.RegistrarAccionAsync(null, "Usuarios", "Creación", 
+            $"Se creó la cuenta de usuario: {usuario.NombreUsuario}");
 
         return nuevoId;
     }
@@ -78,7 +83,13 @@ public class ServicioUsuario : IServicioUsuario
             usuario.ContrasenaHash = usuarioExistente.ContrasenaHash;
         }
 
-        return await _repositorioUsuario.ActualizarAsync(usuario);
+        bool exito = await _repositorioUsuario.ActualizarAsync(usuario);
+        if (exito)
+        {
+            await _servicioAuditoria.RegistrarAccionAsync(idEditorActual, "Usuarios", "Modificación", 
+                $"Se actualizaron los datos del usuario: {usuario.NombreUsuario}");
+        }
+        return exito;
     }
 
     public async Task<bool> CambiarEstadoAsync(int id, bool estado)
@@ -107,6 +118,24 @@ public class ServicioUsuario : IServicioUsuario
         return await _repositorioUsuario.CambiarEstadoAsync(id, estado);
     }
 
+    public async Task<bool> CambiarEstadoAsync(int id, bool estado, int idUsuarioEditor)
+    {
+        // Reutilizar lógica de validación
+        await CambiarEstadoAsync(id, estado);
+        
+        var user = await _repositorioUsuario.ObtenerPorIdAsync(id);
+        string nombre = user?.NombreUsuario ?? $"ID {id}";
+        
+        bool exito = await _repositorioUsuario.CambiarEstadoAsync(id, estado);
+        if (exito)
+        {
+            string accion = estado ? "Activación" : "Desactivación";
+            await _servicioAuditoria.RegistrarAccionAsync(idUsuarioEditor, "Usuarios", accion, 
+                $"Se {(estado ? "activó" : "desactivó")} la cuenta de: {nombre}");
+        }
+        return exito;
+    }
+
     // ── Permisos por módulo ───────────────────────────────────────────────────
 
     public async Task<IEnumerable<string>> ObtenerPermisosAsync(int idUsuario)
@@ -114,21 +143,29 @@ public class ServicioUsuario : IServicioUsuario
         return await _repositorioPermisos.ObtenerNombresPorUsuarioAsync(idUsuario);
     }
 
-    public async Task OtorgarPermisoAsync(int idUsuario, string nombreModulo)
+    public async Task OtorgarPermisoAsync(int idUsuario, string nombreModulo, int idEditorActual)
     {
         if (idUsuario == 1)
         {
             throw new InvalidOperationException("No se pueden modificar los permisos del administrador maestro del sistema.");
         }
         await _repositorioPermisos.OtorgarAsync(idUsuario, nombreModulo);
+        
+        var user = await _repositorioUsuario.ObtenerPorIdAsync(idUsuario);
+        await _servicioAuditoria.RegistrarAccionAsync(idEditorActual, "Seguridad", "Permisos", 
+            $"Se otorgó acceso al módulo {nombreModulo} al usuario {user?.NombreUsuario}");
     }
 
-    public async Task RevocarPermisoAsync(int idUsuario, string nombreModulo)
+    public async Task RevocarPermisoAsync(int idUsuario, string nombreModulo, int idEditorActual)
     {
         if (idUsuario == 1)
         {
             throw new InvalidOperationException("No se pueden modificar los permisos del administrador maestro del sistema.");
         }
         await _repositorioPermisos.RevocarAsync(idUsuario, nombreModulo);
+        
+        var user = await _repositorioUsuario.ObtenerPorIdAsync(idUsuario);
+        await _servicioAuditoria.RegistrarAccionAsync(idEditorActual, "Seguridad", "Permisos", 
+            $"Se revocó acceso al módulo {nombreModulo} al usuario {user?.NombreUsuario}");
     }
 }

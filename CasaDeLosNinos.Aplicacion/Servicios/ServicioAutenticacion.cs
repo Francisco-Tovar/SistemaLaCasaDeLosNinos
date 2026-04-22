@@ -7,10 +7,12 @@ namespace CasaDeLosNinos.Aplicacion.Servicios;
 public class ServicioAutenticacion : IServicioAutenticacion
 {
     private readonly IRepositorioUsuario _repositorioUsuario;
+    private readonly IServicioAuditoria _servicioAuditoria;
 
-    public ServicioAutenticacion(IRepositorioUsuario repositorioUsuario)
+    public ServicioAutenticacion(IRepositorioUsuario repositorioUsuario, IServicioAuditoria servicioAuditoria)
     {
         _repositorioUsuario = repositorioUsuario;
+        _servicioAuditoria = servicioAuditoria;
     }
 
     public async Task<Usuario?> ValidarCredencialesAsync(string usuario, string contrasena)
@@ -26,7 +28,16 @@ public class ServicioAutenticacion : IServicioAutenticacion
         // Verificamos el hash con BCrypt
         bool esValida = BCrypt.Net.BCrypt.Verify(contrasena, dbUsuario.ContrasenaHash);
 
-        return esValida ? dbUsuario : null;
+        if (esValida)
+        {
+            await _servicioAuditoria.RegistrarAccionAsync(dbUsuario.Id, "Seguridad", "Login", "Inicio de sesión exitoso.");
+            return dbUsuario;
+        }
+        else
+        {
+            await _servicioAuditoria.RegistrarAccionAsync(null, "Seguridad", "Login Fallido", $"Intento fallido para el usuario: {usuario}");
+            return null;
+        }
     }
 
     public async Task AsegurarUsuarioAdminPorDefectoAsync()

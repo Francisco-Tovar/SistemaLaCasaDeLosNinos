@@ -19,6 +19,6 @@ public interface IServicioObservacion
     /// <summary>Actualiza una observación existente.</summary>
     Task ActualizarAsync(int id, string contenido);
 
-    /// <summary>Elimina una observación.</summary>
-    Task EliminarAsync(int id);
+    /// <summary>Elimina una observación por su Id.</summary>
+    Task EliminarAsync(int id, int idUsuarioSesion);
 }

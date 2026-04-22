@@ -7,10 +7,12 @@ namespace CasaDeLosNinos.Aplicacion.Servicios;
 public class ServicioCajaChica : IServicioCajaChica
 {
     private readonly IRepositorioCajaChica _repositorio;
+    private readonly IServicioAuditoria _servicioAuditoria;
 
-    public ServicioCajaChica(IRepositorioCajaChica repositorio)
+    public ServicioCajaChica(IRepositorioCajaChica repositorio, IServicioAuditoria servicioAuditoria)
     {
         _repositorio = repositorio;
+        _servicioAuditoria = servicioAuditoria;
     }
 
     public async Task<IEnumerable<CajaChica>> ObtenerPorMesAsync(int anio, int mes)
@@ -29,10 +31,15 @@ public class ServicioCajaChica : IServicioCajaChica
         return await _repositorio.ObtenerPorIdAsync(id);
     }
 
-    public async Task<int> RegistrarMovimientoAsync(CajaChica movimiento)
+    public async Task<int> RegistrarMovimientoAsync(CajaChica movimiento, int idUsuario)
     {
         ValidarMovimiento(movimiento);
-        return await _repositorio.CrearAsync(movimiento);
+        int nuevoId = await _repositorio.CrearAsync(movimiento);
+        
+        await _servicioAuditoria.RegistrarAccionAsync(idUsuario, "Caja Chica", "Creación", 
+            $"Nuevo {movimiento.TipoMovimiento}: {movimiento.Concepto} por ₡{movimiento.Monto:N2}");
+            
+        return nuevoId;
     }
 
     public async Task<(bool Exito, string Mensaje)> ModificarMovimientoAsync(CajaChica movimientoEditado, int idUsuarioQueEdita)
@@ -65,6 +72,10 @@ public class ServicioCajaChica : IServicioCajaChica
         };
 
         await _repositorio.InsertarAuditoriaAsync(auditoria);
+
+        // También registrar en la bitácora universal para trazabilidad cruzada
+        await _servicioAuditoria.RegistrarAccionAsync(idUsuarioQueEdita, "Caja Chica", "Modificación", 
+            $"Se editó el movimiento '{movimientoOriginal.Concepto}' (ID {movimientoOriginal.Id})");
 
         return (true, "Movimiento modificado y auditado exitosamente.");
     }

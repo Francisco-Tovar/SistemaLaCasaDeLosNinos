@@ -123,7 +123,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 else
                 {
                     _movimiento.IdUsuario = _idUsuarioSesion;
-                    await _servicioCajaChica.RegistrarMovimientoAsync(_movimiento);
+                    await _servicioCajaChica.RegistrarMovimientoAsync(_movimiento, _idUsuarioSesion);
                 }
 
                 MessageBox.Show("El movimiento se registró en la contabilidad satisfactoriamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
