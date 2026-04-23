@@ -3,7 +3,7 @@
 ; ----------------------------------------------------------------------------------
 
 #define MyAppName "Sistema La Casa de los Niños"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.0.1"
 #define MyAppPublisher "TCU - Universidad de Costa Rica"
 #define MyAppExeName "CasaDeLosNinos.Interfaz.exe"
 
@@ -16,12 +16,12 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; El archivo comprimido final se guardará en la carpeta 'Output'
 OutputDir=Output
-OutputBaseFilename=Instalador_CasaDeLosNinos_v1.0
+OutputBaseFilename=Instalador_CasaDeLosNinos_v1.0.1
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 PrivilegesRequired=admin
-SetupIconFile=D:\REPOSITORIO\TCU\SistemaLaCasaDeLosNinos\app_icon.ico
+SetupIconFile=app_icon.ico
 UninstallDisplayIcon={app}\{#MyAppExeName}
 
 [Languages]
@@ -32,16 +32,17 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 ; Ejecutable Principal y DLLs (Single File)
-Source: "D:\REPOSITORIO\TCU\SistemaLaCasaDeLosNinos\publish\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\REPOSITORIO\TCU\SistemaLaCasaDeLosNinos\publish\appsettings.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\REPOSITORIO\TCU\SistemaLaCasaDeLosNinos\publish\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "publish\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "publish\appsettings.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "publish\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "publish\Assets\*"; DestDir: "{app}\Assets"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; Fuentes Críticas (Grandstander)
-Source: "D:\REPOSITORIO\TCU\SistemaLaCasaDeLosNinos\CasaDeLosNinos.Interfaz\Assets\Fonts\Grandstander\Grandstander-VariableFont_wght.ttf"; \
+Source: "CasaDeLosNinos.Interfaz\Assets\Fonts\Grandstander\Grandstander-VariableFont_wght.ttf"; \
     DestDir: "{fonts}"; FontInstall: "Grandstander"; Flags: onlyifdoesntexist uninsneveruninstall
 
 ; Carpeta de Base de Datos (Se crea vacía para recibir la BD limpia)
-Source: "D:\REPOSITORIO\TCU\SistemaLaCasaDeLosNinos\database\*"; DestDir: "{app}\database"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "database\*"; DestDir: "{app}\database"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

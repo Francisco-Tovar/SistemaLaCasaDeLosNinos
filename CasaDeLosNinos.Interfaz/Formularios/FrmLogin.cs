@@ -69,7 +69,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             try
             {
-                string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "logo.png");
+                string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "logo.png");
                 if (System.IO.File.Exists(path))
                 {
                     var bytes = System.IO.File.ReadAllBytes(path);

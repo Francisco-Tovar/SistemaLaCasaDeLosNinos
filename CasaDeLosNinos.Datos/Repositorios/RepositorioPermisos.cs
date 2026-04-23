@@ -53,4 +53,17 @@ public class RepositorioPermisos : IRepositorioPermisos
                    (@idUsuario, 'Asistencia')";
         await conexion.ExecuteAsync(sql, new { idUsuario });
     }
+
+    public async Task OtorgarTodoAsync(int idUsuario)
+    {
+        using var conexion = new SqliteConnection(_cadenaConexion);
+        const string sql = @"
+            INSERT OR IGNORE INTO PermisosModulo (IdUsuario, NombreModulo)
+            VALUES (@idUsuario, 'Ninos'),
+                   (@idUsuario, 'Asistencia'),
+                   (@idUsuario, 'Voluntarios'),
+                   (@idUsuario, 'CajaChica'),
+                   (@idUsuario, 'Reportes')";
+        await conexion.ExecuteAsync(sql, new { idUsuario });
+    }
 }

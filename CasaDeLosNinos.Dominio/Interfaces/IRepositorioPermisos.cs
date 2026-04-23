@@ -18,4 +18,7 @@ public interface IRepositorioPermisos
 
     /// <summary>Inserta los permisos por defecto para un usuario recién creado (Ninos + Asistencia).</summary>
     Task InsertarPermisosDefaultAsync(int idUsuario);
+
+    /// <summary>Otorga acceso a todos los módulos disponibles (para administradores).</summary>
+    Task OtorgarTodoAsync(int idUsuario);
 }

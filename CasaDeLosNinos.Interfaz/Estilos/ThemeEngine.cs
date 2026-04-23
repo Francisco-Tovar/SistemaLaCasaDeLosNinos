@@ -274,7 +274,19 @@ public static class ThemeEngine
         return Math.Abs(color.R - color.G) < 15 && Math.Abs(color.G - color.B) < 15 && color.R > 180;
     }
 
-    private static readonly string _themeFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "theme.txt");
+    private static readonly string _themeFilePath = Path.Combine(
+        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), 
+        "CasaDeLosNinos", 
+        "theme.txt");
+
+    private static void EnsureThemeDirectoryExists()
+    {
+        string? directory = Path.GetDirectoryName(_themeFilePath);
+        if (directory != null && !Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+    }
 
     public static ThemeColors LoadThemePreference()
     {
@@ -299,7 +311,11 @@ public static class ThemeEngine
 
     public static void SaveThemePreference(string themeName)
     {
-        try { File.WriteAllText(_themeFilePath, themeName); }
+        try 
+        { 
+            EnsureThemeDirectoryExists();
+            File.WriteAllText(_themeFilePath, themeName); 
+        }
         catch { }
     }
 

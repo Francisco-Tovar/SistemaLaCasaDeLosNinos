@@ -20,7 +20,7 @@ public static class FontManager
     {
         if (_fontsLoaded) return;
 
-        string fontsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "fonts");
+        string fontsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "fonts");
         if (!Directory.Exists(fontsPath)) return;
 
         // Búsqueda recursiva para encontrar fuentes en subcarpetas (static, etc)

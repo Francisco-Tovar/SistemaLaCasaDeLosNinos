@@ -7,11 +7,15 @@ namespace CasaDeLosNinos.Aplicacion.Servicios;
 public class ServicioAutenticacion : IServicioAutenticacion
 {
     private readonly IRepositorioUsuario _repositorioUsuario;
+    private readonly IRepositorioPermisos _repositorioPermisos;
     private readonly IServicioAuditoria _servicioAuditoria;
 
-    public ServicioAutenticacion(IRepositorioUsuario repositorioUsuario, IServicioAuditoria servicioAuditoria)
+    public ServicioAutenticacion(IRepositorioUsuario repositorioUsuario, 
+                                IRepositorioPermisos repositorioPermisos,
+                                IServicioAuditoria servicioAuditoria)
     {
         _repositorioUsuario = repositorioUsuario;
+        _repositorioPermisos = repositorioPermisos;
         _servicioAuditoria = servicioAuditoria;
     }
 
@@ -58,7 +62,14 @@ public class ServicioAutenticacion : IServicioAutenticacion
                 Activo = true
             };
 
-            await _repositorioUsuario.InsertarAsync(admin);
+            int idAdmin = await _repositorioUsuario.InsertarAsync(admin);
+            await _repositorioPermisos.OtorgarTodoAsync(idAdmin);
+        }
+        else
+        {
+            // Caso borde: El usuario existe pero tal vez no tiene los permisos (primera ejecución fallida)
+            var admin = await _repositorioUsuario.ObtenerPorNombreUsuarioAsync("admin");
+            if (admin != null) await _repositorioPermisos.OtorgarTodoAsync(admin.Id);
         }
 
         // Semilla para usuario de prueba (Funcionario)
@@ -74,7 +85,8 @@ public class ServicioAutenticacion : IServicioAutenticacion
                 IdRol = 2, // Funcionario
                 Activo = true
             };
-            await _repositorioUsuario.InsertarAsync(nUsuario);
+            int idUsuario = await _repositorioUsuario.InsertarAsync(nUsuario);
+            await _repositorioPermisos.InsertarPermisosDefaultAsync(idUsuario);
         }
     }
 }

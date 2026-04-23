@@ -398,7 +398,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             try
             {
-                string pathMin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "logomin.png");
+                string pathMin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "logomin.png");
                 if (File.Exists(pathMin))
                 {
                     var img = Image.FromFile(pathMin);
@@ -413,7 +413,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         {
             try
             {
-                string wallPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "walls", "CasaNinosWallHalfSat.png");
+                string wallPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "walls", "CasaNinosWallHalfSat.png");
                 if (File.Exists(wallPath))
                 {
                     panelDesktop.BackgroundImage = Image.FromFile(wallPath);
