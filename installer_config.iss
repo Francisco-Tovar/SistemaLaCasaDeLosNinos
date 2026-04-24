@@ -3,7 +3,7 @@
 ; ----------------------------------------------------------------------------------
 
 #define MyAppName "Sistema La Casa de los Niños"
-#define MyAppVersion "1.0.1"
+#define MyAppVersion "1.2.0"
 #define MyAppPublisher "TCU - Universidad de Costa Rica"
 #define MyAppExeName "CasaDeLosNinos.Interfaz.exe"
 
@@ -16,7 +16,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; El archivo comprimido final se guardará en la carpeta 'Output'
 OutputDir=Output
-OutputBaseFilename=Instalador_CasaDeLosNinos_v1.0.1
+OutputBaseFilename=Instalador_CasaDeLosNinos_v1.2.0
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -36,6 +36,7 @@ Source: "publish\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "publish\appsettings.json"; DestDir: "{app}"; Flags: ignoreversion
 Source: "publish\*.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "publish\Assets\*"; DestDir: "{app}\Assets"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "documentacion\Manuales\ManualUsuario_CasaDeLosNinos.pdf"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Fuentes Críticas (Grandstander)
 Source: "CasaDeLosNinos.Interfaz\Assets\Fonts\Grandstander\Grandstander-VariableFont_wght.ttf"; \
