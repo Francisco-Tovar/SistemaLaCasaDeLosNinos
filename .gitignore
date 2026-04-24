@@ -21,3 +21,9 @@ logs/
 *.db
 *.db-shm
 *.db-wal
+
+# AI and Project Management
+.planning/
+documentacion/
+output/
+publish/

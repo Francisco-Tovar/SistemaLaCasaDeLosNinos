@@ -80,7 +80,7 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 await conexion.ExecuteAsync("DELETE FROM Usuarios WHERE Id > 1 AND NombreUsuario <> 'admin';", null, transaction);
 
                 // 5. Resetear auto-incrementos
-                string[] tablas = { "Asistencia", "Observaciones", "Ninos", "RegistroHoras", "Voluntarios", "CajaChica", "AuditoriaCajaChica", "Usuarios", "AuditoriaSistema", "PermisosModulo" };
+                string[] tablas = { "Asistencia", "Observaciones", "Ninos", "RegistroHoras", "Voluntarios", "CajaChica", "AuditoriaCajaChica", "Usuarios", "AuditoriaSistema", "PermisosModulo", "BitacoraEventos" };
                 foreach (var tabla in tablas)
                 {
                     await conexion.ExecuteAsync($"DELETE FROM sqlite_sequence WHERE name = '{tabla}';", null, transaction);
@@ -88,6 +88,8 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
 
                 // 6. Limpiar fotos (Base de datos separada)
                 await conexionFotos.ExecuteAsync("DELETE FROM FotosBeneficiarios;");
+                await conexionFotos.ExecuteAsync("DELETE FROM FotosEventos;");
+                await conexionFotos.ExecuteAsync("DELETE FROM sqlite_sequence WHERE name = 'FotosEventos';");
 
                 transaction.Commit();
             }
@@ -132,6 +134,14 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 IdNino          INTEGER PRIMARY KEY,
                 Imagen          BLOB    NOT NULL,
                 FechaActualizacion TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );");
+
+        await conexion.ExecuteAsync(@"
+            CREATE TABLE IF NOT EXISTS FotosEventos (
+                Id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                IdEvento        INTEGER NOT NULL,
+                Imagen          BLOB    NOT NULL,
+                FechaCreacion   TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP
             );");
     }
 
@@ -373,6 +383,17 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 Detalle         TEXT    NOT NULL
             );");
 
+        // ── BitacoraEventos ─────────────────────────────────────────────
+        await conexion.ExecuteAsync(@"
+            CREATE TABLE IF NOT EXISTS BitacoraEventos (
+                Id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                Fecha           TEXT    NOT NULL,
+                Titulo          TEXT    NOT NULL,
+                Descripcion     TEXT    NOT NULL,
+                IdUsuario       INTEGER NOT NULL REFERENCES Usuarios(Id),
+                FechaCreacion   TEXT    NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );");
+
         // Índice para búsquedas rápidas por fecha
         await conexion.ExecuteAsync(@"
             CREATE INDEX IF NOT EXISTS idx_auditoria_fechahora ON AuditoriaSistema(FechaHora);");
@@ -426,7 +447,8 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 (1, 'Asistencia'),
                 (1, 'Voluntarios'),
                 (1, 'CajaChica'),
-                (1, 'Reportes');");
+                (1, 'Reportes'),
+                (1, 'BitacoraEventos');");
         }
 
         // ── Migración de permisos para usuarios existentes ───────────────────
@@ -453,7 +475,8 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                     (@id, 'Asistencia'),
                     (@id, 'Voluntarios'),
                     (@id, 'CajaChica'),
-                    (@id, 'Reportes');", new { id });
+                    (@id, 'Reportes'),
+                    (@id, 'BitacoraEventos');", new { id });
             }
             else
             {

@@ -43,6 +43,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             cboTipoReporte.Items.Add("Actividades Individual (Voluntario)");
             cboTipoReporte.Items.Add("Auditoría Caja Chica");
             cboTipoReporte.Items.Add("Altas y Bajas (Niños)");
+            cboTipoReporte.Items.Add("Bitácora de Eventos");
             cboTipoReporte.SelectedIndex = 0;
 
             var meses = new[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
@@ -74,10 +75,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             bool esCajaChica = tipo == "Fiscalización Caja Chica";
             bool esAuditoria = tipo == "Auditoría Caja Chica";
             bool esAltasBajas = tipo == "Altas y Bajas (Niños)";
+            bool esEventos = tipo == "Bitácora de Eventos";
 
             // Visibilidad de controles de periodo
-            // Altas y Bajas y Voluntarios usan rango fecha libre; Asistencia y Caja Chica usan Mes/Año
-            bool usaRangoFecha = esVoluntarioGeneral || esIndividual || esAltasBajas;
+            // Altas y Bajas, Voluntarios y Eventos usan rango fecha libre; Asistencia y Caja Chica usan Mes/Año
+            bool usaRangoFecha = esVoluntarioGeneral || esIndividual || esAltasBajas || esEventos;
             lblFiltro1.Text = usaRangoFecha ? "Desde:" : "Periodo:";
             cboMes.Visible = !usaRangoFecha;
             cboAnio.Visible = !usaRangoFecha;
@@ -165,6 +167,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                         contenidoPdf = await _servicioReporte.GenerarReporteAuditoriaCajaChicaPdfAsync(anio, mes);
                     else if (titulo == "Altas y Bajas (Niños)")
                         contenidoPdf = await _servicioReporte.GenerarReporteFlujoBeneficiariosPdfAsync(inicio, fin);
+                    else if (titulo == "Bitácora de Eventos")
+                        contenidoPdf = await _servicioReporte.GenerarReporteEventosPdfAsync(inicio, fin);
 
                     if (contenidoPdf != null)
                         await File.WriteAllBytesAsync(sfd.FileName, contenidoPdf);
@@ -201,6 +205,11 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                     else if (titulo == "Altas y Bajas (Niños)")
                     {
                         contenidoCsv = await _servicioReporte.GenerarReporteFlujoBeneficiariosCsvAsync(inicio, fin);
+                    }
+                    else if (titulo == "Bitácora de Eventos")
+                    {
+                        var datos = await _servicioReporte.ObtenerDatosEventosAsync(inicio, fin);
+                        contenidoCsv = GenerarCsvDeLista(datos);
                     }
 
                     if (contenidoCsv != null)
@@ -257,6 +266,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                     datos = await _servicioReporte.ObtenerDatosAuditoriaCajaChicaAsync(anio, mes);
                 else if (titulo == "Altas y Bajas (Niños)")
                     datos = await _servicioReporte.ObtenerDatosFlujoBeneficiariosAsync(inicio, fin);
+                else if (titulo == "Bitácora de Eventos")
+                    datos = await _servicioReporte.ObtenerDatosEventosAsync(inicio, fin);
 
                 // Preparar metadatos para la vista previa
                 var metadata = new Dictionary<string, string>();

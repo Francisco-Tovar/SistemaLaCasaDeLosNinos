@@ -40,5 +40,9 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
         Task<byte[]> GenerarReporteAuditoriaCajaChicaPdfAsync(int anio, int mes);
         Task<IEnumerable<object>> ObtenerDatosAuditoriaCajaChicaAsync(int anio, int mes);
         Task<string> GenerarReporteAuditoriaCajaChicaCsvAsync(int anio, int mes);
+
+        // Bitácora de Eventos
+        Task<byte[]> GenerarReporteEventosPdfAsync(DateTime inicio, DateTime fin);
+        Task<IEnumerable<object>> ObtenerDatosEventosAsync(DateTime inicio, DateTime fin);
     }
 }

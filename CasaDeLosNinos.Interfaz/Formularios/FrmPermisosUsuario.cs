@@ -50,7 +50,8 @@ namespace CasaDeLosNinos.Interfaz.Formularios
                 ["Asistencia"] = chkAsistencia,
                 ["Voluntarios"] = chkVoluntarios,
                 ["CajaChica"] = chkCajaChica,
-                ["Reportes"] = chkReportes
+                ["Reportes"] = chkReportes,
+                ["BitacoraEventos"] = chkBitacoraEventos
             };
 
             // Cargar permisos actuales y marcar checkboxes

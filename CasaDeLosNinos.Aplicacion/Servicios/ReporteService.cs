@@ -24,6 +24,8 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
         private readonly IRepositorioRegistroHoras _repositorioRegistroHoras;
         private readonly IRepositorioNino _repositorioNino;
         private readonly IRepositorioFoto _repositorioFoto;
+        private readonly IRepositorioBitacoraEvento _repositorioEvento;
+        private readonly IRepositorioFotoEvento _repositorioFotoEvento;
         private readonly IConfiguration _configuracion;
 
         public ReporteService(
@@ -33,6 +35,8 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
             IRepositorioRegistroHoras repositorioRegistroHoras,
             IRepositorioNino repositorioNino,
             IRepositorioFoto repositorioFoto,
+            IRepositorioBitacoraEvento repositorioEvento,
+            IRepositorioFotoEvento repositorioFotoEvento,
             IConfiguration configuracion)
         {
             _repositorioAsistencia = repositorioAsistencia;
@@ -41,6 +45,8 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
             _repositorioRegistroHoras = repositorioRegistroHoras;
             _repositorioNino = repositorioNino;
             _repositorioFoto = repositorioFoto;
+            _repositorioEvento = repositorioEvento;
+            _repositorioFotoEvento = repositorioFotoEvento;
             _configuracion = configuracion;
 
             // Configurar licencia de QuestPDF (TCU - Uso Comunitario)
@@ -209,7 +215,7 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                                 col.Item().PaddingTop(5).PaddingBottom(10).BorderBottom(1).BorderColor(Colors.Grey.Lighten3)
                                    .MaxHeight(400) 
                                    .AlignCenter()
-                                   .Image(foto, ImageScaling.FitArea);
+                                   .Image(foto);
                             }
                         });
 
@@ -639,6 +645,72 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
             return document.GeneratePdf();
         }
 
+        public async Task<byte[]> GenerarReporteEventosPdfAsync(DateTime inicio, DateTime fin)
+        {
+            var periodText = $"{inicio:dd/MM/yyyy} Al {fin:dd/MM/yyyy}".ToUpper();
+            var eventos = (await _repositorioEvento.ObtenerPorRangoFechaAsync(inicio, fin)).ToList();
+
+            var document = Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(50);
+                    ConfigurarCabecera(page, "REPORTE DE BITÁCORA DE EVENTOS", periodText, new Dictionary<string, string> {
+                        { "Rango", periodText },
+                        { "Total Eventos", eventos.Count.ToString() }
+                    });
+
+                    page.Content().PaddingVertical(10).Column(col =>
+                    {
+                        foreach (var ev in eventos)
+                        {
+                            col.Item().PaddingTop(15).Column(innerCol =>
+                            {
+                                innerCol.Item().Row(row =>
+                                {
+                                    row.RelativeItem().Text(ev.Titulo).SemiBold().FontSize(12).FontColor(Colors.Indigo.Medium);
+                                    row.ConstantItem(80).AlignRight().Text(ev.Fecha.ToString("dd/MM/yyyy")).FontSize(10).Italic();
+                                });
+
+                                innerCol.Item().PaddingTop(2).Text($"Registrado por: {ev.NombreUsuario}").FontSize(8).FontColor(Colors.Grey.Medium);
+                                
+                                innerCol.Item().PaddingTop(5).Text(ev.Descripcion).FontSize(10);
+
+                                // Cargar fotos de este evento
+                                var fotos = Task.Run(() => _repositorioFotoEvento.ObtenerPorEventoAsync(ev.Id)).Result.ToList();
+                                if (fotos.Any())
+                                {
+                                    innerCol.Item().PaddingTop(10).Table(table =>
+                                    {
+                                        int cols = Math.Min(fotos.Count, 2); // 2 fotos por fila
+                                        table.ColumnsDefinition(c =>
+                                        {
+                                            for (int i = 0; i < cols; i++) c.RelativeColumn();
+                                        });
+
+                                        for (int i = 0; i < fotos.Count; i += cols)
+                                        {
+                                            for (int j = 0; j < cols && (i + j) < fotos.Count; j++)
+                                            {
+                                                var foto = fotos[i + j];
+                                                table.Cell().Padding(5).AlignCenter().MaxHeight(200).Image(foto.Imagen).FitArea();
+                                            }
+                                        }
+                                    });
+                                }
+
+                                innerCol.Item().PaddingTop(10).BorderBottom(1).BorderColor(Colors.Grey.Lighten3);
+                            });
+                        }
+                    });
+
+                    ConfigurarPiePagina(page);
+                });
+            });
+
+            return document.GeneratePdf();
+        }
+
         #endregion
 
         #region Reportes CSV
@@ -1015,6 +1087,17 @@ namespace CasaDeLosNinos.Aplicacion.Servicios
                 Referencia = $"ID {a.IdMovimiento}",
                 a.ConceptoOriginal,
                 a.DetallesDelCambio
+            }).ToList();
+        }
+
+        public async Task<IEnumerable<object>> ObtenerDatosEventosAsync(DateTime inicio, DateTime fin)
+        {
+            var eventos = await _repositorioEvento.ObtenerPorRangoFechaAsync(inicio, fin);
+            return eventos.Select(e => new {
+                e.Fecha,
+                e.Titulo,
+                Usuario = e.NombreUsuario,
+                DescripcionCorta = e.Descripcion.Length > 50 ? e.Descripcion.Substring(0, 50) + "..." : e.Descripcion
             }).ToList();
         }
 

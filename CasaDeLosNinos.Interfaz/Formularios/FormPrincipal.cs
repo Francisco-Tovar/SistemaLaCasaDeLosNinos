@@ -341,6 +341,20 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             }
         }
 
+        private void btnEventos_Click(object sender, EventArgs e)
+        {
+            ActivateButton(sender, _currentTheme.AccentColor);
+            try
+            {
+                var servicioEvento = _proveedor.GetRequiredService<IServicioBitacoraEvento>();
+                OpenChildForm(new FrmGestionBitacoraEventos(servicioEvento, _usuarioActual.Id, _currentTheme));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el módulo de eventos:\n{ex.Message}", "Error");
+            }
+        }
+
         private void btnHome_Click(object sender, EventArgs e)
         {
             if (currentChildForm != null)
@@ -387,6 +401,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnVoluntarios.Visible = permisos.Contains("Voluntarios");
             btnCajaChica.Visible  = permisos.Contains("CajaChica");
             btnReportes.Visible   = permisos.Contains("Reportes");
+            btnEventos.Visible    = permisos.Contains("BitacoraEventos");
 
             // Módulos exclusivos de rol Administrador — nunca configurables por permisos
             btnUsuarios.Visible      = esAdmin;

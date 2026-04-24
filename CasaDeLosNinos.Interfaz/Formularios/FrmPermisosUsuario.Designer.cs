@@ -26,6 +26,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             chkVoluntarios = new CheckBox();
             chkCajaChica = new CheckBox();
             chkReportes = new CheckBox();
+            chkBitacoraEventos = new CheckBox();
             lblInfoExclusivos = new Label();
             lblSubtitulo = new Label();
             pnlAcciones = new FlowLayoutPanel();
@@ -84,13 +85,14 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             tableLayoutPanel.Controls.Add(chkVoluntarios, 0, 5);
             tableLayoutPanel.Controls.Add(chkCajaChica, 0, 6);
             tableLayoutPanel.Controls.Add(chkReportes, 0, 7);
-            tableLayoutPanel.Controls.Add(lblInfoExclusivos, 0, 8);
+            tableLayoutPanel.Controls.Add(chkBitacoraEventos, 0, 8);
+            tableLayoutPanel.Controls.Add(lblInfoExclusivos, 0, 9);
             tableLayoutPanel.Controls.Add(lblSubtitulo, 0, 0);
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.Location = new Point(1, 61);
             tableLayoutPanel.Name = "tableLayoutPanel";
             tableLayoutPanel.Padding = new Padding(20, 8, 20, 4);
-            tableLayoutPanel.RowCount = 9;
+            tableLayoutPanel.RowCount = 10;
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 71F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
@@ -99,8 +101,9 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 31F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 29F));
+            tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 32F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel.Size = new Size(418, 317);
+            tableLayoutPanel.Size = new Size(418, 350);
             tableLayoutPanel.TabIndex = 0;
             // 
             // lblRolUsuario
@@ -177,6 +180,17 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             chkReportes.TabIndex = 7;
             chkReportes.Text = "  Reportes";
             chkReportes.UseVisualStyleBackColor = true;
+            // 
+            // chkBitacoraEventos
+            // 
+            chkBitacoraEventos.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            chkBitacoraEventos.Font = new Font("Microsoft Sans Serif", 10F);
+            chkBitacoraEventos.Location = new Point(23, 280);
+            chkBitacoraEventos.Name = "chkBitacoraEventos";
+            chkBitacoraEventos.Size = new Size(372, 28);
+            chkBitacoraEventos.TabIndex = 12;
+            chkBitacoraEventos.Text = "  Bitácora de Eventos";
+            chkBitacoraEventos.UseVisualStyleBackColor = true;
             // 
             // lblInfoExclusivos
             // 
@@ -278,6 +292,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private System.Windows.Forms.CheckBox chkVoluntarios;
         private System.Windows.Forms.CheckBox chkCajaChica;
         private System.Windows.Forms.CheckBox chkReportes;
+        private System.Windows.Forms.CheckBox chkBitacoraEventos;
         private System.Windows.Forms.Label lblInfoExclusivos;
         private System.Windows.Forms.FlowLayoutPanel pnlAcciones;
         private FontAwesome.Sharp.IconButton btnGuardar;
