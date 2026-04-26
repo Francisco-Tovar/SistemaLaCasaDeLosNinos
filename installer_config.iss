@@ -3,7 +3,7 @@
 ; ----------------------------------------------------------------------------------
 
 #define MyAppName "Sistema La Casa de los Niños"
-#define MyAppVersion "1.2.0"
+#define MyAppVersion "2.1.0"
 #define MyAppPublisher "TCU - Universidad de Costa Rica"
 #define MyAppExeName "CasaDeLosNinos.Interfaz.exe"
 
@@ -16,7 +16,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; El archivo comprimido final se guardará en la carpeta 'Output'
 OutputDir=Output
-OutputBaseFilename=Instalador_CasaDeLosNinos_v1.2.0
+OutputBaseFilename=Instalador_CasaDeLosNinos_v2.1.0
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -31,11 +31,11 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-; Ejecutable Principal y DLLs (Single File)
-Source: "publish\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "publish\appsettings.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: "publish\*.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "publish\Assets\*"; DestDir: "{app}\Assets"; Flags: ignoreversion recursesubdirs createallsubdirs
+; Copiar TODO el contenido de la carpeta publish (esencial para aplicaciones self-contained)
+; Esto incluye el .exe, DLLs del sistema, archivos .json de runtime y subcarpetas de idiomas
+Source: "publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "*.pdb"
+
+; Manual de usuario (fuera de la carpeta publish)
 Source: "documentacion\Manuales\ManualUsuario_CasaDeLosNinos.pdf"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Fuentes Críticas (Grandstander)
