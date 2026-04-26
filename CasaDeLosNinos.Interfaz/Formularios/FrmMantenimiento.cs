@@ -132,7 +132,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
             btnReset.Cursor = Cursors.Hand;
             btnReset.Click += BtnReset_Click;
 
-            lblInfoReset.Text = "Borra todos los registros (Niños, Asistencia, Caja Chica, etc.) excepto su cuenta de Administrador. Esta acción NO se puede deshacer.";
+            lblInfoReset.Text = "Borra todos los registros (Niños, Asistencia, Caja Chica, Bitácora de Eventos, etc.) excepto su cuenta de Administrador. Esta acción NO se puede deshacer.";
             lblInfoReset.Font = new Font("Segoe UI", 10F, FontStyle.Italic);
             lblInfoReset.ForeColor = Color.Firebrick;
             lblInfoReset.Location = new Point(250, 45);
@@ -216,7 +216,7 @@ namespace CasaDeLosNinos.Interfaz.Formularios
         private async void BtnReset_Click(object sender, EventArgs e)
         {
             var confirm = MessageBox.Show(
-                "¡ADVERTENCIA CRÍTICA!\n\nEsta acción borrará todos los registros de beneficiarios, actividad y economía.\n\n¿Desea continuar?",
+                "¡ADVERTENCIA CRÍTICA!\n\nEsta acción borrará todos los registros de beneficiarios, actividad, economía y la bitácora de eventos.\n\n¿Desea continuar?",
                 "CONFIRMACIÓN DE SEGURIDAD",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning,

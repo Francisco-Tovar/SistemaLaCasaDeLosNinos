@@ -71,6 +71,7 @@ public partial class InicializadorBaseDatos : IInicializadorBaseDatos
                 await conexion.ExecuteAsync("DELETE FROM Voluntarios;", null, transaction);
                 await conexion.ExecuteAsync("DELETE FROM AuditoriaCajaChica;", null, transaction);
                 await conexion.ExecuteAsync("DELETE FROM CajaChica;", null, transaction);
+                await conexion.ExecuteAsync("DELETE FROM BitacoraEventos;", null, transaction);
                 await conexion.ExecuteAsync("DELETE FROM AuditoriaSistema;", null, transaction);
 
                 // 3. Limpiar permisos extra PRIMERO (para evitar violación de FK si no se desactivó correctamente)
