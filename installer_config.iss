@@ -3,8 +3,8 @@
 ; ----------------------------------------------------------------------------------
 
 #define MyAppName "Sistema La Casa de los Niños"
-#define MyAppVersion "2.1.0"
-#define MyAppPublisher "TCU - Universidad de Costa Rica"
+#define MyAppVersion "1.2.1"
+#define MyAppPublisher "TCU - CENFOTEC"
 #define MyAppExeName "CasaDeLosNinos.Interfaz.exe"
 
 [Setup]
@@ -16,7 +16,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; El archivo comprimido final se guardará en la carpeta 'Output'
 OutputDir=Output
-OutputBaseFilename=Instalador_CasaDeLosNinos_v2.1.0
+OutputBaseFilename=Instalador_CasaDeLosNinos_v1.2.1
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
